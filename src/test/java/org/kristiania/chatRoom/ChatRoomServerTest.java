@@ -81,10 +81,10 @@ public class ChatRoomServerTest {
                         .add("firstName", "Firsty")
                         .add("lastName", "Lasty")
                         .add("gender", "male")
-                        .add("dateOfBirth", Json.createObjectBuilder()
+                       /* .add("dateOfBirth", Json.createObjectBuilder()
                                 .add("year", "1999")
                                 .add("month","01")
-                                .add("dayOfMonth","01"))
+                                .add("dayOfMonth","01"))*/
                         .build().toString().getBytes(StandardCharsets.UTF_8)
         );
 
@@ -99,18 +99,11 @@ public class ChatRoomServerTest {
 
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
-                .contains("""
-                        {username:TestUser,
-                        firstName:Firsty,
-                        lastName:Lasty,
-                        gender:male,
-                        dateOfBirth:{year:1999,month:01,dayOfMonth:01}
-                        }
-                        """);
-                //.contains("\"user\":\"TestUser\"","");
+                .contains(""" 
+                        firstName":"Firsty","gender":"male","id":1,"lastName":"Lasty","messages":[],"username":"TestUser""");
+
     }
 
-    // Don't use user_id to hinder showing the id in the open.
 /*    @Test
     void shouldGetUserByUserName(){
 
