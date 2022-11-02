@@ -36,3 +36,28 @@
 * [ ] Datamodellen er *normalisert* - dvs at for eksempel navnet på en meldingsavsender ligger i brukertallen, ikke i meldingstabellen
 * [ ] Når man henter informasjon fra flere tabellen brukes join, i stedet for 1-plus-N queries (et for hovedlisten og et per svar for tilleggsinformasjon)
 * [ ] Det finnes test for alle JAX-RS endpoints og alle DAO-er
+
+
+## Plan
+---- Konvertering og grunnmur på plass ----
+* [x] Klone kode fra arbeidskrav som startingPoint
+* [x] Modifisere koden slik at den bruker User
+* [x] Lage startingPoint for DB i flyway migration fil
+  * [ ] (EXTRA) lage test for å teste @manytoone relasjoner mellom Message og User
+* [ ] Lage UserEndPoint 
+ * [ ] lage tester for UserEndPoint.
+  * [ ] trenger vi mer en GET test? 
+ * [ ] lage ny UserEndPoint klasse 
+ * [ ] Lage @GET og POST
+ * [ ] @Inject userDao 
+  * [ ] Kan vi bruke samme config på flere endPoints ? Binde flere classer etter hverandre i ChatRoomConfig.
+* [ ] (EXTRA) abstrakt dao test ??
+* [ ] Slette alle referanser til Item i koden.
+* [ ] Endre ServeFrontPage test og react til å passe nytt prosject. (BASIC).
+* [ ] lage DAO og test for Message
+ * [ ] 
+* [ ] lage DAO og test for Thread
+ * [ ]  
+* [ ] lage DAO og test for ThreadMembers
+ * [ ]
+---- Business Logic ----
