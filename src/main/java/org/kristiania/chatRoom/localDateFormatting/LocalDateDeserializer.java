@@ -1,5 +1,4 @@
-package org.kristiania.chatRoom.localDateFormating;
-import com.fasterxml.jackson.core.JacksonException;
+package org.kristiania.chatRoom.localDateFormatting;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;

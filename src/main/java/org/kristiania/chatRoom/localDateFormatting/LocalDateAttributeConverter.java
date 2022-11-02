@@ -1,4 +1,4 @@
-package org.kristiania.chatRoom.localDateFormating;
+package org.kristiania.chatRoom.localDateFormatting;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

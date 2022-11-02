@@ -1,4 +1,4 @@
-package org.kristiania.chatRoom;
+package org.kristiania.chatRoom.server;
 
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.Persistence;

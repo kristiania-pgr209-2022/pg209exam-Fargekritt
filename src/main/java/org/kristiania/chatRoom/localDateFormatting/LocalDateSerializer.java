@@ -1,4 +1,4 @@
-package org.kristiania.chatRoom.localDateFormating;
+package org.kristiania.chatRoom.localDateFormatting;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

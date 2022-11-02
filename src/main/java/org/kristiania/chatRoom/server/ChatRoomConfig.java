@@ -1,4 +1,4 @@
-package org.kristiania.chatRoom;
+package org.kristiania.chatRoom.server;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

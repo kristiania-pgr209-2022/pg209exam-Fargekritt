@@ -25,7 +25,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.kristiania.chatRoom.ChatRoomServer</mainClass>
+                            <mainClass>org.kristiania.chatRoom.server.ChatRoomServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

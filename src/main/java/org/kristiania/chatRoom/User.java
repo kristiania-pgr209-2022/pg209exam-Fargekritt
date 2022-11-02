@@ -3,8 +3,8 @@ package org.kristiania.chatRoom;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
-import org.kristiania.chatRoom.localDateFormating.LocalDateDeserializer;
-import org.kristiania.chatRoom.localDateFormating.LocalDateSerializer;
+import org.kristiania.chatRoom.localDateFormatting.LocalDateDeserializer;
+import org.kristiania.chatRoom.localDateFormatting.LocalDateSerializer;
 
 import java.time.LocalDate;
 import java.util.List;
