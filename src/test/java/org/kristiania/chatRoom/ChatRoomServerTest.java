@@ -67,12 +67,14 @@ public class ChatRoomServerTest {
                 .as(connection.getResponseMessage() + " for " + connection.getURL())
                 .isEqualTo(200);
 
-        //TODO:
-        // ID is 2 when running all tests, but 1 if we only run this test? why tho!?
+
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains(""" 
-                        firstName":"Firsty","gender":"male""");
+                        firstName":"Firsty","gender":"male""")
+                .contains("""
+                        lastName":"Lasty","messages":[],"username":"TestUser""");
+
 
     }
 
