@@ -3,6 +3,8 @@ package org.kristiania.chatRoom;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -10,11 +12,20 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
     private String gender;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "first_name")
     private String firstName;
     private String username;
+
+    @OneToMany(mappedBy = "ChatRoom")
+    private List<Message> messages;
 
 
     public long getId() {
@@ -63,5 +74,9 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
     }
 }

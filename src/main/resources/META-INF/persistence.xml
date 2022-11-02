@@ -3,5 +3,6 @@
         <non-jta-data-source>jdbc/dataSource</non-jta-data-source>
         <class>org.kristiania.chatRoom.Item</class>
         <class>org.kristiania.chatRoom.User</class>
+        <class>org.kristiania.chatRoom.Message</class>
     </persistence-unit>
 </persistence>
