@@ -2,15 +2,15 @@ import {useEffect, useState} from 'react'
 import './App.css'
 import {HashRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
 
-function ListItem() {
+function ListUser() {
     const [loading, setLoading] = useState(true);
-    const [item, setItem] = useState([]);
+    const [user, setUser] = useState([]);
 
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch("/api/items");
-            setItem(await data.json());
+            const data = await fetch("/api/users");
+            setUser(await data.json());
             setLoading(false);
         }
         fetchData()
@@ -24,12 +24,12 @@ function ListItem() {
     return <div>
         <Link to={"/"}>Back to home</Link>
         <div>
-            {item.map((i) => (
+            {user.map((i) => (
                 <ul>
-                    <li>{i.name}</li>
-                    <li>{i.artNumber}</li>
-                    <li>{i.category}</li>
-                    <li>{i.description}</li>
+                    <li>{i.firstName}</li>
+                    <li>{i.lastName}</li>
+                    <li>{i.username}</li>
+                    <li>{i.gender}</li>
                 </ul>
             ))}
         </div>
@@ -37,25 +37,25 @@ function ListItem() {
 }
 
 
-function AddItem() {
+function AddUser() {
     const navigate = useNavigate()
-    const [name, setName] = useState("");
-    const [artNumber, setArtNumber] = useState("");
-    const [category, setCategory] = useState("");
-    const [description, setDescription] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [username, setUsername] = useState("");
+    const [gender, setGender] = useState("");
 
     async function handleSubmit(e) {
 
         e.preventDefault();
-        await fetch("/api/items", {
+        await fetch("/api/users", {
             method: "post",
-            body: JSON.stringify({name, artNumber, category, description}),
+            body: JSON.stringify({firstName, lastName, gender, username}),
             headers: {
                 "Content-Type": "application/json"
             }
         });
 
-        navigate("/items")
+        navigate("/users")
     }
 
     return (
@@ -63,10 +63,10 @@ function AddItem() {
             <h1>Add item</h1>
             <Link to={"/"}>Back to home</Link>
             <form onSubmit={handleSubmit}>
-                <div><label>Name: <input type="text" onChange={e => setName(e.target.value)}/></label></div>
-                <div><label>Art number: <input type="text" onChange={e => setArtNumber(e.target.value)}/></label></div>
-                <div><label>Category: <input type="text" onChange={e => setCategory(e.target.value)}/></label></div>
-                <div><label>Description: <textarea onChange={e => setDescription(e.target.value)}></textarea></label>
+                <div><label>First Name: <input type="text" onChange={e => setFirstName(e.target.value)}/></label></div>
+                <div><label>Last Name: <input type="text" onChange={e => setLastName(e.target.value)}/></label></div>
+                <div><label>Username: <input type="text" onChange={e => setUsername(e.target.value)}/></label></div>
+                <div><label>Gender: <textarea onChange={e => setGender(e.target.value)}></textarea></label>
                 </div>
                 <button>Submit</button>
             </form>
@@ -80,8 +80,8 @@ function FrontPage() {
     return <div>
         <h1>FRONT PAGE OF DOOM!</h1>
         <ul>
-            <li><Link to={"/items"}>List items</Link></li>
-            <li><Link to={"/items/add"}>Add a new item</Link></li>
+            <li><Link to={"/users"}>List items</Link></li>
+            <li><Link to={"/users/add"}>Add a new item</Link></li>
         </ul>
     </div>;
 }
@@ -91,11 +91,12 @@ function App() {
     return <HashRouter>
         <Routes>
             <Route path={"/"} element={<FrontPage/>}></Route>
-            <Route path={"/items/add"} element={<AddItem/>}></Route>
-            <Route path={"/items"} element={<ListItem/>}></Route>
+            <Route path={"/users/add"} element={<AddUser/>}></Route>
+            <Route path={"/users"} element={<ListUser/>}></Route>
         </Routes>
     </HashRouter>
 }
+
 
 
 export default App
