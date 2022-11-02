@@ -1,4 +1,4 @@
-package org.kristiania.store;
+package org.kristiania.chatRoom;
 
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.*;
@@ -7,9 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class EntityManagerFilter implements Filter {
-    private final ShopConfig config;
+    private final ChatRoomConfig config;
 
-    public EntityManagerFilter(ShopConfig config) {
+    public EntityManagerFilter(ChatRoomConfig config) {
         this.config = config;
     }
 

@@ -1,10 +1,9 @@
-package org.kristiania.store;
+package org.kristiania.chatRoom;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.kristiania.store.database.ItemDao;
-import org.kristiania.store.database.ItemDaoImpl;
+import org.kristiania.chatRoom.database.ItemDao;
 
 import java.sql.SQLException;
 import java.util.List;

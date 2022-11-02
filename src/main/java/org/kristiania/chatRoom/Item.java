@@ -1,4 +1,4 @@
-package org.kristiania.store;
+package org.kristiania.chatRoom;
 
 import jakarta.persistence.*;
 

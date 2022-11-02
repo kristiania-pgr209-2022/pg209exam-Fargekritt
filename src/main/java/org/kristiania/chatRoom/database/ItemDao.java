@@ -1,6 +1,6 @@
-package org.kristiania.store.database;
+package org.kristiania.chatRoom.database;
 
-import org.kristiania.store.Item;
+import org.kristiania.chatRoom.Item;
 
 import java.sql.SQLException;
 import java.util.List;

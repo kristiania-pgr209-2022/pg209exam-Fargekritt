@@ -1,9 +1,9 @@
-package org.kristiania.store;
+package org.kristiania.chatRoom;
 
 import jakarta.json.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kristiania.store.database.InMemoryDataSource;
+import org.kristiania.chatRoom.database.InMemoryDataSource;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -13,14 +13,14 @@ import java.nio.charset.StandardCharsets;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class ShopServerTest {
+public class ChatRoomServerTest {
 
 
-    private ShopServer server;
+    private ChatRoomServer server;
 
     @BeforeEach
     void setUp() throws Exception {
-        server = new ShopServer(0, InMemoryDataSource.createTestDataSource());
+        server = new ChatRoomServer(0, InMemoryDataSource.createTestDataSource());
         server.start();
     }
 

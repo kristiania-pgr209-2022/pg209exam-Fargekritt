@@ -1,4 +1,4 @@
-package org.kristiania.store.database;
+package org.kristiania.chatRoom.database;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
@@ -7,7 +7,7 @@ import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kristiania.store.Item;
+import org.kristiania.chatRoom.Item;
 
 import javax.naming.NamingException;
 import java.sql.SQLException;
@@ -26,7 +26,7 @@ public class ItemDaoTest {
         JdbcDataSource datasource = InMemoryDataSource.createTestDataSource();
 
         new Resource("jdbc/dataSource", datasource);
-        this.entityManager = Persistence.createEntityManagerFactory("Store").createEntityManager();
+        this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
 
         dao = new ItemDaoImpl(entityManager);
     }

@@ -1,8 +1,8 @@
-package org.kristiania.store.database;
+package org.kristiania.chatRoom.database;
 
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import org.kristiania.store.Item;
+import org.kristiania.chatRoom.Item;
 
 import java.util.List;
 

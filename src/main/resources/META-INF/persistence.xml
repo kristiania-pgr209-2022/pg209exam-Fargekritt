@@ -1,6 +1,7 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
-    <persistence-unit name="Store">
+    <persistence-unit name="ChatRoom">
         <non-jta-data-source>jdbc/dataSource</non-jta-data-source>
-        <class>org.kristiania.store.Item</class>
+        <class>org.kristiania.chatRoom.Item</class>
+        <class>org.kristiania.chatRoom.User</class>
     </persistence-unit>
 </persistence>

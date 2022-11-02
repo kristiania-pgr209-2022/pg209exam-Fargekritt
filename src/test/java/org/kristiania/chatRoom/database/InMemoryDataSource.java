@@ -1,4 +1,4 @@
-package org.kristiania.store.database;
+package org.kristiania.chatRoom.database;
 
 import org.flywaydb.core.Flyway;
 import org.h2.jdbcx.JdbcDataSource;

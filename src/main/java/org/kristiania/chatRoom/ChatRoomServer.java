@@ -1,4 +1,4 @@
-package org.kristiania.store;
+package org.kristiania.chatRoom;
 
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.Persistence;
@@ -27,12 +27,12 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Properties;
 
-public class ShopServer {
+public class ChatRoomServer {
 
     private final Server server;
-    private static final Logger logger = LoggerFactory.getLogger(ShopServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(ChatRoomServer.class);
 
-    public ShopServer(int port, DataSource dataSource) throws IOException, NamingException {
+    public ChatRoomServer(int port, DataSource dataSource) throws IOException, NamingException {
         this.server = new Server(port);
         server.setHandler(new HandlerList(
                 createApiContext(dataSource),
@@ -73,12 +73,13 @@ public class ShopServer {
     private ServletContextHandler createApiContext(DataSource dataSource) throws NamingException {
         var context = new ServletContextHandler(server, "/api");
         new org.eclipse.jetty.plus.jndi.Resource("jdbc/dataSource", dataSource);
-        var entityManagerFactory = Persistence.createEntityManagerFactory("Store");
-        ShopConfig shopConfig = new ShopConfig(entityManagerFactory);
-        context.addServlet(new ServletHolder(new ServletContainer(
-                shopConfig
-        )), "/*");
-        context.addFilter(new FilterHolder(new EntityManagerFilter(shopConfig)), "/*", EnumSet.of(DispatcherType.REQUEST));
+        var entityManagerFactory = Persistence.createEntityManagerFactory("ChatRoom");
+        ChatRoomConfig chatRoomConfig = new ChatRoomConfig(entityManagerFactory);
+        context.addServlet(new ServletHolder(
+                new ServletContainer(chatRoomConfig)), "/*");
+
+        context.addFilter(new FilterHolder(
+                new EntityManagerFilter(chatRoomConfig)), "/*", EnumSet.of(DispatcherType.REQUEST));
         return context;
     }
 
@@ -98,7 +99,7 @@ public class ShopServer {
                 .orElse(9090);
 
         var properties = new Properties();
-        try(var reader = new FileReader("application.properties")){
+        try (var reader = new FileReader("application.properties")) {
             properties.load(reader);
         }
 
@@ -108,7 +109,7 @@ public class ShopServer {
         dataSource.setPassword(properties.getProperty("database.password"));
         Flyway.configure().dataSource(dataSource).load().migrate();
 
-        var server = new ShopServer(port,dataSource);
+        var server = new ChatRoomServer(port, dataSource);
         server.start();
         logger.info("Server starting at {} ", server.getURL());
     }
