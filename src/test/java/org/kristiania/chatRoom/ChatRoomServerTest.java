@@ -1,7 +1,6 @@
 package org.kristiania.chatRoom;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.json.Json;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.database.InMemoryDataSource;
@@ -82,8 +81,7 @@ public class ChatRoomServerTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains(""" 
-
-                        dateOfBirth":"2012-01-20", "firstName":"Bob","gender":"male""")
+                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male""")
                 .contains("""
                         lastName":"Kåre","messages":[],"username":"Lulu""");
     }
