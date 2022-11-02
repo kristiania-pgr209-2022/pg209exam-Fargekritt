@@ -40,36 +40,6 @@ public class ChatRoomServerTest {
 
 
     @Test
-    void shouldAddAndListItem() throws IOException {
-        var postConnection = openConnection("/api/items");
-        postConnection.setRequestMethod("POST");
-        postConnection.setRequestProperty("Content-Type", "application/json");
-        postConnection.setDoOutput(true);
-        postConnection.getOutputStream().write(
-                Json.createObjectBuilder()
-                        .add("name", "TestItem")
-                        .add("artNumber", "0000-0000")
-                        .add("category", "TestCategory")
-                        .add("description", "This is a test item for testing post")
-                        .build().toString().getBytes(StandardCharsets.UTF_8)
-        );
-
-        assertThat(postConnection.getResponseCode())
-                .as(postConnection.getResponseMessage() + " for " + postConnection.getURL())
-                .isEqualTo(204);
-
-        var connection = openConnection("/api/items");
-        assertThat(connection.getResponseCode())
-                .as(connection.getResponseMessage() + " for " + connection.getURL())
-                .isEqualTo(200);
-
-        assertThat(connection.getInputStream())
-                .asString(StandardCharsets.UTF_8)
-                .contains("\"name\":\"TestItem\"");
-    }
-
-
-    @Test
     void shouldAddAndListUser() throws IOException {
         var postConnection = openConnection("/api/users");
         postConnection.setRequestMethod("POST");
@@ -97,12 +67,17 @@ public class ChatRoomServerTest {
                 .as(connection.getResponseMessage() + " for " + connection.getURL())
                 .isEqualTo(200);
 
+
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains(""" 
-                        firstName":"Firsty","gender":"male","id":1,"lastName":"Lasty","messages":[],"username":"TestUser""");
+                        firstName":"Firsty","gender":"male""")
+                .contains("""
+                        lastName":"Lasty","messages":[],"username":"TestUser""");
+
 
     }
+
 
 /*    @Test
     void shouldGetUserByUserName(){
