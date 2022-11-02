@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 
 import org.kristiania.chatRoom.User;
 
+import java.util.List;
+
 public class UserDaoImpl implements UserDao {
 
 
@@ -17,7 +19,7 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
-    public void save(User user)  {
+    public void save(User user) {
         entityManager.persist(user);
     }
 
@@ -26,5 +28,10 @@ public class UserDaoImpl implements UserDao {
     public User retrieve(long id) {
 
         return entityManager.find(User.class, id);
+    }
+
+    @Override
+    public List<User> listAll() {
+        return entityManager.createQuery(entityManager.getCriteriaBuilder().createQuery(User.class)).getResultList();
     }
 }

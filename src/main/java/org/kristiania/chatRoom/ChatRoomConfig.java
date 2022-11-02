@@ -7,6 +7,7 @@ import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.kristiania.chatRoom.database.ItemDao;
 import org.kristiania.chatRoom.database.ItemDaoImpl;
+import org.kristiania.chatRoom.endPoints.ItemEndPoint;
 
 public class ChatRoomConfig extends ResourceConfig {
     private final EntityManagerFactory entityManagerFactory;
