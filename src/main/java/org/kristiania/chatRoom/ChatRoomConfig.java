@@ -5,11 +5,10 @@ import jakarta.persistence.EntityManagerFactory;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.kristiania.chatRoom.database.ItemDao;
-import org.kristiania.chatRoom.database.ItemDaoImpl;
+
 import org.kristiania.chatRoom.database.UserDao;
 import org.kristiania.chatRoom.database.UserDaoImpl;
-import org.kristiania.chatRoom.endPoints.ItemEndPoint;
+
 import org.kristiania.chatRoom.endPoints.UserEndPoint;
 
 import java.util.HashMap;
@@ -20,12 +19,14 @@ public class ChatRoomConfig extends ResourceConfig {
     private final ThreadLocal<EntityManager> requestEntityManager = new ThreadLocal<>();
 
     public ChatRoomConfig(EntityManagerFactory entityManagerFactory) {
-        super(ItemEndPoint.class, UserEndPoint.class);
+
+        super(UserEndPoint.class);
+
         this.entityManagerFactory = entityManagerFactory;
         register(new AbstractBinder() {
             @Override
             protected void configure() {
-                bind(ItemDaoImpl.class).to(ItemDao.class);
+
                 bind(UserDaoImpl.class).to(UserDao.class);
                 bindFactory(requestEntityManager::get)
                         .to(EntityManager.class)
