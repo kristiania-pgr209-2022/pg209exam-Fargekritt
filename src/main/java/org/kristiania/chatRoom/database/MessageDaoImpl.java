@@ -28,4 +28,9 @@ public class MessageDaoImpl implements MessageDao {
     public void save(Message message) {
         entityManager.persist(message);
     }
+
+    @Override
+    public List<Message> listAll() {
+        return entityManager.createQuery(entityManager.getCriteriaBuilder().createQuery(Message.class)).getResultList();
+    }
 }

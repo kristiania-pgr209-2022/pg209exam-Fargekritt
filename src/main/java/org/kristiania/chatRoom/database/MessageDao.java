@@ -10,4 +10,6 @@ public interface MessageDao {
     List<Message> findByUser(long userId);
 
     void save(Message message);
+
+    List<Message> listAll();
 }
