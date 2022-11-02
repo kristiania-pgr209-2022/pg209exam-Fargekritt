@@ -10,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.User;
 
 import javax.naming.NamingException;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,7 +42,7 @@ public class UserDaoTest {
     }
 
     @Test
-    void shouldRetrieveSavedItem() throws SQLException {
+    void shouldRetrieveSavedUser(){
         var user = sampleUser();
         dao.save(user);
         flush();

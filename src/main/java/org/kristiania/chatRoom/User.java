@@ -24,7 +24,7 @@ public class User {
     private String firstName;
     private String username;
 
-    @OneToMany(mappedBy = "ChatRoom")
+    @OneToMany(mappedBy = "user")
     private List<Message> messages;
 
 
