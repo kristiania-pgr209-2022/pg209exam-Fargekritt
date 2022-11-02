@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.database.InMemoryDataSource;
+import org.kristiania.chatRoom.database.SampleData;
 import org.kristiania.chatRoom.server.ChatRoomServer;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class ChatRoomServerTest {
     void shouldAddAndListUser() throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
-        User user = sampleUser();
+        User user = SampleData.createSampleUser();
         String Userjson = mapper.writeValueAsString(user);
 
         System.out.println(Userjson);
@@ -92,18 +93,12 @@ public class ChatRoomServerTest {
     void shouldGetUserByUserName(){
     
         }*/
+
+
+
     private HttpURLConnection openConnection(String spec) throws IOException {
         return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
     }
 
 
-    private User sampleUser() {
-        var user = new User();
-        user.setUsername("Lulu");
-        user.setFirstName("Bob");
-        user.setLastName("Kåre");
-        user.setGender("male");
-        user.setDateOfBirth(LocalDate.of(2012, 1, 20));
-        return user;
-    }
 }

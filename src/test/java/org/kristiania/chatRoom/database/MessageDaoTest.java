@@ -3,33 +3,30 @@ package org.kristiania.chatRoom.database;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
 import org.eclipse.jetty.plus.jndi.Resource;
-
 import org.h2.jdbcx.JdbcDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kristiania.chatRoom.User;
 
 import javax.naming.NamingException;
 
-import java.time.LocalDate;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserDaoTest {
+public class MessageDaoTest {
 
-    private final UserDao dao;
-
+    private final MessageDao messageDao;
+    private final UserDao userDao;
     private final EntityManager entityManager;
 
 
-    public UserDaoTest() throws NamingException {
+    public MessageDaoTest() throws NamingException {
         JdbcDataSource datasource = InMemoryDataSource.createTestDataSource();
 
         new Resource("jdbc/dataSource", datasource);
         this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
 
-        dao = new UserDaoImpl(entityManager);
+        messageDao = new MessageDaoImpl(entityManager);
+        userDao = new UserDaoImpl(entityManager);
     }
 
     @BeforeEach
@@ -43,20 +40,22 @@ public class UserDaoTest {
     }
 
     @Test
-    void shouldRetrieveSavedUser(){
+    void shouldRetrieveSavedMessage() {
         var user = SampleData.createSampleUser();
-        dao.save(user);
+        userDao.save(user);
+        var message = SampleData.createSampleMessage();
+        message.setUser(user);
+        messageDao.save(message);
         flush();
-        assertThat(dao.retrieve(user.getId()))
+        message.setUser(userDao.retrieve(user.getId()));
+        assertThat(messageDao.retrieve(message.getId()))
                 .usingRecursiveComparison()
-                .isEqualTo(user)
-                .isNotSameAs(user);
+                .isEqualTo(message)
+                .isNotSameAs(message);
     }
 
     private void flush() {
         entityManager.flush();
         entityManager.clear();
     }
-
-
 }
