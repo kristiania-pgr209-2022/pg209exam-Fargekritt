@@ -64,7 +64,7 @@ public class UserDaoTest {
         user.setFirstName("Bob");
         user.setLastName("Kåre");
         user.setGender("male");
-       /* user.setDateOfBirth(LocalDate.of(2012, 1, 20));*/
+        user.setDateOfBirth(LocalDate.of(2012, 1, 20));
         return user;
     }
 

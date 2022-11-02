@@ -1,9 +1,12 @@
 package org.kristiania.chatRoom;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
+import org.kristiania.chatRoom.localDateFormating.LocalDateDeserializer;
+import org.kristiania.chatRoom.localDateFormating.LocalDateSerializer;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -13,8 +16,10 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
-  /*  @Column(name = "date_of_birth")
-    private LocalDate dateOfBirth;*/
+    @Column(name = "date_of_birth")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate dateOfBirth;
     private String gender;
 
     @Column(name = "last_name")
@@ -36,13 +41,13 @@ public class User {
         this.id = id;
     }
 
-/*    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
-    }*/
+    }
 
     public void setGender(String gender) {
         this.gender = gender;
