@@ -44,13 +44,13 @@
 * [x] Modifisere koden slik at den bruker User
 * [x] Lage startingPoint for DB i flyway migration fil
   * [ ] (EXTRA) lage test for å teste @manytoone relasjoner mellom Message og User
-* [ ] Lage UserEndPoint 
- * [ ] lage tester for UserEndPoint.
-  * [ ] trenger vi mer en GET test? 
- * [ ] lage ny UserEndPoint klasse 
- * [ ] Lage @GET og POST
- * [ ] @Inject userDao 
-  * [ ] Kan vi bruke samme config på flere endPoints ? Binde flere classer etter hverandre i ChatRoomConfig.
+* [x] Lage UserEndPoint 
+ * [x] lage tester for UserEndPoint.
+  * [x] trenger vi mer en GET test? Ja vi gjorde det 
+ * [x] lage ny UserEndPoint klasse 
+ * [x] Lage @GET og POST
+ * [x] @Inject userDao 
+  * [x] Kan vi bruke samme config på flere endPoints ? Binde flere classer etter hverandre i ChatRoomConfig. Ja det kunne vi! (*￣3￣)╭
 * [ ] (EXTRA) abstrakt dao test ??
 * [ ] Slette alle referanser til Item i koden.
 * [ ] Endre ServeFrontPage test og react til å passe nytt prosject. (BASIC).
