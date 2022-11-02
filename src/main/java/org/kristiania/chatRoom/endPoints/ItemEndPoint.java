@@ -1,8 +1,9 @@
-package org.kristiania.chatRoom;
+package org.kristiania.chatRoom.endPoints;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import org.kristiania.chatRoom.Item;
 import org.kristiania.chatRoom.database.ItemDao;
 
 import java.sql.SQLException;

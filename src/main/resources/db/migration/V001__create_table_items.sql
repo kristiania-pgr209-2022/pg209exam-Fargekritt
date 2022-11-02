@@ -15,7 +15,7 @@ CREATE TABLE users
     first_name    varchar(20),
     last_name     varchar(20),
     gender        varchar(20),
-    date_of_birth DATETIME,
+   /* date_of_birth DATETIME,*/
     PRIMARY KEY (id)
 );
 
