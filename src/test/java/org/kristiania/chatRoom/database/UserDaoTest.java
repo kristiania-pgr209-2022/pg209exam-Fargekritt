@@ -4,15 +4,16 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
 import org.eclipse.jetty.plus.jndi.Resource;
 
-import org.h2.jdbcx.JdbcDataSource;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kristiania.chatRoom.User;
+
 
 import javax.naming.NamingException;
 
-import java.time.LocalDate;
+import java.sql.SQLException;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,10 +24,10 @@ public class UserDaoTest {
     private final EntityManager entityManager;
 
 
-    public UserDaoTest() throws NamingException {
-        JdbcDataSource datasource = InMemoryDataSource.createTestDataSource();
 
-        new Resource("jdbc/dataSource", datasource);
+    public UserDaoTest() throws NamingException {
+        var dataSource = InMemoryDataSource.createTestDataSource();
+        new Resource("jdbc/dataSource", dataSource);
         this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
 
         dao = new UserDaoImpl(entityManager);
@@ -38,8 +39,9 @@ public class UserDaoTest {
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() throws SQLException {
         entityManager.getTransaction().rollback();
+        InMemoryDataSource.clearTestDataSource();
     }
 
     @Test
@@ -52,6 +54,7 @@ public class UserDaoTest {
                 .isEqualTo(user)
                 .isNotSameAs(user);
     }
+
 
     private void flush() {
         entityManager.flush();
