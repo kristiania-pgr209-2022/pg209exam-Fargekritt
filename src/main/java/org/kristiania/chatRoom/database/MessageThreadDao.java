@@ -27,4 +27,9 @@ public class MessageThreadDao {
     }
 
 
+    public List<MessageThread> listAllById(long id) {
+        return entityManager.createQuery("SELECT t from MessageThread t WHERE t.id = :id" )
+                .setParameter("id", id)
+                .getResultList();
+    }
 }
