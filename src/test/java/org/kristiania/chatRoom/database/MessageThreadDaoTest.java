@@ -72,6 +72,31 @@ public class MessageThreadDaoTest {
                 .contains(thread.getId(), thread2.getId());
     }
 
+    @Test
+    void shouldListAllThreadsByUserId(){
+        var user = SampleData.createSampleUser();
+        var user2 = SampleData.createSampleUser();
+        userDao.save(user);
+        userDao.save(user2);
+
+        var thread = SampleData.createSampleThread();
+        var thread2 = SampleData.createSampleThread();
+        var thread3 = SampleData.createSampleThread();
+        thread.setCreator(user);
+        thread2.setCreator(user);
+        thread3.setCreator(user2);
+        dao.save(thread);
+        dao.save(thread2);
+        dao.save(thread3);
+        flush();
+
+        assertThat(dao.listAllByUserId(user.getId())).extracting(MessageThread::getId)
+                .contains(thread.getId(), thread2.getId())
+                .doesNotContain(thread3.getId());
+
+
+    }
+
     private void flush() {
         entityManager.flush();
         entityManager.clear();

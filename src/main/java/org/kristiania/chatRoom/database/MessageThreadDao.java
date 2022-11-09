@@ -30,4 +30,10 @@ public class MessageThreadDao {
     public List<MessageThread> listAll() {
         return entityManager.createQuery("SELECT t from MessageThread t").getResultList();
     }
+
+    public List<MessageThread> listAllByUserId(long id){
+        return entityManager.createQuery("SELECT t from MessageThread t WHERE t.creator.id = :id")
+                .setParameter("id", id)
+                .getResultList();
+    }
 }
