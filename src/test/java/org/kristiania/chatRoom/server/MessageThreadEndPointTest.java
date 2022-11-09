@@ -17,33 +17,17 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MessageThreadEndPointTest {
-    private ChatRoomServer server;
+public class MessageThreadEndPointTest extends AbstractServerTest {
 
-    @BeforeEach
-    void setUp() throws Exception {
-        var dataSource = InMemoryDataSource.createTestDataSource();
-        server = new ChatRoomServer(0, dataSource);
-        server.start();
-    }
-
-    @AfterEach
-    void tearDown() throws SQLException {
-        InMemoryDataSource.clearTestDataSource();
-    }
 
     @Test
     void shouldAddAndListThread() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
 
         //USER
-        User user = SampleData.createSampleUser();
+        User user = SampleData.createSampleUser(1);
         String userJson = mapper.writeValueAsString(user);
 
-        var userPostConnection = openConnection("/api/users");
-        userPostConnection.setRequestMethod("POST");
-        userPostConnection.setRequestProperty("Content-Type", "application/json");
-        userPostConnection.setDoOutput(true);
+        var userPostConnection = getPostConnection("api/users");
         userPostConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
 
         assertThat(userPostConnection.getResponseCode())
@@ -76,8 +60,5 @@ public class MessageThreadEndPointTest {
                         "creator":{"dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu"},"id":1""");
     }
 
-    private HttpURLConnection openConnection(String spec) throws IOException {
-        return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
-    }
 
 }

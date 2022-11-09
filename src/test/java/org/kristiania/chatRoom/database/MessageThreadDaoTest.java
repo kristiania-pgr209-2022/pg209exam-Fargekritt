@@ -44,7 +44,7 @@ public class MessageThreadDaoTest {
 
     @Test
     void shouldSaveAndRetrieveThread(){
-        var user = SampleData.createSampleUser();
+        var user = SampleData.createSampleUser(1);
         userDao.save(user);
         var thread = SampleData.createSampleThread();
         thread.setCreator(user);
@@ -58,7 +58,7 @@ public class MessageThreadDaoTest {
 
     @Test
     void shouldListAllThreads(){
-        var user = SampleData.createSampleUser();
+        var user = SampleData.createSampleUser(1);
         userDao.save(user);
         var thread = SampleData.createSampleThread();
         thread.setCreator(user);
@@ -74,8 +74,8 @@ public class MessageThreadDaoTest {
 
     @Test
     void shouldListAllThreadsByUserId(){
-        var user = SampleData.createSampleUser();
-        var user2 = SampleData.createSampleUser();
+        var user = SampleData.createSampleUser(1);
+        var user2 = SampleData.createSampleUser(1);
         userDao.save(user);
         userDao.save(user2);
 

@@ -18,6 +18,8 @@ public abstract class AbstractServerTest {
     @BeforeEach
     void setUp() throws Exception {
         var dataSource = InMemoryDataSource.createTestDataSource();
+        InMemoryDataSource.clearTestDataSource();
+
         server = new ChatRoomServer(0, dataSource);
         server.start();
     }

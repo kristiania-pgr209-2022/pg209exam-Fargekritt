@@ -51,7 +51,6 @@ public class SampleData {
 
     public static MessageThread createSampleThread() {
 
-        var thread = new MessageThread();
-        return thread;
+        return new MessageThread();
     }
 }
