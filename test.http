@@ -1,0 +1,20 @@
+POST http://localhost:9090/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "TestUser",
+  "firstName": "Firsty",
+  "lastName": "Lasty",
+  "gender": "male",
+  "dateOfBirth": "2012-01-20"
+}
+
+
+###
+POST http://localhost:9090/api/messages/user/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "body":"This is a example body form user 1"
+}
+
