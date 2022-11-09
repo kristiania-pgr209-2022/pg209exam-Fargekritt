@@ -36,6 +36,14 @@ public class MessageEndPoint {
 
 
     @Path("user/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Message> getMessageByUserId(@PathParam("id") long id, Message message){
+        var user = userDao.retrieve(id);
+        return user.getMessages();
+    }
+
+    @Path("user/{id}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addMessage(@PathParam("id") long id, Message message){
