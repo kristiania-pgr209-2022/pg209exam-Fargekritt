@@ -29,7 +29,7 @@ public class MessageEndPoint {
     @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Message listAll(@PathParam("id") int id){
+    public Message getUser(@PathParam("id") int id){
         Message message = dao.retrieve(id);
         return message;
     }
