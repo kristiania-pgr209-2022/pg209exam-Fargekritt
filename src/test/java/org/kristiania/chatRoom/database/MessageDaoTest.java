@@ -25,6 +25,7 @@ public class MessageDaoTest {
         JdbcDataSource datasource = InMemoryDataSource.createTestDataSource();
 
         new Resource("jdbc/dataSource", datasource);
+
         this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
 
         messageThreadDao = new MessageThreadDao(entityManager);
@@ -44,12 +45,12 @@ public class MessageDaoTest {
 
     @Test
     void shouldRetrieveSavedMessage() {
-        var user = SampleData.createSampleUser();
+        var user = SampleData.createSampleUser(1);
         userDao.save(user);
         var messageThread = SampleData.createSampleThread();
         messageThread.setCreator(user);
         messageThreadDao.save(messageThread);
-        var message = SampleData.createSampleMessage();
+        var message = SampleData.createSampleMessage(1);
         message.setUser(user);
         message.setThread(messageThread);
         messageDao.save(message);

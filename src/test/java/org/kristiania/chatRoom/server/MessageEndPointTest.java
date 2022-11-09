@@ -1,55 +1,26 @@
 package org.kristiania.chatRoom.server;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.Message;
 import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.User;
-import org.kristiania.chatRoom.database.InMemoryDataSource;
 import org.kristiania.chatRoom.database.SampleData;
-
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MessageEndPointTest {
-
-    private ChatRoomServer server;
-
-    @BeforeEach
-    void setUp() throws Exception {
-        var dataSource = InMemoryDataSource.createTestDataSource();
-        server = new ChatRoomServer(0, dataSource);
-        server.start();
-    }
-
-    @AfterEach
-    void tearDown() throws SQLException {
-        InMemoryDataSource.clearTestDataSource();
-    }
-
+public class MessageEndPointTest extends AbstractServerTest{
 
 
     @Test
     void shouldAddAndListAllMessages() throws IOException {
 
-        ObjectMapper mapper = new ObjectMapper();
 
         //USER
-        User user = SampleData.createSampleUser();
+        User user = SampleData.createSampleUser(1);
         String userJson = mapper.writeValueAsString(user);
 
-        var userPostConnection = openConnection("/api/users");
-        userPostConnection.setRequestMethod("POST");
-        userPostConnection.setRequestProperty("Content-Type", "application/json");
-        userPostConnection.setDoOutput(true);
+        var userPostConnection = getPostConnection("api/users");
         userPostConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
 
         assertThat(userPostConnection.getResponseCode())
@@ -61,10 +32,7 @@ public class MessageEndPointTest {
         String threadJson = mapper.writeValueAsString(thread);
 
 
-        var threadPostConnection = openConnection("/api/thread/1");
-        threadPostConnection.setRequestMethod("POST");
-        threadPostConnection.setRequestProperty("Content-Type", "application/json");
-        threadPostConnection.setDoOutput(true);
+        var threadPostConnection = getPostConnection("/api/thread/1");
         threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
 
         assertThat(threadPostConnection.getResponseCode())
@@ -72,13 +40,10 @@ public class MessageEndPointTest {
                 .isEqualTo(204);
 
         //Message
-        Message message = SampleData.createSampleMessage();
+        Message message = SampleData.createSampleMessage(1);
         String messageJson = mapper.writeValueAsString(message);
 
-        var messagePostConnection = openConnection("/api/messages/user/1/thread/1");
-        messagePostConnection.setRequestMethod("POST");
-        messagePostConnection.setRequestProperty("Content-Type", "application/json");
-        messagePostConnection.setDoOutput(true);
+        var messagePostConnection = getPostConnection("/api/messages/user/1/thread/1");
         messagePostConnection.getOutputStream().write(messageJson.getBytes(StandardCharsets.UTF_8));
 
 
@@ -103,16 +68,13 @@ public class MessageEndPointTest {
 
     @Test
     void shouldListMessageByUserId() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+
 
         //USER
-        User user = SampleData.createSampleUser();
+        User user = SampleData.createSampleUser(1);
         String userJson = mapper.writeValueAsString(user);
 
-        var userPostConnection = openConnection("/api/users");
-        userPostConnection.setRequestMethod("POST");
-        userPostConnection.setRequestProperty("Content-Type", "application/json");
-        userPostConnection.setDoOutput(true);
+        var userPostConnection = getPostConnection("/api/users");
         userPostConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
 
         assertThat(userPostConnection.getResponseCode())
@@ -125,10 +87,7 @@ public class MessageEndPointTest {
         String threadJson = mapper.writeValueAsString(thread);
 
 
-        var threadPostConnection = openConnection("/api/thread/1");
-        threadPostConnection.setRequestMethod("POST");
-        threadPostConnection.setRequestProperty("Content-Type", "application/json");
-        threadPostConnection.setDoOutput(true);
+        var threadPostConnection = getPostConnection("/api/thread/1");
         threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
 
         assertThat(threadPostConnection.getResponseCode())
@@ -136,13 +95,10 @@ public class MessageEndPointTest {
                 .isEqualTo(204);
 
         //Message
-        Message message = SampleData.createSampleMessage();
+        Message message = SampleData.createSampleMessage(1);
         String messageJson = mapper.writeValueAsString(message);
 
-        var messagePostConnection = openConnection("/api/messages/user/1/thread/1");
-        messagePostConnection.setRequestMethod("POST");
-        messagePostConnection.setRequestProperty("Content-Type", "application/json");
-        messagePostConnection.setDoOutput(true);
+        var messagePostConnection = getPostConnection("/api/messages/user/1/thread/1");
         messagePostConnection.getOutputStream().write(messageJson.getBytes(StandardCharsets.UTF_8));
 
 
@@ -168,16 +124,12 @@ public class MessageEndPointTest {
 
     @Test
     void shouldGetMessageByMessageId() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
 
         //USER
-        User user = SampleData.createSampleUser();
+        User user = SampleData.createSampleUser(1);
         String userJson = mapper.writeValueAsString(user);
 
-        var userPostConnection = openConnection("/api/users");
-        userPostConnection.setRequestMethod("POST");
-        userPostConnection.setRequestProperty("Content-Type", "application/json");
-        userPostConnection.setDoOutput(true);
+        var userPostConnection = getPostConnection("/api/users");
         userPostConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
 
         assertThat(userPostConnection.getResponseCode())
@@ -190,10 +142,7 @@ public class MessageEndPointTest {
         String threadJson = mapper.writeValueAsString(thread);
 
 
-        var threadPostConnection = openConnection("/api/thread/1");
-        threadPostConnection.setRequestMethod("POST");
-        threadPostConnection.setRequestProperty("Content-Type", "application/json");
-        threadPostConnection.setDoOutput(true);
+        var threadPostConnection = getPostConnection("/api/thread/1");
         threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
 
         assertThat(threadPostConnection.getResponseCode())
@@ -201,13 +150,10 @@ public class MessageEndPointTest {
                 .isEqualTo(204);
 
         //Message
-        Message message = SampleData.createSampleMessage();
+        Message message = SampleData.createSampleMessage(1);
         String messageJson = mapper.writeValueAsString(message);
 
-        var messagePostConnection = openConnection("/api/messages/user/1/thread/1");
-        messagePostConnection.setRequestMethod("POST");
-        messagePostConnection.setRequestProperty("Content-Type", "application/json");
-        messagePostConnection.setDoOutput(true);
+        var messagePostConnection = getPostConnection("/api/messages/user/1/thread/1");
         messagePostConnection.getOutputStream().write(messageJson.getBytes(StandardCharsets.UTF_8));
 
 
@@ -230,8 +176,4 @@ public class MessageEndPointTest {
 
     }
 
-
-    private HttpURLConnection openConnection(String spec) throws IOException {
-        return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
-    }
 }
