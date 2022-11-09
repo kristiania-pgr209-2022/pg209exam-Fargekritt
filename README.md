@@ -54,8 +54,7 @@
 * [ ] (EXTRA) abstrakt dao test ??
 * [x] Slette alle referanser til Item i koden.
 * [x] Endre ServeFrontPage test og react til å passe nytt prosject. (BASIC).
-* [ ] lage DAO og test for Message
- * [ ] 
+* [x] lage DAO og test for Message
 * [ ] lage DAO og test for Thread
  * [ ]  
 * [ ] lage DAO og test for ThreadMembers

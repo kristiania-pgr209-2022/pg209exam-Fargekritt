@@ -1,4 +1,3 @@
-
 CREATE TABLE users
 (
     id            int identity NOT NULL,
@@ -12,7 +11,10 @@ CREATE TABLE users
 
 CREATE TABLE threads
 (
-    id int identity primary key not null
+    id         int identity not null,
+    creator_id int          NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (creator_id) REFERENCES users (id),
 );
 
 CREATE TABLE messages
@@ -21,10 +23,10 @@ CREATE TABLE messages
     sent_date DATETIME,
     body      varchar(1000),
     user_id   int          NOT NULL,
-    -->thread_id int          NOT NULL,
+    thread_id int          NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users (id)
-   --> FOREIGN KEY (thread_id) REFERENCES threads (id)
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    FOREIGN KEY (thread_id) REFERENCES threads (id)
 
 
 );
