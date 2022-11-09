@@ -15,15 +15,15 @@ public class EntityManagerFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        EntityManager entityManager = config.createEntityMangerForRequest();
-
-        if(((HttpServletRequest)servletRequest).getMethod().equals("GET")){
-            filterChain.doFilter(servletRequest,servletResponse);
-        } else{
-            entityManager.getTransaction().begin();
-            filterChain.doFilter(servletRequest,servletResponse);
-            entityManager.flush();
-            entityManager.getTransaction().commit();
+        try (EntityManager entityManager = config.createEntityMangerForRequest()) {
+            if (((HttpServletRequest) servletRequest).getMethod().equals("GET")) {
+                filterChain.doFilter(servletRequest, servletResponse);
+            } else {
+                entityManager.getTransaction().begin();
+                filterChain.doFilter(servletRequest, servletResponse);
+                entityManager.flush();
+                entityManager.getTransaction().commit();
+            }
         }
         config.cleanRequestEntityManager();
     }

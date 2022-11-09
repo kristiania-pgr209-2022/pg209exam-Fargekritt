@@ -46,7 +46,7 @@ public class UserDaoTest {
 
     @Test
     void shouldRetrieveSavedUser(){
-        var user = SampleData.createSampleUser();
+        var user = SampleData.createSampleUser(1);
         dao.save(user);
         flush();
         assertThat(dao.retrieve(user.getId()))
