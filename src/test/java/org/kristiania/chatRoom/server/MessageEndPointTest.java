@@ -11,7 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class MessageEndPointTest extends AbstractServerTest{
 
-
     @Test
     void shouldAddAndListAllMessages() throws IOException {
 
@@ -19,37 +18,27 @@ public class MessageEndPointTest extends AbstractServerTest{
         //USER
         User user = SampleData.createSampleUser(1);
         String userJson = mapper.writeValueAsString(user);
+        doPostRequest("api/users",userJson);
 
-        var userPostConnection = getPostConnection("api/users");
-        userPostConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
-
-        assertThat(userPostConnection.getResponseCode())
-                .as(userPostConnection.getResponseMessage() + " for " + userPostConnection.getURL())
-                .isEqualTo(204);
+        //SECOND USER
+        User secondUser = SampleData.createSampleUser(2);
+        String secondUserJson = mapper.writeValueAsString(secondUser);
+        doPostRequest("api/users",secondUserJson);
 
         //THREAD
         MessageThread thread = SampleData.createSampleThread();
         String threadJson = mapper.writeValueAsString(thread);
-
-
-        var threadPostConnection = getPostConnection("/api/thread/1");
-        threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
-
-        assertThat(threadPostConnection.getResponseCode())
-                .as(threadPostConnection.getResponseMessage() + " for " + threadPostConnection.getURL())
-                .isEqualTo(204);
+        doPostRequest("/api/thread/1",threadJson);
 
         //Message
         Message message = SampleData.createSampleMessage(1);
         String messageJson = mapper.writeValueAsString(message);
+        doPostRequest("/api/messages/user/1/thread/1",messageJson);
 
-        var messagePostConnection = getPostConnection("/api/messages/user/1/thread/1");
-        messagePostConnection.getOutputStream().write(messageJson.getBytes(StandardCharsets.UTF_8));
-
-
-        assertThat(messagePostConnection.getResponseCode())
-                .as(messagePostConnection.getResponseMessage() + " for " + messagePostConnection.getURL())
-                .isEqualTo(204);
+        //SECOND Message
+        Message secondMessage = SampleData.createSampleMessage(2);
+        String secondMessageJson = mapper.writeValueAsString(secondMessage);
+        doPostRequest("/api/messages/user/2/thread/1",secondMessageJson);
 
         var connection = openConnection("/api/messages/");
         assertThat(connection.getResponseCode())
@@ -62,55 +51,52 @@ public class MessageEndPointTest extends AbstractServerTest{
                 .contains("""
                         body":"This is a testing body for a message""")
                 .contains("""
-                        firstName":"Bob""");
+                        firstName":"Bob""")
+                .contains("""
+                        body":"This is another testing body for a message"""
+                        )
+                .contains("""
+                        firstName":"exampleFirstName""");
     }
-
 
     @Test
     void shouldListMessageByUserId() throws IOException {
 
-
         //USER
         User user = SampleData.createSampleUser(1);
         String userJson = mapper.writeValueAsString(user);
+        doPostRequest("api/users",userJson);
 
-        var userPostConnection = getPostConnection("/api/users");
-        userPostConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
-
-        assertThat(userPostConnection.getResponseCode())
-                .as(userPostConnection.getResponseMessage() + " for " + userPostConnection.getURL())
-                .isEqualTo(204);
-
+        //SECOND USER
+        User secondUser = SampleData.createSampleUser(2);
+        String secondUserJson = mapper.writeValueAsString(secondUser);
+        doPostRequest("api/users",secondUserJson);
 
         //THREAD
         MessageThread thread = SampleData.createSampleThread();
         String threadJson = mapper.writeValueAsString(thread);
-
-
-        var threadPostConnection = getPostConnection("/api/thread/1");
-        threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
-
-        assertThat(threadPostConnection.getResponseCode())
-                .as(threadPostConnection.getResponseMessage() + " for " + threadPostConnection.getURL())
-                .isEqualTo(204);
+        doPostRequest("/api/thread/1",threadJson);
 
         //Message
         Message message = SampleData.createSampleMessage(1);
         String messageJson = mapper.writeValueAsString(message);
+        doPostRequest("/api/messages/user/1/thread/1",messageJson);
 
-        var messagePostConnection = getPostConnection("/api/messages/user/1/thread/1");
-        messagePostConnection.getOutputStream().write(messageJson.getBytes(StandardCharsets.UTF_8));
+        //SECOND Message
+        Message secondMessage = SampleData.createSampleMessage(2);
+        String secondMessageJson = mapper.writeValueAsString(secondMessage);
+        doPostRequest("/api/messages/user/2/thread/1",secondMessageJson);
 
+        //THIRD Message
+        Message thirdMessage = SampleData.createSampleMessage(3);
+        String thirdMessageJson = mapper.writeValueAsString(thirdMessage);
+        doPostRequest("/api/messages/user/2/thread/1",thirdMessageJson);
 
-        assertThat(messagePostConnection.getResponseCode())
-                .as(messagePostConnection.getResponseMessage() + " for " + messagePostConnection.getURL())
-                .isEqualTo(204);
-
+        // Message made by first user.
         var connection = openConnection("/api/messages/user/1");
         assertThat(connection.getResponseCode())
                 .as(connection.getResponseMessage() + " for " + connection.getURL())
                 .isEqualTo(200);
-
 
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
@@ -119,8 +105,22 @@ public class MessageEndPointTest extends AbstractServerTest{
                 .contains("""
                         firstName":"Bob""");
 
-    }
+        // Messages made my second user.
+         connection = openConnection("/api/messages/user/2");
+        assertThat(connection.getResponseCode())
+                .as(connection.getResponseMessage() + " for " + connection.getURL())
+                .isEqualTo(200);
 
+        assertThat(connection.getInputStream())
+                .asString(StandardCharsets.UTF_8)
+                .contains("""
+                        body":"This is another testing body for a message""")
+                .contains("""
+                        body":"This is the third testing body for a message""")
+                .contains("""
+                        firstName":"exampleFirstName""");
+
+    }
 
     @Test
     void shouldGetMessageByMessageId() throws IOException {
@@ -128,44 +128,33 @@ public class MessageEndPointTest extends AbstractServerTest{
         //USER
         User user = SampleData.createSampleUser(1);
         String userJson = mapper.writeValueAsString(user);
+        doPostRequest("api/users",userJson);
 
-        var userPostConnection = getPostConnection("/api/users");
-        userPostConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
-
-        assertThat(userPostConnection.getResponseCode())
-                .as(userPostConnection.getResponseMessage() + " for " + userPostConnection.getURL())
-                .isEqualTo(204);
-
+        //SECOND USER
+        User secondUser = SampleData.createSampleUser(2);
+        String secondUserJson = mapper.writeValueAsString(secondUser);
+        doPostRequest("api/users",secondUserJson);
 
         //THREAD
         MessageThread thread = SampleData.createSampleThread();
         String threadJson = mapper.writeValueAsString(thread);
+        doPostRequest("/api/thread/1",threadJson);
 
-
-        var threadPostConnection = getPostConnection("/api/thread/1");
-        threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
-
-        assertThat(threadPostConnection.getResponseCode())
-                .as(threadPostConnection.getResponseMessage() + " for " + threadPostConnection.getURL())
-                .isEqualTo(204);
-
-        //Message
+        //FIRST MESSAGE
         Message message = SampleData.createSampleMessage(1);
         String messageJson = mapper.writeValueAsString(message);
+        doPostRequest("/api/messages/user/1/thread/1",messageJson);
 
-        var messagePostConnection = getPostConnection("/api/messages/user/1/thread/1");
-        messagePostConnection.getOutputStream().write(messageJson.getBytes(StandardCharsets.UTF_8));
+        //SECOND MESSAGE
+        Message secondMessage = SampleData.createSampleMessage(2);
+        String secondMessageJson = mapper.writeValueAsString(secondMessage);
+        doPostRequest("/api/messages/user/2/thread/1",secondMessageJson);
 
-
-        assertThat(messagePostConnection.getResponseCode())
-                .as(messagePostConnection.getResponseMessage() + " for " + messagePostConnection.getURL())
-                .isEqualTo(204);
-
+        // First user message.
         var connection = openConnection("/api/messages/1");
         assertThat(connection.getResponseCode())
                 .as(connection.getResponseMessage() + " for " + connection.getURL())
                 .isEqualTo(200);
-
 
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
@@ -174,6 +163,17 @@ public class MessageEndPointTest extends AbstractServerTest{
                 .contains("""
                         firstName":"Bob""");
 
-    }
+        // Second user message.
+         connection = openConnection("/api/messages/2");
+        assertThat(connection.getResponseCode())
+                .as(connection.getResponseMessage() + " for " + connection.getURL())
+                .isEqualTo(200);
 
+        assertThat(connection.getInputStream())
+                .asString(StandardCharsets.UTF_8)
+                .contains("""
+                        body":"This is another testing body for a message""")
+                .contains("""
+                        firstName":"exampleFirstName""");
+    }
 }
