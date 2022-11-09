@@ -1,11 +1,8 @@
 package org.kristiania.chatRoom.server;
-
 import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.User;
 import org.kristiania.chatRoom.database.SampleData;
-
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,31 +13,15 @@ public class UserEndPointTest extends AbstractServerTest {
     @Test
     void shouldGetUserById() throws IOException {
 
-        // Set up connection for POST request.
-        var postConnection = getPostConnection("api/users");
 
-        // Create sample user, map it to JSON format and write it to the outputStream.
-        var user = SampleData.createSampleUser(1);
-        String userOneJson = mapper.writeValueAsString(user);
-        postConnection.getOutputStream().write(userOneJson.getBytes(StandardCharsets.UTF_8));
+        // Create sample user, map it to JSON format and send post-url and json to doPostRequest.
+        var firstSampleUser = SampleData.createSampleUser(1);
+        String firstSampleUserJson = mapper.writeValueAsString(firstSampleUser);
+        doPostRequest("api/users",firstSampleUserJson);
 
-        // "Commit" the connection.
-        assertThat(postConnection.getResponseCode())
-                .as(postConnection.getResponseMessage() + " for " + postConnection.getURL())
-                .isEqualTo(204);
-
-        // Set up connection for POST request.
-        postConnection = getPostConnection("api/users");
-
-        // Create sample user, map it to JSON format and write it to the outputStream.
-        var userTwo = SampleData.createSampleUser(2);
-        String userTwoJson = mapper.writeValueAsString(userTwo);
-        postConnection.getOutputStream().write(userTwoJson.getBytes(StandardCharsets.UTF_8));
-
-        // "Commit" the connection.
-        assertThat(postConnection.getResponseCode())
-                .as(postConnection.getResponseMessage() + " for " + postConnection.getURL())
-                .isEqualTo(204);
+        var secondSampleUser = SampleData.createSampleUser(2);
+        String secondSampleUserJson = mapper.writeValueAsString(secondSampleUser);
+        doPostRequest("api/users",secondSampleUserJson);
 
         // Set up connection for GET request and check first sampleUser.
         var connection = openConnection("/api/users/1");
@@ -65,7 +46,6 @@ public class UserEndPointTest extends AbstractServerTest {
                 .asString(StandardCharsets.UTF_8)
                 .contains(""" 
                         dateOfBirth":"2011-12-20","firstName":"exampleFirstName","gender":"male","id":2,"lastName":"exampleLastName","username":"exampleUser""");
-
     }
 
 
@@ -76,31 +56,18 @@ public class UserEndPointTest extends AbstractServerTest {
         String userJson = mapper.writeValueAsString(user);
 
 
-        HttpURLConnection postConnection = getPostConnection("api/users");
+        var postConnection = getPostConnection("api/users");
         postConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
-
-
-//        // Old way to send json.
-//       postConnection.getOutputStream().write(
-//                Json.createObjectBuilder()
-//                        .add("username", "TestUser")
-//                        .add("firstName", "Firsty")
-//                        .add("lastName", "Lasty")
-//                        .add("gender", "male")
-//                        .add("dateOfBirth","2012-01-20")
-//                        .build().toString().getBytes(StandardCharsets.UTF_8));
-//
-
 
         assertThat(postConnection.getResponseCode())
                 .as(postConnection.getResponseMessage() + " for " + postConnection.getURL())
                 .isEqualTo(204);
 
+
         var connection = openConnection("/api/users/");
         assertThat(connection.getResponseCode())
                 .as(connection.getResponseMessage() + " for " + connection.getURL())
                 .isEqualTo(200);
-
 
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
@@ -110,51 +77,19 @@ public class UserEndPointTest extends AbstractServerTest {
 
     @Test
     void shouldListAllUsers() throws IOException {
+        // Create sample user, map it to JSON format and send post-url and json to doPostRequest
+        var firstSampleUser = SampleData.createSampleUser(1);
+        String firstSampleUserJson = mapper.writeValueAsString(firstSampleUser);
+        doPostRequest("api/users",firstSampleUserJson);
 
-        // -FIRST USER-
+        var secondSampleUser = SampleData.createSampleUser(2);
+        String secondSampleUserJson = mapper.writeValueAsString(secondSampleUser);
+        doPostRequest("api/users",secondSampleUserJson);
 
-        // Set up connection for POST request.
-        var postConnection = getPostConnection("api/users");
+        var thirdSampleUser = SampleData.createSampleUser(3);
+        String thirdSampleUserJson = mapper.writeValueAsString(thirdSampleUser);
+        doPostRequest("api/users",thirdSampleUserJson);
 
-        // Create sample user, map it to JSON format and write it to the outputStream.
-        var user = SampleData.createSampleUser(1);
-        String userOneJson = mapper.writeValueAsString(user);
-        postConnection.getOutputStream().write(userOneJson.getBytes(StandardCharsets.UTF_8));
-
-        // "Commit" the connection.
-        assertThat(postConnection.getResponseCode())
-                .as(postConnection.getResponseMessage() + " for " + postConnection.getURL())
-                .isEqualTo(204);
-
-        // -SECOND USER-
-
-        // Set up connection for POST request.
-         postConnection = getPostConnection("api/users");
-
-        // Create sample user, map it to JSON format and write it to the outputStream.
-        var userTwo = SampleData.createSampleUser(2);
-        String userTwoJson = mapper.writeValueAsString(userTwo);
-        postConnection.getOutputStream().write(userTwoJson.getBytes(StandardCharsets.UTF_8));
-
-        // "Commit" the connection.
-        assertThat(postConnection.getResponseCode())
-                .as(postConnection.getResponseMessage() + " for " + postConnection.getURL())
-                .isEqualTo(204);
-
-        // -THIRD USER-
-
-        // Set up connection for POST request.
-         postConnection = getPostConnection("api/users");
-
-        // Create sample user, map it to JSON format and write it to the outputStream.
-        var userThree = SampleData.createSampleUser(3);
-        String userThreeJson = mapper.writeValueAsString(userThree);
-        postConnection.getOutputStream().write(userThreeJson.getBytes(StandardCharsets.UTF_8));
-
-        // "Commit" the connection.
-        assertThat(postConnection.getResponseCode())
-                .as(postConnection.getResponseMessage() + " for " + postConnection.getURL())
-                .isEqualTo(204);
 
         var connection = openConnection("/api/users/");
         assertThat(connection.getResponseCode())
