@@ -48,12 +48,18 @@ public class MessageThreadDaoTest {
         var thread = SampleData.createSampleThread();
         thread.setCreator(user);
         dao.save(thread);
+        flush();
         assertThat(dao.retrieve(thread.getId()))
                 .usingRecursiveComparison()
                 .isEqualTo(thread)
                 .isNotSameAs(thread);
 
 
+    }
+
+    private void flush() {
+        entityManager.flush();
+        entityManager.clear();
     }
 
 }
