@@ -5,7 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.kristiania.chatRoom.Message;
 import org.kristiania.chatRoom.database.MessageDao;
-import org.kristiania.chatRoom.database.MessageDaoImpl;
+import org.kristiania.chatRoom.database.MessageThreadDao;
 import org.kristiania.chatRoom.database.UserDao;
 
 import java.util.List;
@@ -14,24 +14,25 @@ import java.util.List;
 public class MessageEndPoint {
 
     @Inject
-    MessageDao dao;
+    MessageDao messageDao;
 
     @Inject
     UserDao userDao;
 
+    @Inject
+    MessageThreadDao threadDao;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message> listAll(){
-        List<Message> message = dao.listAll();
-        return message;
+        return messageDao.listAll();
     }
 
     @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Message getUser(@PathParam("id") int id){
-        Message message = dao.retrieve(id);
-        return message;
+        return messageDao.retrieve(id);
     }
 
 
@@ -39,16 +40,17 @@ public class MessageEndPoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message> getMessageByUserId(@PathParam("id") long id){
-        var message = dao.findByUser(id);
-        return message;
+        return messageDao.findByUser(id);
     }
 
-    @Path("user/{id}")
+    @Path("user/{id}/thread/{threadId}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addMessage(@PathParam("id") long id, Message message){
+    public void addMessage(@PathParam("id") long id,@PathParam("threadId") long threadId, Message message){
         var user = userDao.retrieve(id);
+        var thread = threadDao.retrieve(threadId);
         message.setUser(user);
-        dao.save(message);
+        message.setThread(thread);
+        messageDao.save(message);
     }
 }

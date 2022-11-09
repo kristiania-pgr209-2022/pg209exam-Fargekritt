@@ -1,11 +1,12 @@
 package org.kristiania.chatRoom.server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.Message;
+import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.User;
 import org.kristiania.chatRoom.database.InMemoryDataSource;
 import org.kristiania.chatRoom.database.SampleData;
@@ -55,11 +56,26 @@ public class MessageEndPointTest {
                 .as(userPostConnection.getResponseMessage() + " for " + userPostConnection.getURL())
                 .isEqualTo(204);
 
+        //THREAD
+        MessageThread thread = SampleData.createSampleThread();
+        String threadJson = mapper.writeValueAsString(thread);
+
+
+        var threadPostConnection = openConnection("/api/thread/1");
+        threadPostConnection.setRequestMethod("POST");
+        threadPostConnection.setRequestProperty("Content-Type", "application/json");
+        threadPostConnection.setDoOutput(true);
+        threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
+
+        assertThat(threadPostConnection.getResponseCode())
+                .as(threadPostConnection.getResponseMessage() + " for " + threadPostConnection.getURL())
+                .isEqualTo(204);
+
         //Message
         Message message = SampleData.createSampleMessage();
         String messageJson = mapper.writeValueAsString(message);
 
-        var messagePostConnection = openConnection("/api/messages/user/1");
+        var messagePostConnection = openConnection("/api/messages/user/1/thread/1");
         messagePostConnection.setRequestMethod("POST");
         messagePostConnection.setRequestProperty("Content-Type", "application/json");
         messagePostConnection.setDoOutput(true);
@@ -103,11 +119,27 @@ public class MessageEndPointTest {
                 .as(userPostConnection.getResponseMessage() + " for " + userPostConnection.getURL())
                 .isEqualTo(204);
 
+
+        //THREAD
+        MessageThread thread = SampleData.createSampleThread();
+        String threadJson = mapper.writeValueAsString(thread);
+
+
+        var threadPostConnection = openConnection("/api/thread/1");
+        threadPostConnection.setRequestMethod("POST");
+        threadPostConnection.setRequestProperty("Content-Type", "application/json");
+        threadPostConnection.setDoOutput(true);
+        threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
+
+        assertThat(threadPostConnection.getResponseCode())
+                .as(threadPostConnection.getResponseMessage() + " for " + threadPostConnection.getURL())
+                .isEqualTo(204);
+
         //Message
         Message message = SampleData.createSampleMessage();
         String messageJson = mapper.writeValueAsString(message);
 
-        var messagePostConnection = openConnection("/api/messages/user/1");
+        var messagePostConnection = openConnection("/api/messages/user/1/thread/1");
         messagePostConnection.setRequestMethod("POST");
         messagePostConnection.setRequestProperty("Content-Type", "application/json");
         messagePostConnection.setDoOutput(true);
@@ -152,11 +184,27 @@ public class MessageEndPointTest {
                 .as(userPostConnection.getResponseMessage() + " for " + userPostConnection.getURL())
                 .isEqualTo(204);
 
+
+        //THREAD
+        MessageThread thread = SampleData.createSampleThread();
+        String threadJson = mapper.writeValueAsString(thread);
+
+
+        var threadPostConnection = openConnection("/api/thread/1");
+        threadPostConnection.setRequestMethod("POST");
+        threadPostConnection.setRequestProperty("Content-Type", "application/json");
+        threadPostConnection.setDoOutput(true);
+        threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
+
+        assertThat(threadPostConnection.getResponseCode())
+                .as(threadPostConnection.getResponseMessage() + " for " + threadPostConnection.getURL())
+                .isEqualTo(204);
+
         //Message
         Message message = SampleData.createSampleMessage();
         String messageJson = mapper.writeValueAsString(message);
 
-        var messagePostConnection = openConnection("/api/messages/user/1");
+        var messagePostConnection = openConnection("/api/messages/user/1/thread/1");
         messagePostConnection.setRequestMethod("POST");
         messagePostConnection.setRequestProperty("Content-Type", "application/json");
         messagePostConnection.setDoOutput(true);
