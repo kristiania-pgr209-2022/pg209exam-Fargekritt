@@ -4,8 +4,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.kristiania.chatRoom.Message;
-import org.kristiania.chatRoom.User;
 import org.kristiania.chatRoom.database.MessageDao;
+import org.kristiania.chatRoom.database.UserDao;
 
 import java.util.List;
 
@@ -15,6 +15,9 @@ public class MessageEndPoint {
     @Inject
     MessageDao dao;
 
+    @Inject
+    UserDao userDao;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message> listAll(){
@@ -22,12 +25,11 @@ public class MessageEndPoint {
     }
 
 
-    @Path("/user/{id}")
+    @Path("user/{id}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addMessage(@PathParam("id") long id, Message message){
-        var user = new User();
-        user.setId(id);
+        var user = userDao.retrieve(id);
         message.setUser(user);
         dao.save(message);
     }
