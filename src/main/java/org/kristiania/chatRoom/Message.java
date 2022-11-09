@@ -11,6 +11,8 @@ public class Message {
     @ManyToOne
     private User user;
 
+    @ManyToOne
+    private MessageThread thread;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -50,5 +52,13 @@ public class Message {
 
     public void setSentDate(LocalDate sentDate) {
         this.sentDate = sentDate;
+    }
+
+    public MessageThread getThread() {
+        return thread;
+    }
+
+    public void setThread(MessageThread thread) {
+        this.thread = thread;
     }
 }

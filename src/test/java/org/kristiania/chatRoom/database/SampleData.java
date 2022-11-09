@@ -1,6 +1,7 @@
 package org.kristiania.chatRoom.database;
 
 import org.kristiania.chatRoom.Message;
+import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.User;
 
 import java.time.LocalDate;
@@ -21,5 +22,11 @@ public class SampleData {
         var message = new Message();
         message.setBody("This is a testing body for a message");
         return message;
+    }
+
+    public static MessageThread createSampleThread() {
+
+        var thread = new MessageThread();
+        return thread;
     }
 }

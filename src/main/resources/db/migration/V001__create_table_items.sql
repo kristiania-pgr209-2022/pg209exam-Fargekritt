@@ -14,7 +14,7 @@ CREATE TABLE threads
     id         int identity not null,
     creator_id int          NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (creator_id) REFERENCES users (id),
+    FOREIGN KEY (creator_id) REFERENCES users (id)
 );
 
 CREATE TABLE messages
