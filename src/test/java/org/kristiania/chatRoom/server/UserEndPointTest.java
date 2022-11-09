@@ -1,12 +1,12 @@
-package org.kristiania.chatRoom;
+package org.kristiania.chatRoom.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.kristiania.chatRoom.User;
 import org.kristiania.chatRoom.database.InMemoryDataSource;
 import org.kristiania.chatRoom.database.SampleData;
-import org.kristiania.chatRoom.server.ChatRoomServer;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -16,12 +16,8 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-public class ChatRoomServerTest {
-
-
+public class UserEndPointTest {
     private ChatRoomServer server;
-
 
     @BeforeEach
     void setUp() throws Exception {
@@ -33,21 +29,6 @@ public class ChatRoomServerTest {
     @AfterEach
     void tearDown() throws SQLException {
         InMemoryDataSource.clearTestDataSource();
-    }
-
-
-    @Test
-    void shouldServeHomepage() throws Exception {
-        var connection = openConnection("/");
-
-        assertThat(connection.getResponseCode())
-                .as(connection.getResponseCode() + " For " + connection.getURL())
-                .isEqualTo(200);
-
-        assertThat(connection.getInputStream())
-                .asString(StandardCharsets.UTF_8)
-                .contains("<title>Ultra Shop</title>");
-
     }
 
 
@@ -82,6 +63,7 @@ public class ChatRoomServerTest {
 
 
     }
+
 
     @Test
     void shouldAddAndListUser() throws IOException {
@@ -124,55 +106,6 @@ public class ChatRoomServerTest {
                 .asString(StandardCharsets.UTF_8)
                 .contains("""
                         dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""");
-    }
-
-
-    @Test
-    void shouldAddAndListAllMessages() throws IOException {
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        //USER
-        User user = SampleData.createSampleUser();
-        String userJson = mapper.writeValueAsString(user);
-
-        var userPostConnection = openConnection("/api/users");
-        userPostConnection.setRequestMethod("POST");
-        userPostConnection.setRequestProperty("Content-Type", "application/json");
-        userPostConnection.setDoOutput(true);
-        userPostConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
-
-        assertThat(userPostConnection.getResponseCode())
-                .as(userPostConnection.getResponseMessage() + " for " + userPostConnection.getURL())
-                .isEqualTo(204);
-
-        //Message
-        Message message = SampleData.createSampleMessage();
-        String messageJson = mapper.writeValueAsString(message);
-
-        var messagePostConnection = openConnection("/api/messages/user/1");
-        messagePostConnection.setRequestMethod("POST");
-        messagePostConnection.setRequestProperty("Content-Type", "application/json");
-        messagePostConnection.setDoOutput(true);
-        messagePostConnection.getOutputStream().write(messageJson.getBytes(StandardCharsets.UTF_8));
-
-
-        assertThat(messagePostConnection.getResponseCode())
-                .as(messagePostConnection.getResponseMessage() + " for " + messagePostConnection.getURL())
-                .isEqualTo(204);
-
-        var connection = openConnection("/api/messages/");
-        assertThat(connection.getResponseCode())
-                .as(connection.getResponseMessage() + " for " + connection.getURL())
-                .isEqualTo(200);
-
-
-        assertThat(connection.getInputStream())
-                .asString(StandardCharsets.UTF_8)
-                .contains("""
-                        body":"This is a testing body for a message""")
-                .contains("""
-                        firstName":"Bob""");
     }
 
 
