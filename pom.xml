@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>no.kristiania.pgr203</groupId>
+    <groupId>no.kristiania.pgr203</groupId>             <!--CHANGE TO EXAM ? -->
     <artifactId>chat-room</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -59,7 +59,7 @@
                                 <includes>
                                     <include>*.properties</include>
                                 </includes>
-                                <targetPath>/site/wwwroot</targetPath>
+                                <targetPath>/site/wwwroot</targetPath>          <!--Remove-->
                             </resource>
                             <resource>
                                 <type>static</type>
@@ -67,7 +67,7 @@
                                 <includes>
                                     <include>*.properties</include>
                                 </includes>
-                                <targetPath>/site/wwwroot</targetPath>
+                                <targetPath>/site/wwwroot</targetPath>          <!--Remove-->
                             </resource>
                         </resources>
                     </deployment>
@@ -85,7 +85,7 @@
                         </goals>
                         <configuration>
                             <filters>
-                                <filter>
+                                <filter>                                        <!--Remove-->
                                     <artifact>junit:junit</artifact>
                                     <includes>
                                         <include>junit/framework/**</include>
@@ -102,8 +102,8 @@
                                         <exclude>META-INF/*.SF</exclude>
                                         <exclude>META-INF/*.DSA</exclude>
                                         <exclude>META-INF/*.RSA</exclude>
-                                        <exclude>META-INF/*.txt</exclude>
-                                        <exclude>META-INF/*.markdown</exclude>
+                                        <exclude>META-INF/*.txt</exclude>               <!--Remove-->
+                                        <exclude>META-INF/*.markdown</exclude>          <!--Remove-->
                                     </excludes>
                                 </filter>
                             </filters>
@@ -124,7 +124,7 @@
                 <version>1.12.1</version>
                 <configuration>
                     <nodeVersion>v16.13.2</nodeVersion>
-                    <workingDirectory>src/main/kristiania-shop-react</workingDirectory>
+                    <workingDirectory>src/main/kristiania-shop-react</workingDirectory>         <!--Change from shop both here and in directory-->
                 </configuration>
                 <executions>
                     <execution>
@@ -299,6 +299,6 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>2.13.4.1</version>
             </dependency>
-
+        <!--END LOCAL DATE FORMATTING DEPS -->
     </dependencies>
 </project>
