@@ -29,11 +29,10 @@ public class MessageThreadEndpoint {
     }
 
 
-    @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MessageThread> listThreadsById(@PathParam("id") long id){
-        return messageThreadDao.listAllById(id);
+    public List<MessageThread> listThreadsById(){
+        return messageThreadDao.listAll();
     }
 
 

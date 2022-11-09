@@ -6,6 +6,7 @@ import org.eclipse.jetty.plus.jndi.Resource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.kristiania.chatRoom.MessageThread;
 
 import javax.naming.NamingException;
 import java.sql.SQLException;
@@ -53,8 +54,22 @@ public class MessageThreadDaoTest {
                 .usingRecursiveComparison()
                 .isEqualTo(thread)
                 .isNotSameAs(thread);
+    }
 
+    @Test
+    void shouldListAllThreads(){
+        var user = SampleData.createSampleUser();
+        userDao.save(user);
+        var thread = SampleData.createSampleThread();
+        thread.setCreator(user);
+        dao.save(thread);
+        var thread2 = SampleData.createSampleThread();
+        thread2.setCreator(user);
+        dao.save(thread2);
+        flush();
 
+        assertThat(dao.listAll()).extracting(MessageThread::getId)
+                .contains(thread.getId(), thread2.getId());
     }
 
     private void flush() {

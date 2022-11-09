@@ -2,7 +2,7 @@ package org.kristiania.chatRoom.database;
 
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import org.kristiania.chatRoom.Message;
+
 import org.kristiania.chatRoom.MessageThread;
 
 import java.util.List;
@@ -27,9 +27,7 @@ public class MessageThreadDao {
     }
 
 
-    public List<MessageThread> listAllById(long id) {
-        return entityManager.createQuery("SELECT t from MessageThread t WHERE t.id = :id" )
-                .setParameter("id", id)
-                .getResultList();
+    public List<MessageThread> listAll() {
+        return entityManager.createQuery("SELECT t from MessageThread t").getResultList();
     }
 }
