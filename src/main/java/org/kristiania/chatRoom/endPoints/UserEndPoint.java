@@ -14,6 +14,15 @@ public class UserEndPoint {
     @Inject
     private UserDao dao;
 
+    //localhost:8080/api/users/{id}
+    @Path("{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser( @PathParam("id") String id){
+        return dao.retrieve(Long.parseLong(id));
+    }
+
+    //localhost:8080/api/users
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> listUsers(){

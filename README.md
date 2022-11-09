@@ -46,14 +46,14 @@
   * [ ] (EXTRA) lage test for å teste @manytoone relasjoner mellom Message og User
 * [x] Lage UserEndPoint 
  * [x] lage tester for UserEndPoint.
-  * [x] trenger vi mer en GET test? Ja vi gjorde det 
+  * [x] trenger vi mer en GET test? Ja, vi gjorde det 
  * [x] lage ny UserEndPoint klasse 
  * [x] Lage @GET og POST
  * [x] @Inject userDao 
-  * [x] Kan vi bruke samme config på flere endPoints ? Binde flere classer etter hverandre i ChatRoomConfig. Ja det kunne vi! (*￣3￣)╭
+  * [x] Kan vi bruke samme config på flere endPoints? Binde flere classer etter hverandre i ChatRoomConfig? Ja, det kunne vi! (*￣3￣)╭
 * [ ] (EXTRA) abstrakt dao test ??
-* [ ] Slette alle referanser til Item i koden.
-* [ ] Endre ServeFrontPage test og react til å passe nytt prosject. (BASIC).
+* [x] Slette alle referanser til Item i koden.
+* [x] Endre ServeFrontPage test og react til å passe nytt prosject. (BASIC).
 * [ ] lage DAO og test for Message
  * [ ] 
 * [ ] lage DAO og test for Thread
