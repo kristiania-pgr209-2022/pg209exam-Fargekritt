@@ -22,8 +22,8 @@ public class MessageEndPoint {
     }
 
 
-    @POST
     @Path("/user/{id}")
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addMessage(@PathParam("id") long id, Message message){
         var user = new User();

@@ -6,6 +6,8 @@ import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import org.kristiania.chatRoom.database.MessageDao;
+import org.kristiania.chatRoom.database.MessageDaoImpl;
 import org.kristiania.chatRoom.database.UserDao;
 import org.kristiania.chatRoom.database.UserDaoImpl;
 
@@ -29,6 +31,7 @@ public class ChatRoomConfig extends ResourceConfig {
             protected void configure() {
 
                 bind(UserDaoImpl.class).to(UserDao.class);
+                bind(MessageDaoImpl.class).to(MessageDao.class);
                 bindFactory(requestEntityManager::get)
                         .to(EntityManager.class)
                         .in(RequestScoped.class);
