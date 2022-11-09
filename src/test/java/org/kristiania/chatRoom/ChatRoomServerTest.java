@@ -1,6 +1,5 @@
 package org.kristiania.chatRoom;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +10,6 @@ import org.kristiania.chatRoom.server.ChatRoomServer;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
@@ -80,7 +78,7 @@ public class ChatRoomServerTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains(""" 
-                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","messages":[],"username":"Fargekritt""");
+                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Fargekritt""");
 
 
     }
@@ -125,12 +123,12 @@ public class ChatRoomServerTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains("""
-                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","messages":[],"username":"Lulu""");
+                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""");
     }
 
 
     @Test
-    void shouldAddAndListALlMessages() throws IOException {
+    void shouldAddAndListAllMessages() throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -152,7 +150,6 @@ public class ChatRoomServerTest {
         Message message = SampleData.createSampleMessage();
         String messageJson = mapper.writeValueAsString(message);
 
-        System.out.println(messageJson);
         var messagePostConnection = openConnection("/api/messages/user/1");
         messagePostConnection.setRequestMethod("POST");
         messagePostConnection.setRequestProperty("Content-Type", "application/json");
@@ -176,17 +173,6 @@ public class ChatRoomServerTest {
                         body":"This is a testing body for a message""")
                 .contains("""
                         firstName":"Bob""");
-
-        var connection2 = openConnection("/api/users/1");
-        assertThat(connection2.getResponseCode())
-                .as(connection2.getResponseMessage() + " for " + connection2.getURL())
-                .isEqualTo(200);
-
-        assertThat(connection2.getInputStream())
-                .asString(StandardCharsets.UTF_8)
-                .contains("""
-                        "dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre"
-                        """);
     }
 
 

@@ -38,9 +38,9 @@ public class MessageEndPoint {
     @Path("user/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Message> getMessageByUserId(@PathParam("id") long id, Message message){
-        var user = userDao.retrieve(id);
-        return user.getMessages();
+    public List<Message> getMessageByUserId(@PathParam("id") long id){
+        var message = dao.findByUser(id);
+        return message;
     }
 
     @Path("user/{id}")

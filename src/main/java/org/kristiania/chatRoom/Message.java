@@ -2,6 +2,8 @@ package org.kristiania.chatRoom;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "messages")
 public class Message {
@@ -13,8 +15,10 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String body;
+    @Column(name = "sent_date")
+    private LocalDate sentDate;
 
+    private String body;
 
     public User getUser() {
         return user;
@@ -28,7 +32,6 @@ public class Message {
         this.id = id;
     }
 
-
     public int getId() {
         return id;
     }
@@ -39,5 +42,13 @@ public class Message {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public LocalDate getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(LocalDate sentDate) {
+        this.sentDate = sentDate;
     }
 }

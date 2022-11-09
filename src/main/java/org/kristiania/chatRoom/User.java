@@ -7,7 +7,6 @@ import org.kristiania.chatRoom.localDateFormatting.LocalDateDeserializer;
 import org.kristiania.chatRoom.localDateFormatting.LocalDateSerializer;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -28,10 +27,6 @@ public class User {
     @Column(name = "first_name")
     private String firstName;
     private String username;
-
-    @OneToMany(mappedBy = "user")
-    private List<Message> messages;
-
 
     public long getId() {
         return id;
@@ -81,7 +76,4 @@ public class User {
         return username;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
 }

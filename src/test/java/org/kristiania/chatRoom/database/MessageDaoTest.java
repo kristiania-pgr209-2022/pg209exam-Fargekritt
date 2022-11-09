@@ -47,7 +47,6 @@ public class MessageDaoTest {
         message.setUser(user);
         messageDao.save(message);
         flush();
-        message.setUser(userDao.retrieve(user.getId()));
         assertThat(messageDao.retrieve(message.getId()))
                 .usingRecursiveComparison()
                 .isEqualTo(message)

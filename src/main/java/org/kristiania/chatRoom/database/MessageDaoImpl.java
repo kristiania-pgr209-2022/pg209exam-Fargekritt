@@ -23,7 +23,9 @@ public class  MessageDaoImpl implements MessageDao {
 
     @Override
     public List<Message> findByUser(long userId) {
-        return new ArrayList<>(entityManager.find(User.class, userId).getMessages());
+        return entityManager.createQuery("SELECT m from Message m where m.user.id = :userid")
+                .setParameter("userid", userId)
+                .getResultList();
     }
 
     @Override
