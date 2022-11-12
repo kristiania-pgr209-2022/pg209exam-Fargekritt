@@ -43,6 +43,13 @@ public class MessageEndPoint {
         return messageDao.findByUser(id);
     }
 
+    @Path("thread/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Message> getMessagesByThreadId(@PathParam("id") long id){
+        return messageDao.findByThreadId(id);
+    }
+
     @Path("user/{id}/thread/{threadId}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

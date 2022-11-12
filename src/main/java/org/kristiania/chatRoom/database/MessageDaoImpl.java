@@ -37,4 +37,11 @@ public class  MessageDaoImpl implements MessageDao {
     public List<Message> listAll() {
         return entityManager.createQuery(entityManager.getCriteriaBuilder().createQuery(Message.class)).getResultList();
     }
+
+    @Override
+    public List<Message> findByThreadId(long id) {
+        return entityManager.createQuery("SELECT m from Message m where m.thread.id = :threadid")
+                .setParameter("threadid", id)
+                .getResultList();
+    }
 }

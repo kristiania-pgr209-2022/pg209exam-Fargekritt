@@ -12,4 +12,6 @@ public interface MessageDao {
     void save(Message message);
 
     List<Message> listAll();
+
+    List<Message> findByThreadId(long id);
 }
