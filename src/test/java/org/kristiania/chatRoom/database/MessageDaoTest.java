@@ -16,6 +16,8 @@ public class MessageDaoTest {
 
     private final MessageDao messageDao;
     private final UserDao userDao;
+
+    private final MessageThreadDao messageThreadDao;
     private final EntityManager entityManager;
 
 
@@ -23,8 +25,10 @@ public class MessageDaoTest {
         JdbcDataSource datasource = InMemoryDataSource.createTestDataSource();
 
         new Resource("jdbc/dataSource", datasource);
+
         this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
 
+        messageThreadDao = new MessageThreadDao(entityManager);
         messageDao = new MessageDaoImpl(entityManager);
         userDao = new UserDaoImpl(entityManager);
     }
@@ -41,10 +45,14 @@ public class MessageDaoTest {
 
     @Test
     void shouldRetrieveSavedMessage() {
-        var user = SampleData.createSampleUser();
+        var user = SampleData.createSampleUser(1);
         userDao.save(user);
-        var message = SampleData.createSampleMessage();
+        var messageThread = SampleData.createSampleThread();
+        messageThread.setCreator(user);
+        messageThreadDao.save(messageThread);
+        var message = SampleData.createSampleMessage(1);
         message.setUser(user);
+        message.setThread(messageThread);
         messageDao.save(message);
         flush();
         assertThat(messageDao.retrieve(message.getId()))

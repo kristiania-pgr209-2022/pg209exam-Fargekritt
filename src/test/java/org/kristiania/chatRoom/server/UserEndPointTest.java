@@ -1,55 +1,29 @@
 package org.kristiania.chatRoom.server;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.User;
-import org.kristiania.chatRoom.database.InMemoryDataSource;
 import org.kristiania.chatRoom.database.SampleData;
-
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserEndPointTest {
-    private ChatRoomServer server;
-
-    @BeforeEach
-    void setUp() throws Exception {
-        var dataSource = InMemoryDataSource.createTestDataSource();
-        server = new ChatRoomServer(0, dataSource);
-        server.start();
-    }
-
-    @AfterEach
-    void tearDown() throws SQLException {
-        InMemoryDataSource.clearTestDataSource();
-    }
+public class UserEndPointTest extends AbstractServerTest {
 
 
     @Test
     void shouldGetUserById() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        User user = SampleData.createSampleUser();
-        user.setUsername("Fargekritt");
-        String Userjson = mapper.writeValueAsString(user);
-
-        var postConnection = openConnection("/api/users");
-        postConnection.setRequestMethod("POST");
-        postConnection.setRequestProperty("Content-Type", "application/json");
-        postConnection.setDoOutput(true);
-        postConnection.getOutputStream().write(Userjson.getBytes(StandardCharsets.UTF_8));
-
-        assertThat(postConnection.getResponseCode())
-                .as(postConnection.getResponseMessage() + " for " + postConnection.getURL())
-                .isEqualTo(204);
 
 
+        // Create sample user, map it to JSON format and send post-url and json to doPostRequest.
+        var firstSampleUser = SampleData.createSampleUser(1);
+        String firstSampleUserJson = mapper.writeValueAsString(firstSampleUser);
+        doPostRequest("api/users",firstSampleUserJson);
+
+        var secondSampleUser = SampleData.createSampleUser(2);
+        String secondSampleUserJson = mapper.writeValueAsString(secondSampleUser);
+        doPostRequest("api/users",secondSampleUserJson);
+
+        // Set up connection for GET request and check first sampleUser.
         var connection = openConnection("/api/users/1");
         assertThat(connection.getResponseCode())
                 .as(connection.getResponseMessage() + " for " + connection.getURL())
@@ -59,42 +33,63 @@ public class UserEndPointTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains(""" 
-                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Fargekritt""");
+                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""");
+
+        // Set up connection for GET request and check second sampleUser.
+        connection = openConnection("/api/users/2");
+        assertThat(connection.getResponseCode())
+                .as(connection.getResponseMessage() + " for " + connection.getURL())
+                .isEqualTo(200);
 
 
+        assertThat(connection.getInputStream())
+                .asString(StandardCharsets.UTF_8)
+                .contains(""" 
+                        dateOfBirth":"2011-12-20","firstName":"exampleFirstName","gender":"male","id":2,"lastName":"exampleLastName","username":"exampleUser""");
     }
 
 
     @Test
     void shouldAddAndListUser() throws IOException {
 
-        ObjectMapper mapper = new ObjectMapper();
-        User user = SampleData.createSampleUser();
-        String Userjson = mapper.writeValueAsString(user);
+        User user = SampleData.createSampleUser(1);
+        String userJson = mapper.writeValueAsString(user);
 
 
-        var postConnection = openConnection("/api/users");
-        postConnection.setRequestMethod("POST");
-        postConnection.setRequestProperty("Content-Type", "application/json");
-        postConnection.setDoOutput(true);
-        postConnection.getOutputStream().write(Userjson.getBytes(StandardCharsets.UTF_8));
-
-
-//        // Old way to send json.
-//       postConnection.getOutputStream().write(
-//                Json.createObjectBuilder()
-//                        .add("username", "TestUser")
-//                        .add("firstName", "Firsty")
-//                        .add("lastName", "Lasty")
-//                        .add("gender", "male")
-//                        .add("dateOfBirth","2012-01-20")
-//                        .build().toString().getBytes(StandardCharsets.UTF_8));
-//
-
+        var postConnection = getPostConnection("api/users");
+        postConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
 
         assertThat(postConnection.getResponseCode())
                 .as(postConnection.getResponseMessage() + " for " + postConnection.getURL())
                 .isEqualTo(204);
+
+
+        var connection = openConnection("/api/users/");
+        assertThat(connection.getResponseCode())
+                .as(connection.getResponseMessage() + " for " + connection.getURL())
+                .isEqualTo(200);
+
+        assertThat(connection.getInputStream())
+                .asString(StandardCharsets.UTF_8)
+                .contains("""
+                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""");
+    }
+
+    @Test
+    void shouldListAllUsers() throws IOException {
+        // Create sample user, map it to JSON format and send post-url and json to doPostRequest
+        var firstSampleUser = SampleData.createSampleUser(1);
+        String firstSampleUserJson = mapper.writeValueAsString(firstSampleUser);
+        doPostRequest("api/users",firstSampleUserJson);
+
+        var secondSampleUser = SampleData.createSampleUser(2);
+        String secondSampleUserJson = mapper.writeValueAsString(secondSampleUser);
+        doPostRequest("api/users",secondSampleUserJson);
+
+        var thirdSampleUser = SampleData.createSampleUser(3);
+        String thirdSampleUserJson = mapper.writeValueAsString(thirdSampleUser);
+        doPostRequest("api/users",thirdSampleUserJson);
+
 
         var connection = openConnection("/api/users/");
         assertThat(connection.getResponseCode())
@@ -105,12 +100,10 @@ public class UserEndPointTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains("""
-                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""");
+                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""")
+                .contains("""
+                        dateOfBirth":"2011-12-20","firstName":"exampleFirstName","gender":"male","id":2,"lastName":"exampleLastName","username":"exampleUser""")
+                .contains("""
+                        dateOfBirth":"2010-10-20","firstName":"exampleFirstName2","gender":"male","id":3,"lastName":"exampleLastName2","username":"exampleUser2""");
     }
-
-
-    private HttpURLConnection openConnection(String spec) throws IOException {
-        return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
-    }
-
 }
