@@ -33,9 +33,8 @@ public class User {
     private String firstName;
     private String username;
 
-    @ManyToMany(mappedBy = "members")
-    @JsonIgnoreProperties("users")
-    private Set<MessageThread> threads;
+//    @OneToMany(mappedBy = "messageThread")
+//    private Set<ThreadMember> members;
     public long getId() {
         return id;
     }
@@ -84,11 +83,12 @@ public class User {
         return username;
     }
 
-    public Set<MessageThread> getThreads() {
-        return threads;
-    }
+//    public Set<ThreadMember> getMembers() {
+//        return members;
+//    }
+//
+//    public void setMembers(Set<ThreadMember> members) {
+//        this.members = members;
+//    }
 
-    public void setThreads(Set<MessageThread> threads) {
-        this.threads = threads;
-    }
 }
