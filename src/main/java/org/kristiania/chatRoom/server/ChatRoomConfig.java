@@ -31,6 +31,7 @@ public class ChatRoomConfig extends ResourceConfig {
                 bind(UserDaoImpl.class).to(UserDao.class);
                 bind(MessageDaoImpl.class).to(MessageDao.class);
                 bind(MessageThreadDao.class).to(MessageThreadDao.class);
+                bind(ThreadMemberDao.class).to(ThreadMemberDao.class);
                 bindFactory(requestEntityManager::get)
                         .to(EntityManager.class)
                         .in(RequestScoped.class);
