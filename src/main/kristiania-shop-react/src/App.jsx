@@ -2,11 +2,13 @@ import {useEffect, useState} from 'react'
 import './App.css'
 import {HashRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
 
-function ListUser({userId}) {
+
+//=============================================LIST=============================================================
+function ListUser({setSelectedUser}) {
+
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState([]);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -18,13 +20,12 @@ function ListUser({userId}) {
             .catch(console.error)
     }, []);
 
-
     if (loading) {
         return <div>Loading...</div>
     }
 
-    function handleClick(i) {
-        userId(i);
+    function handleClick(user) {
+        setSelectedUser(user);
         navigate("/threads")
     }
 
@@ -32,15 +33,15 @@ function ListUser({userId}) {
         <h1>Log in with a user</h1>
         <Link to={"/"}>Back to home</Link>
         <div>
-            {user.map((i) => (
-                <button value={i} onClick={() => handleClick(i)} style={{border: '1px solid black'}}>
+            {user.map((u) => (
+                <button onClick={() => handleClick(u)} style={{border: '1px solid black'}}>
                     <dl>
                         <dt>UserName:</dt>
-                        <dd>- {i.username}</dd>
+                        <dd>- {u.username}</dd>
                         <dt>FirstName:</dt>
-                        <dd>- {i.firstName}</dd>
+                        <dd>- {u.firstName}</dd>
                         <dt>LastName:</dt>
-                        <dd>- {i.lastName}</dd>
+                        <dd>- {u.lastName}</dd>
                     </dl>
                 </button>
             ))}
@@ -48,6 +49,101 @@ function ListUser({userId}) {
     </div>
 }
 
+
+function ListThreads({user, setSelectedThread}) {
+
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+    const [thread, setThread] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetch("/api/users/" + user.id + "/threads");
+            setThread(await data.json());
+            setLoading(false);
+        }
+        fetchData()
+            .catch(console.error)
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    function handleClick(thread) {
+        setSelectedThread(thread);
+        navigate("/messages")
+    }
+
+    return <div>
+        <h1>Threads your a member of</h1>
+        <Link to={"/"}>Back to home</Link>
+        <div>
+            {thread.map((t) => (
+                <button value={t} onClick={() => handleClick(t)} style={{border: '1px solid black'}}>
+                    <dl>
+                        <dt>ThreadID:</dt>
+                        <dd>- {t.id}</dd>
+                        <dt>Creator:</dt>
+                        <dd>- {t.creator.username}</dd>
+                        <dt>Subject:</dt>
+                        <dd>- {'Subject'}</dd>
+                    </dl>
+                </button>
+            ))}
+        </div>
+        <Link to={"threads/add"}></Link>
+    </div>
+}
+
+
+function ListMessages({thread}) {
+
+    const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetch("/api/messages/thread/" + thread.id);
+            setMessage(await data.json());
+            setLoading(false);
+        }
+        fetchData()
+            .catch(console.error)
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    return <div>
+        <Link to={"/"}>Back to home</Link>
+        <div style={{border:'2px solid black'}}>
+            <h2>ThreadMembers:</h2>
+            {message.map((i)=>(
+                <p>{i.user.username}</p>
+            ))}
+        </div>
+        <div>
+            {message.map((i) => (
+                <div style={{border:'1px solid black'}}>
+                <dl>
+                    <dt>User:</dt>
+                    <dd>- {i.user.username}</dd>
+                    <dt>Message:</dt>
+                    <dd>{i.body}</dd>
+                    <dt>Date sent:</dt>
+                    <dd>{i.sentDate}</dd>
+                </dl>
+                </div>
+            ))}
+        </div>
+    </div>
+}
+
+//=============================================LIST END=============================================================
+
+//=============================================ADD=============================================================
 
 function AddUser() {
     const navigate = useNavigate()
@@ -84,93 +180,6 @@ function AddUser() {
             </form>
         </div>
     )
-}
-
-
-function FrontPage() {
-
-    return <div>
-        <h1>CHAT ROOM OF DOOM!</h1>
-        <ul>
-            <li><Link to={"/users"}>List users</Link></li>
-            <li><Link to={"/users/add"}>Add a new user</Link></li>
-        </ul>
-    </div>;
-}
-
-function ListMessages() {
-    const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState([]);
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await fetch("/api/messages/thread/1");
-            setMessage(await data.json());
-            setLoading(false);
-        }
-        fetchData()
-            .catch(console.error)
-    }, []);
-
-    if (loading) {
-        return <div>Loading...</div>
-    }
-
-    return <div>
-        <Link to={"/"}>Back to home</Link>
-        <div>
-            {message.map((i) => (
-                <ul>
-                    <li>{i.user.username}</li>
-                    <li>{i.body}</li>
-                    <li>{i.sentDate}</li>
-                </ul>
-            ))}
-        </div>
-    </div>
-
-}
-
-function ListThreads({user}) {
-   console.log(user)
-    const [loading, setLoading] = useState(true);
-    const [thread, setThread] = useState([]);
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = await fetch("/api/users/" + user.id + "/threads");
-            setThread(await data.json());
-            setLoading(false);
-        }
-        fetchData()
-            .catch(console.error)
-    }, []);
-
-    if (loading) {
-        return <div>Loading...</div>
-    }
-
-    return <div>
-        <h1>Threads your a member of</h1>
-        <Link to={"/"}>Back to home</Link>
-        <div>
-            {thread.map((i) => (
-                <button style={{border: '1px solid black'}}>
-                    <dl>
-                        <dt>ThreadID:</dt>
-                        <dd>- {i.id}</dd>
-                        <dt>Creator:</dt>
-                        <dd>- {i.creator.username}</dd>
-                        <dt>Subject:</dt>
-                        <dd>- {'Subject'}</dd>
-                    </dl>
-                </button>
-            ))}
-        </div>
-    </div>
-
 }
 
 function AddThread() {
@@ -214,17 +223,32 @@ function AddMessage() {
     return null;
 }
 
+//=============================================ADD END=============================================================
+
+function FrontPage() {
+
+    return <div>
+        <h1>CHAT ROOM OF DOOM!</h1>
+        <ul>
+            <li><Link to={"/users"}>List users</Link></li>
+            <li><Link to={"/users/add"}>Add a new user</Link></li>
+        </ul>
+    </div>;
+}
+
+
 function App() {
     const [user, setUser] = useState();
+    const [thread, setThread] = useState();
 
     return <HashRouter>
         <Routes>
             <Route path={"/"} element={<FrontPage/>}></Route>
-            <Route path={"/users"} element={<ListUser userId={setUser}/>}></Route>
+            <Route path={"/users"} element={<ListUser setSelectedUser={setUser}/>}></Route>
             <Route path={"/users/add"} element={<AddUser/>}></Route>
-            <Route path={"/threads"} element={<ListThreads user={user}/>}></Route>
+            <Route path={"/threads"} element={<ListThreads user={user} setSelectedThread={setThread}/>}></Route>
             <Route path={"/threads/add"} element={<AddThread/>}></Route>
-            <Route path={"/messages"} element={<ListMessages/>}></Route>
+            <Route path={"/messages"} element={<ListMessages thread={thread}/>}></Route>
             <Route path={"/messages/add"} element={<AddMessage/>}></Route>
 
         </Routes>
