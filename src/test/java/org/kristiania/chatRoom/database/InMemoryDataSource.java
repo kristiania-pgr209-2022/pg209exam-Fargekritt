@@ -19,12 +19,14 @@ public class InMemoryDataSource {
     }
 
     public static void clearTestDataSource() throws SQLException {
+        datasource.getConnection().createStatement().execute("DELETE FROM thread_members");
         datasource.getConnection().createStatement().execute("DELETE FROM messages");
         datasource.getConnection().createStatement().execute("DELETE FROM threads");
         datasource.getConnection().createStatement().execute("DELETE FROM users");
         datasource.getConnection().createStatement().execute("ALTER TABLE messages ALTER COLUMN id RESTART WITH 1");
         datasource.getConnection().createStatement().execute("ALTER TABLE threads ALTER COLUMN id RESTART WITH 1");
         datasource.getConnection().createStatement().execute("ALTER TABLE users ALTER COLUMN id RESTART WITH 1");
+
 //        datasource.getConnection().createStatement().execute("DELETE FROM *");
 //        datasource.getConnection().createStatement().execute("ALTER TABLE * ALTER COLUMN id RESTART WITH 1");
     }
