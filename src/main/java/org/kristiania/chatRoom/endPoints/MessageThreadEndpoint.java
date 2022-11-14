@@ -11,8 +11,6 @@ import org.kristiania.chatRoom.database.UserDao;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Path("/thread")
 public class MessageThreadEndpoint {
@@ -29,27 +27,22 @@ public class MessageThreadEndpoint {
     @Inject
     UserDao userDao;
 
-
-    @Path("{id}/receiver/{receiverId}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public void addThread(@PathParam("id") long id, @PathParam("receiverId") long receiverId, newMessageThread newThread){
-        var user = userDao.retrieve(id);
-
+    public void addThread(MessageThreadDto messageThreadDto){
+        var user = messageThreadDto.getCreator();
 
         var thread = new MessageThread();
         thread.setCreator(user);
-        thread.setTitle(newThread.getTitle());
+        thread.setTitle(messageThreadDto.getTitle());
         messageThreadDao.save(thread);
 
         var message = new Message();
         message.setThread(thread);
         message.setUser(user);
-        message.setBody(newThread.getMessage());
+        message.setBody(messageThreadDto.getMessage());
         message.setSentDate(LocalDate.now());
         messageDao.save(message);
-
 
         var sender = new ThreadMember();
         sender.setMessageThread(thread);
@@ -58,22 +51,17 @@ public class MessageThreadEndpoint {
 
         var receiver = new ThreadMember();
         receiver.setMessageThread(thread);
-        receiver.setUser(userDao.retrieve(receiverId));
+        receiver.setUser(userDao.retrieve(messageThreadDto.getReceiverId()));
         threadMemberDao.save(receiver);
-
-
-
     }
-
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MessageThread> listThreadsById(){
+    public List<MessageThread> listAllThreads(){
         return messageThreadDao.listAll();
     }
 
-
-    @Path("{id}")
+    @Path("{id}/members")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> listThreadMembers(@PathParam("id") long id){
