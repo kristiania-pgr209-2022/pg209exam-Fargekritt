@@ -5,6 +5,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.kristiania.chatRoom.*;
 import org.kristiania.chatRoom.MessageThread;
+import org.kristiania.chatRoom.dto.MemberDto;
+import org.kristiania.chatRoom.dto.MessageDto;
 import org.kristiania.chatRoom.dto.MessageThreadDto;
 import org.kristiania.chatRoom.database.MessageDao;
 import org.kristiania.chatRoom.database.MessageThreadDao;
@@ -31,7 +33,7 @@ public class MessageThreadEndpoint {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addThread(MessageThreadDto messageThreadDto){
+    public void addThread(MessageThreadDto messageThreadDto) {
         var user = messageThreadDto.getCreator();
 
         var thread = new MessageThread();
@@ -57,9 +59,20 @@ public class MessageThreadEndpoint {
         threadMemberDao.save(receiver);
     }
 
+    @Path("/member")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addMember(MemberDto memberDto) {
+
+        var member = new ThreadMember();
+        member.setMessageThread(memberDto.getThread());
+        member.setUser(memberDto.getUser());
+        threadMemberDao.save(member);
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<MessageThread> listAllThreads(){
+    public List<MessageThread> listAllThreads() {
         return messageThreadDao.listAll();
     }
 
@@ -73,7 +86,7 @@ public class MessageThreadEndpoint {
     @Path("{id}/members")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> listThreadMembers(@PathParam("id") long id){
+    public List<User> listThreadMembers(@PathParam("id") long id) {
         return threadMemberDao.findByThread(id);
     }
 

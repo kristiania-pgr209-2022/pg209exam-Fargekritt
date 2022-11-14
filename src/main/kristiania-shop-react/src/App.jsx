@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import './App.css'
 import {HashRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
+import Select from "react-select";
 
 
 //=============================================LIST=============================================================
@@ -149,6 +150,7 @@ function ListMessages({thread}) {
             ))}
         </div>
         <Link to={"/messages/add"}>Add message</Link>
+        <Link to={"/threads/members/add"}>Add a member to the chat</Link>
     </div>
 }
 
@@ -241,7 +243,7 @@ function AddMessage({user, thread}) {
         const request = {
             method: "post",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({body,user,thread})
+            body: JSON.stringify({body, user, thread})
         }
         await fetch("/api/messages", request)
 
@@ -259,6 +261,88 @@ function AddMessage({user, thread}) {
             </form>
         </div>)
 }
+
+function AddMember({thread}) {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetch("/api/users");
+            setUsers(await data.json());
+            setLoading(false);
+        }
+        fetchData()
+            .catch(console.error)
+    }, []);
+    if (loading) {
+        return <div>Loading...</div>
+
+    }
+
+    async function handleSubmit(e) {
+
+        console.log(user)
+        e.preventDefault()
+
+
+        const request = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({user, thread})
+        }
+        await fetch("/api/thread/member", request);
+
+        navigate("/messages")
+    }
+
+    const handleSelectChange = (event) => {
+        console.log(event.target.value)
+        setUser(event)
+    }
+console.log(thread)
+    console.log(user)
+
+  /*  return (<Select name="users"
+                    options={users}
+                    value={user}
+                    onChange={setUser}
+                    getOptionLabel={(option)=>option.username}
+                    getOptionValue={(option)=>option.id}
+    />)*/
+    return (
+        <div className="App">
+            <h1>Add member to thread</h1>
+            <Link to={"/"}>Back to home</Link>
+            <form onSubmit={handleSubmit}>
+                <label>Choose a member:</label>
+
+                <Select name="users"
+                        options={users}
+                        value={user}
+                        onChange={setUser}
+                        getOptionLabel={(option)=>option.username}
+                        getOptionValue={(option)=>option.id}
+                />
+             {/*   <select value={user} onChange={handleSelectChange}>
+
+                    <option>Choose a user</option>
+                    {users.map((user, index) => {
+                        return <option key={index}>{user.username}</option>
+                    })}
+
+                    {users.map((u) => (
+                           <option key={u} value={u}>{u.username}</option>
+                       ))}
+                </select>*/}
+                <button>Add Member</button>
+            </form>
+        </div>
+    )
+}
+
 
 //=============================================ADD END=============================================================
 
@@ -287,6 +371,7 @@ function App() {
             <Route path={"/threads/add"} element={<AddThread creator={user}/>}></Route>
             <Route path={"/messages"} element={<ListMessages thread={thread}/>}></Route>
             <Route path={"/messages/add"} element={<AddMessage user={user} thread={thread}/>}></Route>
+            <Route path={"threads/members/add"} element={<AddMember thread={thread}/>}></Route>
 
         </Routes>
     </HashRouter>
