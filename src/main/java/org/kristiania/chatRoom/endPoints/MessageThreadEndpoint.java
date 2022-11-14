@@ -9,6 +9,7 @@ import org.kristiania.chatRoom.database.MessageThreadDao;
 import org.kristiania.chatRoom.database.ThreadMemberDao;
 import org.kristiania.chatRoom.database.UserDao;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,11 +42,12 @@ public class MessageThreadEndpoint {
         thread.setCreator(user);
         thread.setTitle(newThread.getTitle());
         messageThreadDao.save(thread);
-        
+
         var message = new Message();
         message.setThread(thread);
         message.setUser(user);
         message.setBody(newThread.getMessage());
+        message.setSentDate(LocalDate.now());
         messageDao.save(message);
 
 
