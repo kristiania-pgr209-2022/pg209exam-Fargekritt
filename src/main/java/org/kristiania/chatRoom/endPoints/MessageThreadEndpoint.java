@@ -4,7 +4,9 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.kristiania.chatRoom.MessageThread;
+import org.kristiania.chatRoom.ThreadMember;
 import org.kristiania.chatRoom.database.MessageThreadDao;
+import org.kristiania.chatRoom.database.ThreadMemberDao;
 import org.kristiania.chatRoom.database.UserDao;
 
 import java.util.List;
@@ -18,6 +20,9 @@ public class MessageThreadEndpoint {
     MessageThreadDao messageThreadDao;
 
     @Inject
+    ThreadMemberDao threadMemberDao;
+
+    @Inject
     UserDao userDao;
 
 
@@ -25,22 +30,18 @@ public class MessageThreadEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public MessageThread addThread(@PathParam("id") long id, MessageThread thread){
+    public void addThread(@PathParam("id") long id, MessageThread thread){
         var user = userDao.retrieve(id);
         thread.setCreator(user);
         messageThreadDao.save(thread);
 
-        // set a timeout to check if id gets right.
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println(thread.getId());
-            }
-        }, 300L);
+        var threadMember = new ThreadMember();
+        threadMember.setMessageThread(thread);
+        threadMember.setUser(thread.getCreator());
+
+        threadMemberDao.save(threadMember);
 
 
-        System.out.println(thread.getId());
-        return thread;
     }
 
 
