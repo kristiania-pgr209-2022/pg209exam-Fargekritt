@@ -63,6 +63,13 @@ public class MessageThreadEndpoint {
         return messageThreadDao.listAll();
     }
 
+    @Path("{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public MessageThread getThreadById(@PathParam("id") long id){
+        return messageThreadDao.retrieve(id);
+    }
+
     @Path("{id}/members")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
