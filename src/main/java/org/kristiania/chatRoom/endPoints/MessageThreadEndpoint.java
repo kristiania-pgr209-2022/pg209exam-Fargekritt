@@ -26,20 +26,25 @@ public class MessageThreadEndpoint {
     UserDao userDao;
 
 
-    @Path("{id}")
+    @Path("{id}/receiver/{receiverId}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void addThread(@PathParam("id") long id, MessageThread thread){
+    public void addThread(@PathParam("id") long id, @PathParam("receiverId") long receiverId, MessageThread thread){
         var user = userDao.retrieve(id);
         thread.setCreator(user);
         messageThreadDao.save(thread);
 
-        var threadMember = new ThreadMember();
-        threadMember.setMessageThread(thread);
-        threadMember.setUser(thread.getCreator());
+        var sender = new ThreadMember();
+        sender.setMessageThread(thread);
+        sender.setUser(thread.getCreator());
+        threadMemberDao.save(sender);
 
-        threadMemberDao.save(threadMember);
+        var receiver = new ThreadMember();
+        receiver.setMessageThread(thread);
+        receiver.setUser(userDao.retrieve(receiverId));
+        threadMemberDao.save(receiver);
+
 
 
     }
