@@ -1,7 +1,7 @@
 package org.kristiania.chatRoom.database;
 
 import org.kristiania.chatRoom.Message;
-import org.kristiania.chatRoom.Dto.MessageThread;
+import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.User;
 
 import java.time.LocalDate;

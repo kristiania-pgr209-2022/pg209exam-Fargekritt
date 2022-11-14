@@ -3,7 +3,7 @@
         <non-jta-data-source>jdbc/dataSource</non-jta-data-source>
         <class>org.kristiania.chatRoom.User</class>
         <class>org.kristiania.chatRoom.Message</class>
-        <class>org.kristiania.chatRoom.Dto.MessageThread</class>
+        <class>org.kristiania.chatRoom.MessageThread</class>
         <class>org.kristiania.chatRoom.ThreadMember</class>
     </persistence-unit>
 </persistence>

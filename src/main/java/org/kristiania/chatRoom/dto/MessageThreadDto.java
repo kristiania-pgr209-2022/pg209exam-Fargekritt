@@ -1,4 +1,4 @@
-package org.kristiania.chatRoom.Dto;
+package org.kristiania.chatRoom.dto;
 
 import org.kristiania.chatRoom.User;
 

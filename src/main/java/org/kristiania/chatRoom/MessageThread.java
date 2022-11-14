@@ -1,9 +1,6 @@
-package org.kristiania.chatRoom.Dto;
+package org.kristiania.chatRoom;
 
 import jakarta.persistence.*;
-import org.kristiania.chatRoom.User;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "threads")

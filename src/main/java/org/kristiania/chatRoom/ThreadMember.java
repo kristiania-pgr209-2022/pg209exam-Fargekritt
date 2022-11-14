@@ -1,7 +1,6 @@
 package org.kristiania.chatRoom;
 
 import jakarta.persistence.*;
-import org.kristiania.chatRoom.Dto.MessageThread;
 
 @Entity
 @Table(name = "thread_members")

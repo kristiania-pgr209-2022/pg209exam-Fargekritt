@@ -148,6 +148,7 @@ function ListMessages({thread}) {
                 </div>
             ))}
         </div>
+        <Link to={"/messages/add"}>Add message</Link>
     </div>
 }
 
@@ -216,7 +217,7 @@ function AddThread({creator}) {
 
     return (
         <div className="App">
-            <h1>Create message</h1>
+            <h1>Start Chat</h1>
             <Link to={"/"}>Back to home</Link>
             <form onSubmit={handleSubmit}>
                 <div><label>Title: <input type="text" onChange={e => setTitle(e.target.value)}/></label></div>
@@ -229,8 +230,34 @@ function AddThread({creator}) {
     )
 }
 
-function AddMessage() {
-    return null;
+function AddMessage({user, thread}) {
+    const navigate = useNavigate()
+    const [body, setBody] = useState();
+
+    async function handleSubmit(e) {
+
+        e.preventDefault();
+
+        const request = {
+            method: "post",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({body,user,thread})
+        }
+        await fetch("/api/messages", request)
+
+        navigate("/messages")
+    }
+
+    return (
+        <div className="App">
+            <h1>Create message</h1>
+            <Link to={"/"}>Back to home</Link>
+            <form onSubmit={handleSubmit}>
+                <div><label>Message: <textarea onChange={e => setBody(e.target.value)}></textarea></label>
+                </div>
+                <button>Submit</button>
+            </form>
+        </div>)
 }
 
 //=============================================ADD END=============================================================
@@ -259,7 +286,7 @@ function App() {
             <Route path={"/threads"} element={<ListThreads user={user} setSelectedThread={setThread}/>}></Route>
             <Route path={"/threads/add"} element={<AddThread creator={user}/>}></Route>
             <Route path={"/messages"} element={<ListMessages thread={thread}/>}></Route>
-            <Route path={"/messages/add"} element={<AddMessage/>}></Route>
+            <Route path={"/messages/add"} element={<AddMessage user={user} thread={thread}/>}></Route>
 
         </Routes>
     </HashRouter>
