@@ -40,7 +40,7 @@ public class UserEndPoint {
         userDao.save(user);
     }
 
-    @Path(" {id}/threads")
+    @Path("{id}/threads")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<MessageThread> listAllThreads(@PathParam("id") long id){

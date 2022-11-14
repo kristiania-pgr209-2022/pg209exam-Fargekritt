@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.kristiania.chatRoom.Message;
+import org.kristiania.chatRoom.MessageDto;
 import org.kristiania.chatRoom.database.MessageDao;
 import org.kristiania.chatRoom.database.MessageThreadDao;
 import org.kristiania.chatRoom.database.UserDao;
@@ -16,11 +17,6 @@ public class MessageEndPoint {
     @Inject
     MessageDao messageDao;
 
-    @Inject
-    UserDao userDao;
-
-    @Inject
-    MessageThreadDao threadDao;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -50,14 +46,13 @@ public class MessageEndPoint {
         return messageDao.findByThreadId(id);
     }
 
-    @Path("user/{id}/thread/{threadId}")
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addMessage(@PathParam("id") long id,@PathParam("threadId") long threadId, Message message){
-        var user = userDao.retrieve(id);
-        var thread = threadDao.retrieve(threadId);
-        message.setUser(user);
-        message.setThread(thread);
+    public void addMessage(MessageDto messageDto){
+        var message = new Message();
+        message.setUser(messageDto.getUser());
+        message.setThread(messageDto.getThread());
         messageDao.save(message);
     }
 }
