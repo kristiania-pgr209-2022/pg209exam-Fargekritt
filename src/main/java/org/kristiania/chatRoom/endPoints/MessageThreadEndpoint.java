@@ -27,6 +27,7 @@ public class MessageThreadEndpoint {
     @Inject
     UserDao userDao;
 
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addThread(MessageThreadDto messageThreadDto){
