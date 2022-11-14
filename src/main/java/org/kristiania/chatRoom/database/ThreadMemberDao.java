@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import org.kristiania.chatRoom.Message;
 import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.ThreadMember;
+import org.kristiania.chatRoom.User;
 
 import java.util.List;
 
@@ -33,4 +34,9 @@ public class ThreadMemberDao {
         entityManager.persist(messageThread);
     }
 
+    public List<User> findByThread(long id) {
+        return entityManager.createQuery("SELECT tm.messageThread from ThreadMember tm where tm.messageThread.id = :threadid")
+                .setParameter("threadid", id)
+                .getResultList();
+    }
 }

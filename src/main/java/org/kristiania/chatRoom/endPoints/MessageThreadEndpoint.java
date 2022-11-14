@@ -5,6 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.ThreadMember;
+import org.kristiania.chatRoom.User;
 import org.kristiania.chatRoom.database.MessageThreadDao;
 import org.kristiania.chatRoom.database.ThreadMemberDao;
 import org.kristiania.chatRoom.database.UserDao;
@@ -57,6 +58,12 @@ public class MessageThreadEndpoint {
     }
 
 
+    @Path("{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<User> listThreadMembers(@PathParam("id") long id){
+        return threadMemberDao.findByThread(id);
+    }
 
 }
 
