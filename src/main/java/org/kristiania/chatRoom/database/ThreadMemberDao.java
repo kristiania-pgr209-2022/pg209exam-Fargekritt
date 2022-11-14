@@ -35,7 +35,7 @@ public class ThreadMemberDao {
     }
 
     public List<User> findByThread(long id) {
-        return entityManager.createQuery("SELECT tm.messageThread from ThreadMember tm where tm.messageThread.id = :threadid")
+        return entityManager.createQuery("SELECT tm.user from ThreadMember tm where tm.messageThread.id = :threadid")
                 .setParameter("threadid", id)
                 .getResultList();
     }
