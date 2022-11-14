@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import javax.naming.NamingException;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MessageDaoTest {
@@ -39,8 +42,9 @@ public class MessageDaoTest {
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() throws SQLException {
         entityManager.getTransaction().rollback();
+        InMemoryDataSource.clearTestDataSource();
     }
 
     @Test
@@ -53,6 +57,7 @@ public class MessageDaoTest {
         var message = SampleData.createSampleMessage(1);
         message.setUser(user);
         message.setThread(messageThread);
+        message.setSentDate(LocalDate.now());
         messageDao.save(message);
         flush();
         assertThat(messageDao.retrieve(message.getId()))
