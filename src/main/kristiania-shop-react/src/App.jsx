@@ -92,7 +92,7 @@ function ListThreads({user, setSelectedThread}) {
                 </button>
             ))}
         </div>
-        <Link to={"threads/add"}></Link>
+        <Link to={"/threads/add"}>Start a chat</Link>
     </div>
 }
 
@@ -100,41 +100,51 @@ function ListThreads({user, setSelectedThread}) {
 function ListMessages({thread}) {
 
     const [loading, setLoading] = useState(true);
+    const [loading2, setLoading2] = useState(true);
     const [message, setMessage] = useState([]);
+    const [members, setMembers] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchMessage = async () => {
             const data = await fetch("/api/messages/thread/" + thread.id);
             setMessage(await data.json());
             setLoading(false);
         }
-        fetchData()
+        const fetchThreadMembers = async () => {
+            const data = await fetch("/api/thread/" + thread.id + "/members");
+            setMembers(await data.json())
+            setLoading2(false)
+        }
+        fetchThreadMembers()
+            .catch(console.error)
+        fetchMessage()
             .catch(console.error)
     }, []);
 
-    if (loading) {
+
+    if (loading || loading2) {
         return <div>Loading...</div>
     }
 
     return <div>
         <Link to={"/"}>Back to home</Link>
-        <div style={{border:'2px solid black'}}>
+        <div style={{border: '2px solid black'}}>
             <h2>ThreadMembers:</h2>
-            {message.map((i)=>(
-                <p>{i.user.username}</p>
+            {members.map((i) => (
+                <p>{i.username}</p>
             ))}
         </div>
         <div>
             {message.map((i) => (
-                <div style={{border:'1px solid black'}}>
-                <dl>
-                    <dt>User:</dt>
-                    <dd>- {i.user.username}</dd>
-                    <dt>Message:</dt>
-                    <dd>{i.body}</dd>
-                    <dt>Date sent:</dt>
-                    <dd>{i.sentDate}</dd>
-                </dl>
+                <div style={{border: '1px solid black'}}>
+                    <dl>
+                        <dt>User:</dt>
+                        <dd>- {i.user.username}</dd>
+                        <dt>Message:</dt>
+                        <dd>{i.body}</dd>
+                        <dt>Date sent:</dt>
+                        <dd>{i.sentDate}</dd>
+                    </dl>
                 </div>
             ))}
         </div>
@@ -182,36 +192,36 @@ function AddUser() {
     )
 }
 
-function AddThread() {
+function AddThread({creator}) {
     const navigate = useNavigate()
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [username, setUsername] = useState("");
-    const [gender, setGender] = useState("");
+    const [thread, setThread] = useState();
+    const [title, setTitle] = useState();
+    const [receiverId, setReceiverId] = useState();
+    const [message, setMessage] = useState();
+
 
     async function handleSubmit(e) {
 
         e.preventDefault();
-        await fetch("/api/users", {
-            method: "post",
-            body: JSON.stringify({firstName, lastName, gender, username}),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
 
-        navigate("/users")
+        const request = {
+            method: "post",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({creator, receiverId, title, message})
+        }
+        await fetch("/api/thread/", request)
+
+        navigate("/users/")
     }
 
     return (
         <div className="App">
-            <h1>Add item</h1>
+            <h1>Create message</h1>
             <Link to={"/"}>Back to home</Link>
             <form onSubmit={handleSubmit}>
-                <div><label>First Name: <input type="text" onChange={e => setFirstName(e.target.value)}/></label></div>
-                <div><label>Last Name: <input type="text" onChange={e => setLastName(e.target.value)}/></label></div>
-                <div><label>Username: <input type="text" onChange={e => setUsername(e.target.value)}/></label></div>
-                <div><label>Gender: <textarea onChange={e => setGender(e.target.value)}></textarea></label>
+                <div><label>Title: <input type="text" onChange={e => setTitle(e.target.value)}/></label></div>
+                <div><label>Receiver: <input type="text" onChange={e => setReceiverId(e.target.value)}/></label></div>
+                <div><label>Message: <textarea onChange={e => setMessage(e.target.value)}></textarea></label>
                 </div>
                 <button>Submit</button>
             </form>
@@ -247,7 +257,7 @@ function App() {
             <Route path={"/users"} element={<ListUser setSelectedUser={setUser}/>}></Route>
             <Route path={"/users/add"} element={<AddUser/>}></Route>
             <Route path={"/threads"} element={<ListThreads user={user} setSelectedThread={setThread}/>}></Route>
-            <Route path={"/threads/add"} element={<AddThread/>}></Route>
+            <Route path={"/threads/add"} element={<AddThread creator={user}/>}></Route>
             <Route path={"/messages"} element={<ListMessages thread={thread}/>}></Route>
             <Route path={"/messages/add"} element={<AddMessage/>}></Route>
 
