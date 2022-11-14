@@ -6,7 +6,7 @@ import org.eclipse.jetty.plus.jndi.Resource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kristiania.chatRoom.MessageThread;
+import org.kristiania.chatRoom.Dto.MessageThread;
 
 import javax.naming.NamingException;
 import java.sql.SQLException;

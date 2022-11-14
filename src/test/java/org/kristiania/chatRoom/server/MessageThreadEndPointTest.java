@@ -1,19 +1,12 @@
 package org.kristiania.chatRoom.server;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kristiania.chatRoom.MessageThread;
+import org.kristiania.chatRoom.Dto.MessageThread;
 import org.kristiania.chatRoom.User;
-import org.kristiania.chatRoom.database.InMemoryDataSource;
 import org.kristiania.chatRoom.database.SampleData;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

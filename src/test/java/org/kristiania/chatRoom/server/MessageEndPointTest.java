@@ -2,7 +2,7 @@ package org.kristiania.chatRoom.server;
 
 import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.Message;
-import org.kristiania.chatRoom.MessageThread;
+import org.kristiania.chatRoom.Dto.MessageThread;
 import org.kristiania.chatRoom.User;
 import org.kristiania.chatRoom.database.SampleData;
 import java.io.IOException;

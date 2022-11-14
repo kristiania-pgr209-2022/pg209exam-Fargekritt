@@ -1,6 +1,7 @@
-package org.kristiania.chatRoom;
+package org.kristiania.chatRoom.Dto;
 
 import jakarta.persistence.*;
+import org.kristiania.chatRoom.User;
 
 import java.util.Set;
 

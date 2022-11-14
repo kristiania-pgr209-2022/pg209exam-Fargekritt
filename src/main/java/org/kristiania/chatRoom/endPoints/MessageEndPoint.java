@@ -53,6 +53,7 @@ public class MessageEndPoint {
         var message = new Message();
         message.setUser(messageDto.getUser());
         message.setThread(messageDto.getThread());
+        message.setBody(messageDto.getBody());
         messageDao.save(message);
     }
 }

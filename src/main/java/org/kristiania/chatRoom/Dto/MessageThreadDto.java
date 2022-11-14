@@ -1,4 +1,6 @@
-package org.kristiania.chatRoom;
+package org.kristiania.chatRoom.Dto;
+
+import org.kristiania.chatRoom.User;
 
 public class MessageThreadDto {
 
