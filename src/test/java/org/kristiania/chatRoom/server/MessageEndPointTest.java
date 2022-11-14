@@ -24,25 +24,41 @@ public class MessageEndPointTest extends AbstractServerTest{
         String userJson = mapper.writeValueAsString(user);
         doPostRequest("api/users",userJson);
 
+        var user1Connection = openConnection("/api/users/1");
+        user = mapper.readValue(user1Connection.getInputStream(),User.class);
+
         //SECOND USER
         User secondUser = SampleData.createSampleUser(2);
         String secondUserJson = mapper.writeValueAsString(secondUser);
         doPostRequest("api/users",secondUserJson);
 
-        //THREAD
-        MessageThread thread = SampleData.createSampleThread();
-        String threadJson = mapper.writeValueAsString(thread);
-        doPostRequest("/api/thread/1",threadJson);
+        var user2Connection = openConnection("/api/users/2");
+        secondUser = mapper.readValue(user2Connection.getInputStream(),User.class);
 
-        //Message
+        //MESSAGE
         Message message = SampleData.createSampleMessage(1);
-        String messageJson = mapper.writeValueAsString(message);
-        doPostRequest("/api/messages/user/1/thread/1",messageJson);
+
+        //THREAD
+        var threadDto = new MessageThreadDto();
+        threadDto.setCreator(user);
+        threadDto.setTitle("Title 1");
+        threadDto.setMessage(message.getBody());
+        threadDto.setReceiverId(2);
+        String threadJson = mapper.writeValueAsString(threadDto);
+        doPostRequest("/api/thread",threadJson);
+
+        var threadConnection = openConnection("/api/thread/1");
+        var thread = mapper.readValue(threadConnection.getInputStream(), MessageThread.class);
 
         //SECOND Message
         Message secondMessage = SampleData.createSampleMessage(2);
-        String secondMessageJson = mapper.writeValueAsString(secondMessage);
-        doPostRequest("/api/messages/user/2/thread/1",secondMessageJson);
+        var message2 = new MessageDto();
+        message2.setUser(secondUser);
+        message2.setBody(secondMessage.getBody());
+        message2.setThread(thread);
+
+        String secondMessageJson = mapper.writeValueAsString(message2);
+        doPostRequest("/api/messages",secondMessageJson);
 
         var connection = openConnection("/api/messages/");
         assertThat(connection.getResponseCode())
