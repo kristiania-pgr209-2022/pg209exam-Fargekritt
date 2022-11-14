@@ -14,6 +14,7 @@ public class MessageThread {
 
     @ManyToOne
     private User creator;
+    private String title;
 
 
 //    @OneToMany(mappedBy = "user")
@@ -33,6 +34,14 @@ public class MessageThread {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
 //    public Set<ThreadMember> getMembers() {

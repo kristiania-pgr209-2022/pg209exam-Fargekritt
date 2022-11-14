@@ -13,6 +13,7 @@ CREATE TABLE threads
 (
     id         int identity not null,
     creator_id int          NOT NULL,
+    title      varchar(100),
     PRIMARY KEY (id),
     FOREIGN KEY (creator_id) REFERENCES users (id)
 );

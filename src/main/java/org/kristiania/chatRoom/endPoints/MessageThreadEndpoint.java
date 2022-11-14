@@ -3,9 +3,8 @@ package org.kristiania.chatRoom.endPoints;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.kristiania.chatRoom.MessageThread;
-import org.kristiania.chatRoom.ThreadMember;
-import org.kristiania.chatRoom.User;
+import org.kristiania.chatRoom.*;
+import org.kristiania.chatRoom.database.MessageDao;
 import org.kristiania.chatRoom.database.MessageThreadDao;
 import org.kristiania.chatRoom.database.ThreadMemberDao;
 import org.kristiania.chatRoom.database.UserDao;
@@ -24,6 +23,9 @@ public class MessageThreadEndpoint {
     ThreadMemberDao threadMemberDao;
 
     @Inject
+    MessageDao messageDao;
+
+    @Inject
     UserDao userDao;
 
 
@@ -31,10 +33,21 @@ public class MessageThreadEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void addThread(@PathParam("id") long id, @PathParam("receiverId") long receiverId, MessageThread thread){
+    public void addThread(@PathParam("id") long id, @PathParam("receiverId") long receiverId, newMessageThread newThread){
         var user = userDao.retrieve(id);
+
+
+        var thread = new MessageThread();
         thread.setCreator(user);
+        thread.setTitle(newThread.getTitle());
         messageThreadDao.save(thread);
+        
+        var message = new Message();
+        message.setThread(thread);
+        message.setUser(user);
+        message.setBody(newThread.getMessage());
+        messageDao.save(message);
+
 
         var sender = new ThreadMember();
         sender.setMessageThread(thread);
