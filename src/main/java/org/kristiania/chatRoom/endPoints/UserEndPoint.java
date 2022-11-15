@@ -43,7 +43,7 @@ public class UserEndPoint {
     @Path("{id}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addUser( @PathParam("id") long id, User newUser){
+    public void editUser(@PathParam("id") long id, User newUser){
         var user = userDao.retrieve(id);
         user.setFirstName(newUser.getFirstName());
         user.setLastName(newUser.getLastName());
