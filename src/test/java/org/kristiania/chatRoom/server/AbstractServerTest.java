@@ -20,17 +20,14 @@ public abstract class AbstractServerTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        var dataSource = InMemoryDataSource.createTestDataSource();
-        InMemoryDataSource.clearTestDataSource();
+        var dataSource = InMemoryDataSource.createTestDataSource("testDatabase");
+
 
         server = new ChatRoomServer(0, dataSource);
         server.start();
     }
 
-    @AfterEach
-    void tearDown() throws SQLException {
-        InMemoryDataSource.clearTestDataSource();
-    }
+
 
     protected HttpURLConnection getPostConnection(String url) throws IOException {
         var postConnection = openConnection(url);

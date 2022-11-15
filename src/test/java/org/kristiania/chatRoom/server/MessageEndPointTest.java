@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.Message;
 import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.User;
-import org.kristiania.chatRoom.database.MessageThreadDao;
 import org.kristiania.chatRoom.database.SampleData;
 import org.kristiania.chatRoom.dto.MessageDto;
 import org.kristiania.chatRoom.dto.MessageThreadDto;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MessageEndPointTest extends AbstractServerTest{

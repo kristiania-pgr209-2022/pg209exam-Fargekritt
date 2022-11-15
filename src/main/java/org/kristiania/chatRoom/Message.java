@@ -61,4 +61,15 @@ public class Message {
     public void setThread(MessageThread thread) {
         this.thread = thread;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "user=" + user +
+                ", thread=" + thread +
+                ", id=" + id +
+                ", sentDate=" + sentDate +
+                ", body='" + body + '\'' +
+                '}';
+    }
 }

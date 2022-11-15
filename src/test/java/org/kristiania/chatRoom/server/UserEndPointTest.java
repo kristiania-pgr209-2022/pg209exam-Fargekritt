@@ -1,7 +1,9 @@
 package org.kristiania.chatRoom.server;
+
 import org.junit.jupiter.api.Test;
 import org.kristiania.chatRoom.User;
 import org.kristiania.chatRoom.database.SampleData;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
