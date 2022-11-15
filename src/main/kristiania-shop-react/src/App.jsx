@@ -199,8 +199,26 @@ function AddThread({creator}) {
     const navigate = useNavigate()
     const [thread, setThread] = useState();
     const [title, setTitle] = useState();
+    const [loading, setLoading] = useState();
     const [receiverId, setReceiverId] = useState();
     const [message, setMessage] = useState();
+
+    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetch("/api/users");
+            setUsers(await data.json());
+            setLoading(false);
+        }
+        fetchData()
+            .catch(console.error)
+    }, []);
+    if (loading) {
+        return <div>Loading...</div>
+
+    }
 
 
     async function handleSubmit(e) {
@@ -210,7 +228,7 @@ function AddThread({creator}) {
         const request = {
             method: "post",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({creator, receiverId, title, message})
+            body: JSON.stringify({creator, user, title, message})
         }
         await fetch("/api/thread/", request)
 
@@ -223,7 +241,17 @@ function AddThread({creator}) {
             <Link to={"/"}>Back to home</Link>
             <form onSubmit={handleSubmit}>
                 <div><label>Title: <input type="text" onChange={e => setTitle(e.target.value)}/></label></div>
-                <div><label>Receiver: <input type="text" onChange={e => setReceiverId(e.target.value)}/></label></div>
+                {/*<div><label>Receiver: <input type="text" onChange={e => setReceiverId(e.target.value)}/></label></div>*/}
+                <label>Choose a member:</label>
+
+                <Select name="users"
+                        id={"user"}
+                        options={users}
+                        value={user}
+                        onChange={setUser}
+                        getOptionLabel={(option)=>option.username}
+                        getOptionValue={(option)=>option.id}
+                />
                 <div><label>Message: <textarea onChange={e => setMessage(e.target.value)}></textarea></label>
                 </div>
                 <button>Submit</button>
@@ -320,6 +348,7 @@ console.log(thread)
                 <label>Choose a member:</label>
 
                 <Select name="users"
+                        id={"user"}
                         options={users}
                         value={user}
                         onChange={setUser}

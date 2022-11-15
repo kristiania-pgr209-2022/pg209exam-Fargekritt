@@ -55,7 +55,7 @@ public class MessageThreadEndpoint {
 
         var receiver = new ThreadMember();
         receiver.setMessageThread(thread);
-        receiver.setUser(userDao.retrieve(messageThreadDto.getReceiverId()));
+        receiver.setUser(userDao.retrieve(messageThreadDto.getUser().getId()));
         threadMemberDao.save(receiver);
     }
 

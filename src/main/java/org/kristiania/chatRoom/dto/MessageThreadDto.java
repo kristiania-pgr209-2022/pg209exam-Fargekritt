@@ -11,7 +11,7 @@ public class MessageThreadDto {
 
     private User creator;
 
-    private int receiverId;
+    private User user;
 
     public String getMessage() {
         return message;
@@ -30,19 +30,19 @@ public class MessageThreadDto {
     }
 
 
-    public int getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(int receiverId) {
-        this.receiverId = receiverId;
-    }
-
     public User getCreator() {
         return creator;
     }
 
     public void setCreator(User creator) {
         this.creator = creator;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
