@@ -5,6 +5,8 @@ import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class SampleData {
 
@@ -16,7 +18,7 @@ public class SampleData {
                 user.setFirstName("Bob");
                 user.setLastName("Kåre");
                 user.setGender("male");
-                user.setDateOfBirth(LocalDate.of(2012, 1, 20));
+                user.setDateOfBirth(LocalDateTime.parse("2022-10-20:20-50-42",DateTimeFormatter.ofPattern("yyyy-MM-dd:HH-mm-ss")));
 
             }
             case 2 -> {
@@ -24,7 +26,7 @@ public class SampleData {
                 user.setFirstName("exampleFirstName");
                 user.setLastName("exampleLastName");
                 user.setGender("male");
-                user.setDateOfBirth(LocalDate.of(2011, 12, 20));
+                user.setDateOfBirth(LocalDateTime.now());
 
             }
             case 3 -> {
@@ -32,7 +34,7 @@ public class SampleData {
                 user.setFirstName("exampleFirstName2");
                 user.setLastName("exampleLastName2");
                 user.setGender("male");
-                user.setDateOfBirth(LocalDate.of(2010, 10, 20));
+                user.setDateOfBirth(LocalDateTime.now());
             }
         }
         return user;

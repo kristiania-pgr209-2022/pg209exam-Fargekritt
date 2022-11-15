@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.persistence.*;
 import org.kristiania.chatRoom.localDateFormatting.LocalDateDeserializer;
 import org.kristiania.chatRoom.localDateFormatting.LocalDateSerializer;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -23,7 +25,8 @@ public class User {
     @Column(name = "date_of_birth")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate dateOfBirth;
+    @JsonbDateFormat(value = "yyyy-MM-dd:HH-mm-ss")
+    private LocalDateTime dateOfBirth;
     private String gender;
 
     @Column(name = "last_name")
@@ -43,11 +46,11 @@ public class User {
         this.id = id;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(LocalDateTime dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public LocalDate getDateOfBirth() {
+    public LocalDateTime getDateOfBirth() {
         return dateOfBirth;
     }
 
