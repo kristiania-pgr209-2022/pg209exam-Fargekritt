@@ -43,7 +43,7 @@ public class MessageEndPointTest extends AbstractServerTest{
         threadDto.setCreator(user);
         threadDto.setTitle("Title 1");
         threadDto.setMessage(message.getBody());
-        threadDto.setReceiverId(2);
+        threadDto.setUser(secondUser);
         String threadJson = mapper.writeValueAsString(threadDto);
         doPostRequest("/api/thread",threadJson);
 
@@ -106,7 +106,7 @@ public class MessageEndPointTest extends AbstractServerTest{
         threadDto.setCreator(user);
         threadDto.setTitle("Title 1");
         threadDto.setMessage(message.getBody());
-        threadDto.setReceiverId(2);
+        threadDto.setUser(secondUser);
         String threadJson = mapper.writeValueAsString(threadDto);
         doPostRequest("/api/thread",threadJson);
 
@@ -194,7 +194,7 @@ public class MessageEndPointTest extends AbstractServerTest{
         threadDto.setCreator(user);
         threadDto.setTitle("Title 1");
         threadDto.setMessage(message.getBody());
-        threadDto.setReceiverId(2);
+        threadDto.setUser(secondUser);
         String threadJson = mapper.writeValueAsString(threadDto);
         doPostRequest("/api/thread",threadJson);
 
