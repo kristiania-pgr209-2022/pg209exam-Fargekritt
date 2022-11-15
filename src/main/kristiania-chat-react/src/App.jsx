@@ -142,15 +142,15 @@ function ListMessages({thread}) {
                         <dt>User:</dt>
                         <dd>- {i.user.username}</dd>
                         <dt>Message:</dt>
-                        <dd>{i.body}</dd>
+                        <dd>- {i.body}</dd>
                         <dt>Date sent:</dt>
-                        <dd>{i.sentDate}</dd>
+                        <dd>- {i.sentDate}</dd>
                     </dl>
                 </div>
             ))}
         </div>
-        <Link to={"/messages/add"}>Add message</Link>
-        <Link to={"/threads/members/add"}>Add a member to the chat</Link>
+        <div><Link to={"/messages/add"}>Add message</Link></div>
+        <div><Link to={"/threads/members/add"}>Add a member to the chat</Link></div>
     </div>
 }
 
@@ -164,13 +164,15 @@ function AddUser() {
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [gender, setGender] = useState("");
+    const [birthDate, setBirthDate] = useState("");
 
     async function handleSubmit(e) {
 
         e.preventDefault();
+        const dateOfBirth = birthDate + "-01-01:01-01-01"
         await fetch("/api/users", {
             method: "post",
-            body: JSON.stringify({firstName, lastName, gender, username}),
+            body: JSON.stringify({firstName, lastName, gender, username, dateOfBirth}),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -179,16 +181,72 @@ function AddUser() {
         navigate("/users")
     }
 
+    const birthDateOptionsYear = () => {
+        const dateArray = [];
+
+        const yearStart = 1910;
+        const yearEnd = new Date().getFullYear();
+
+
+        for (let i = yearEnd; i >= yearStart; i--) {
+            dateArray.push(<option value={i}>{i}</option>)
+        }
+        return dateArray;
+    }
+
+    // Handle day and month ????
+ /*   const birthDateOptionsMonth = () => {
+        const monthArray = [];
+
+        const monthStart = 1;
+        const monthEnd = 12;
+
+
+        for (let i = monthEnd; i >= monthStart; i--) {
+            monthArray.push(<option value={i}>{i}</option>)
+        }
+        return monthArray;
+    }
+
+    const birthDateOptionsDay = () => {
+        const dayArray = [];
+
+        const dayStart = 1;
+        const dayEnd = 31;
+
+
+        for (let i = dayEnd; i >= dayStart; i--) {
+            dayArray.push(<option value={i}>{i}</option>)
+        }
+        return dayArray;
+    }*/
+
     return (
         <div className="App">
-            <h1>Add item</h1>
+            <h1>Add User</h1>
             <Link to={"/"}>Back to home</Link>
             <form onSubmit={handleSubmit}>
                 <div><label>First Name: <input type="text" onChange={e => setFirstName(e.target.value)}/></label></div>
                 <div><label>Last Name: <input type="text" onChange={e => setLastName(e.target.value)}/></label></div>
                 <div><label>Username: <input type="text" onChange={e => setUsername(e.target.value)}/></label></div>
-                <div><label>Gender: <textarea onChange={e => setGender(e.target.value)}></textarea></label>
+                <div><label>Gender: <input type="text" onChange={e => setGender(e.target.value)}></input></label></div>
+                <div><label>Birth date:
+                    <select name="birth-date" onChange={(e) => setBirthDate(e.target.value)}>
+                        <option value="0">Year</option>
+                        {birthDateOptionsYear()}
+                    </select>
+
+                    {/*  <Select name="birthDate"
+                            id={"user"}
+                            options={birthDateOptions()}
+                            value={birthDate}
+                            onChange={setBirthDate}
+                            getOptionLabel={(option) => option}
+                            getOptionValue={(option) => option}
+                    />*/}
+                </label>
                 </div>
+
                 <button>Submit</button>
             </form>
         </div>
@@ -249,8 +307,8 @@ function AddThread({creator}) {
                         options={users}
                         value={user}
                         onChange={setUser}
-                        getOptionLabel={(option)=>option.username}
-                        getOptionValue={(option)=>option.id}
+                        getOptionLabel={(option) => option.username}
+                        getOptionValue={(option) => option.id}
                 />
                 <div><label>Message: <textarea onChange={e => setMessage(e.target.value)}></textarea></label>
                 </div>
@@ -330,16 +388,16 @@ function AddMember({thread}) {
         console.log(event.target.value)
         setUser(event)
     }
-console.log(thread)
+    console.log(thread)
     console.log(user)
 
-  /*  return (<Select name="users"
-                    options={users}
-                    value={user}
-                    onChange={setUser}
-                    getOptionLabel={(option)=>option.username}
-                    getOptionValue={(option)=>option.id}
-    />)*/
+    /*  return (<Select name="users"
+                      options={users}
+                      value={user}
+                      onChange={setUser}
+                      getOptionLabel={(option)=>option.username}
+                      getOptionValue={(option)=>option.id}
+      />)*/
     return (
         <div className="App">
             <h1>Add member to thread</h1>
@@ -352,10 +410,10 @@ console.log(thread)
                         options={users}
                         value={user}
                         onChange={setUser}
-                        getOptionLabel={(option)=>option.username}
-                        getOptionValue={(option)=>option.id}
+                        getOptionLabel={(option) => option.username}
+                        getOptionValue={(option) => option.id}
                 />
-             {/*   <select value={user} onChange={handleSelectChange}>
+                {/*   <select value={user} onChange={handleSelectChange}>
 
                     <option>Choose a user</option>
                     {users.map((user, index) => {
