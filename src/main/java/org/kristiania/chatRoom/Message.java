@@ -1,8 +1,10 @@
 package org.kristiania.chatRoom;
 
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "messages")
@@ -18,7 +20,8 @@ public class Message {
     private int id;
 
     @Column(name = "sent_date")
-    private LocalDate sentDate;
+    @JsonbDateFormat(value = "yyyy-MM-dd:HH-mm-ss")
+    private LocalDateTime sentDate;
 
     private String body;
 
@@ -46,11 +49,11 @@ public class Message {
         this.body = body;
     }
 
-    public LocalDate getSentDate() {
+    public LocalDateTime getSentDate() {
         return sentDate;
     }
 
-    public void setSentDate(LocalDate sentDate) {
+    public void setSentDate(LocalDateTime sentDate) {
         this.sentDate = sentDate;
     }
 

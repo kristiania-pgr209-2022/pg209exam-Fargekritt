@@ -14,6 +14,7 @@ import org.kristiania.chatRoom.database.ThreadMemberDao;
 import org.kristiania.chatRoom.database.UserDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Path("/thread")
@@ -45,7 +46,7 @@ public class MessageThreadEndpoint {
         message.setThread(thread);
         message.setUser(user);
         message.setBody(messageThreadDto.getMessage());
-        message.setSentDate(LocalDate.now());
+        message.setSentDate(LocalDateTime.now());
         messageDao.save(message);
 
         var sender = new ThreadMember();

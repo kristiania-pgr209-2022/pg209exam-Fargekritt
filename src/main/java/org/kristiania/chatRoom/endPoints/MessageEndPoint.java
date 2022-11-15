@@ -8,6 +8,7 @@ import org.kristiania.chatRoom.dto.MessageDto;
 import org.kristiania.chatRoom.database.MessageDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Path("/messages")
@@ -53,7 +54,7 @@ public class MessageEndPoint {
         message.setUser(messageDto.getUser());
         message.setThread(messageDto.getThread());
         message.setBody(messageDto.getBody());
-        message.setSentDate(LocalDate.now());
+        message.setSentDate(LocalDateTime.now());
         messageDao.save(message);
     }
 }

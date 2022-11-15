@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import javax.naming.NamingException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,7 +57,7 @@ public class MessageDaoTest {
         var message = SampleData.createSampleMessage(2);
         message.setUser(user);
         message.setThread(messageThread);
-        message.setSentDate(LocalDate.now());
+        message.setSentDate(LocalDateTime.parse("2011-12-20:20-50-42", DateTimeFormatter.ofPattern("yyyy-MM-dd:HH-mm-ss")));
         messageDao.save(message);
         flush();
         assertThat(messageDao.retrieve(message.getId()))
