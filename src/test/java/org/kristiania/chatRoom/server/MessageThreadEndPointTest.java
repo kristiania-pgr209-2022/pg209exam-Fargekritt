@@ -1,9 +1,11 @@
 package org.kristiania.chatRoom.server;
 
 import org.junit.jupiter.api.Test;
+import org.kristiania.chatRoom.Message;
 import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.User;
 import org.kristiania.chatRoom.database.SampleData;
+import org.kristiania.chatRoom.dto.MessageThreadDto;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +21,19 @@ public class MessageThreadEndPointTest extends AbstractServerTest {
         //USER
         User user = SampleData.createSampleUser(1);
         String userJson = mapper.writeValueAsString(user);
+        doPostRequest("api/users",userJson);
+
+
+        //SECOND USER
+        User secondUser = SampleData.createSampleUser(2);
+        String secondUserJson = mapper.writeValueAsString(secondUser);
+        doPostRequest("api/users",secondUserJson);
+
+        var user2Connection = openConnection("/api/users/2");
+        secondUser = mapper.readValue(user2Connection.getInputStream(),User.class);
+
+        var user1Connection = openConnection("/api/users/1");
+        user = mapper.readValue(user1Connection.getInputStream(),User.class);
 
         var userPostConnection = getPostConnection("api/users");
         userPostConnection.getOutputStream().write(userJson.getBytes(StandardCharsets.UTF_8));
@@ -28,20 +43,21 @@ public class MessageThreadEndPointTest extends AbstractServerTest {
                 .isEqualTo(204);
 
 
+        //MESSAGE
+        Message message = SampleData.createSampleMessage(1);
+
         //THREAD
-        MessageThread thread = SampleData.createSampleThread();
-        String threadJson = mapper.writeValueAsString(thread);
+        var threadDto = new MessageThreadDto();
+        threadDto.setCreator(user);
+        threadDto.setTitle("Title 1");
+        threadDto.setMessage(message.getBody());
+        threadDto.setUser(secondUser);
+        String threadJson = mapper.writeValueAsString(threadDto);
+        doPostRequest("/api/thread",threadJson);
 
+        var threadConnection = openConnection("/api/thread/1");
+        var thread = mapper.readValue(threadConnection.getInputStream(), MessageThread.class);
 
-        var threadPostConnection = openConnection("/api/thread/1");
-        threadPostConnection.setRequestMethod("POST");
-        threadPostConnection.setRequestProperty("Content-Type", "application/json");
-        threadPostConnection.setDoOutput(true);
-        threadPostConnection.getOutputStream().write(threadJson.getBytes(StandardCharsets.UTF_8));
-
-        assertThat(threadPostConnection.getResponseCode())
-                .as(threadPostConnection.getResponseMessage() + " for " + threadPostConnection.getURL())
-                .isEqualTo(204);
 
         var connection = openConnection("/api/thread");
         assertThat(connection.getResponseCode())
