@@ -50,7 +50,6 @@ function ListUser({setSelectedUser}) {
     </div>
 }
 
-
 function ListThreads({user, setSelectedThread}) {
 
     const navigate = useNavigate();
@@ -77,6 +76,20 @@ function ListThreads({user, setSelectedThread}) {
     }
 
     return <div>
+        <div style={{border: '1px solid black'}}><h3>UserInfo</h3>
+            <dl>
+                <dt>UserName:</dt>
+                <dd>{user.username}</dd>
+                <dt>FirstName:</dt>
+                <dd>{user.firstName}</dd>
+                <dt>LastName:</dt>
+                <dd>{user.lastName}</dd>
+                <dt>Gender:</dt>
+                <dd>{user.gender}</dd>
+                <dt>Date of Birth</dt>
+                <dd>{user.dateOfBirth.substring(0, 4)}</dd>
+            </dl>
+        </div>
         <h1>Threads your a member of</h1>
         <Link to={"/"}>Back to home</Link>
         <div>
@@ -93,10 +106,10 @@ function ListThreads({user, setSelectedThread}) {
                 </button>
             ))}
         </div>
-        <Link to={"/threads/add"}>Start a chat</Link>
+        <div><Link to={"/threads/add"}>Start a chat</Link></div>
+        <div><Link to={"/users/edit"}>Edit user info</Link></div>
     </div>
 }
-
 
 function ListMessages({thread}) {
 
@@ -139,12 +152,12 @@ function ListMessages({thread}) {
             {message.map((i) => (
                 <div style={{border: '1px solid black'}}>
                     <dl>
-                        <dt>User:</dt>
-                        <dd>- {i.user.username}</dd>
-                        <dt>Message:</dt>
-                        <dd>- {i.body}</dd>
-                        <dt>Date sent:</dt>
-                        <dd>- {i.sentDate}</dd>
+                        <dt>-User-</dt>
+                        <dd>{i.user.username}</dd>
+                        <dt>-Message-</dt>
+                        <dd>{i.body}</dd>
+                        <dt>-Date sent-</dt>
+                        <dd>{i.sentDate}</dd>
                     </dl>
                 </div>
             ))}
@@ -195,31 +208,31 @@ function AddUser() {
     }
 
     // Handle day and month ????
- /*   const birthDateOptionsMonth = () => {
-        const monthArray = [];
+    /*   const birthDateOptionsMonth = () => {
+           const monthArray = [];
 
-        const monthStart = 1;
-        const monthEnd = 12;
-
-
-        for (let i = monthEnd; i >= monthStart; i--) {
-            monthArray.push(<option value={i}>{i}</option>)
-        }
-        return monthArray;
-    }
-
-    const birthDateOptionsDay = () => {
-        const dayArray = [];
-
-        const dayStart = 1;
-        const dayEnd = 31;
+           const monthStart = 1;
+           const monthEnd = 12;
 
 
-        for (let i = dayEnd; i >= dayStart; i--) {
-            dayArray.push(<option value={i}>{i}</option>)
-        }
-        return dayArray;
-    }*/
+           for (let i = monthEnd; i >= monthStart; i--) {
+               monthArray.push(<option value={i}>{i}</option>)
+           }
+           return monthArray;
+       }
+
+       const birthDateOptionsDay = () => {
+           const dayArray = [];
+
+           const dayStart = 1;
+           const dayEnd = 31;
+
+
+           for (let i = dayEnd; i >= dayStart; i--) {
+               dayArray.push(<option value={i}>{i}</option>)
+           }
+           return dayArray;
+       }*/
 
     return (
         <div className="App">
@@ -445,6 +458,42 @@ function FrontPage() {
 }
 
 
+function EditUser({user}) {
+    const navigate = useNavigate()
+    const [firstName, setFirstName] = useState(user.firstName);
+    const [lastName, setLastName] = useState(user.lastName);
+    const [username, setUsername] = useState(user.username);
+    const [gender, setGender] = useState(user.gender);
+
+    async function handleSubmit(e) {
+
+        e.preventDefault();
+        await fetch("/api/users/" + user.id, {
+            method: "post",
+            body: JSON.stringify({firstName, lastName, gender, username}),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        navigate("/users")
+    }
+
+    return (
+        <div className="App">
+            <h1>Edit User</h1>
+            <Link to={"/"}>Back to home</Link>
+            <form onSubmit={handleSubmit}>
+                <div><label>First Name: <input defaultValue={user.firstName} type="text" onChange={e => setFirstName(e.target.value)}/></label></div>
+                <div><label>Last Name: <input defaultValue={user.lastName} type="text" onChange={e => setLastName(e.target.value)}/></label></div>
+                <div><label>Username: <input defaultValue={user.username} type="text" onChange={e => setUsername(e.target.value)}/></label></div>
+                <div><label>Gender: <input defaultValue={user.gender} type="text" onChange={e => setGender(e.target.value)}></input></label></div>
+                <button>Submit</button>
+            </form>
+        </div>
+    )
+}
+
 function App() {
     const [user, setUser] = useState();
     const [thread, setThread] = useState();
@@ -454,6 +503,7 @@ function App() {
             <Route path={"/"} element={<FrontPage/>}></Route>
             <Route path={"/users"} element={<ListUser setSelectedUser={setUser}/>}></Route>
             <Route path={"/users/add"} element={<AddUser/>}></Route>
+            <Route path={"/users/edit"} element={<EditUser user={user}/>}></Route>
             <Route path={"/threads"} element={<ListThreads user={user} setSelectedThread={setThread}/>}></Route>
             <Route path={"/threads/add"} element={<AddThread creator={user}/>}></Route>
             <Route path={"/messages"} element={<ListMessages thread={thread}/>}></Route>
