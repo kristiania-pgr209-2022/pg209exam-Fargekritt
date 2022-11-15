@@ -66,7 +66,7 @@ public class MessageThreadEndPointTest extends AbstractServerTest {
 
         assertThat(connection.getInputStream()).asString(StandardCharsets.UTF_8)
                 .contains("""
-                        "creator":{"dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu"},"id":1""");
+                        "creator":{"dateOfBirth":"2012-01-20:20-50-42","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu"},"id":1""");
     }
 
 

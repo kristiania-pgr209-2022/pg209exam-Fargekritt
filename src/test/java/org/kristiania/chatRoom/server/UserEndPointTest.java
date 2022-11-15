@@ -35,7 +35,7 @@ public class UserEndPointTest extends AbstractServerTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains(""" 
-                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""");
+                        dateOfBirth":"2012-01-20:20-50-42","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""");
 
         // Set up connection for GET request and check second sampleUser.
         connection = openConnection("/api/users/2");
@@ -47,7 +47,7 @@ public class UserEndPointTest extends AbstractServerTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains(""" 
-                        dateOfBirth":"2011-12-20","firstName":"exampleFirstName","gender":"male","id":2,"lastName":"exampleLastName","username":"exampleUser""");
+                        dateOfBirth":"2011-12-20:20-50-42","firstName":"exampleFirstName","gender":"male","id":2,"lastName":"exampleLastName","username":"exampleUser""");
     }
 
 
@@ -74,7 +74,7 @@ public class UserEndPointTest extends AbstractServerTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains("""
-                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""");
+                        dateOfBirth":"2012-01-20:20-50-42","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""");
     }
 
     @Test
@@ -102,10 +102,10 @@ public class UserEndPointTest extends AbstractServerTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains("""
-                        dateOfBirth":"2012-01-20","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""")
+                        dateOfBirth":"2012-01-20:20-50-42","firstName":"Bob","gender":"male","id":1,"lastName":"Kåre","username":"Lulu""")
                 .contains("""
-                        dateOfBirth":"2011-12-20","firstName":"exampleFirstName","gender":"male","id":2,"lastName":"exampleLastName","username":"exampleUser""")
+                        dateOfBirth":"2011-12-20:20-50-42","firstName":"exampleFirstName","gender":"male","id":2,"lastName":"exampleLastName","username":"exampleUser""")
                 .contains("""
-                        dateOfBirth":"2010-10-20","firstName":"exampleFirstName2","gender":"male","id":3,"lastName":"exampleLastName2","username":"exampleUser2""");
+                        dateOfBirth":"2012-12-20:21-50-42","firstName":"exampleFirstName2","gender":"male","id":3,"lastName":"exampleLastName2","username":"exampleUser2""");
     }
 }
