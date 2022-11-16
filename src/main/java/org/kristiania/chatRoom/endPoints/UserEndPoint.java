@@ -49,6 +49,7 @@ public class UserEndPoint {
         user.setLastName(newUser.getLastName());
         user.setGender(newUser.getGender());
         user.setUsername(newUser.getUsername());
+        user.setEmail(newUser.getEmail());
         userDao.save(user);
     }
 
