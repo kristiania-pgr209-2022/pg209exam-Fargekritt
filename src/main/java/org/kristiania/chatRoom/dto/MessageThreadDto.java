@@ -15,6 +15,8 @@ public class MessageThreadDto {
     }
     private String message;
 
+    private String messageTitle;
+
     private User creator;
 
     private List<User> members;
@@ -56,5 +58,13 @@ public class MessageThreadDto {
 
     public void setMembers(List<User> members) {
         this.members = members;
+    }
+
+    public String getMessageTitle() {
+        return messageTitle;
+    }
+
+    public void setMessageTitle(String messageTitle) {
+        this.messageTitle = messageTitle;
     }
 }

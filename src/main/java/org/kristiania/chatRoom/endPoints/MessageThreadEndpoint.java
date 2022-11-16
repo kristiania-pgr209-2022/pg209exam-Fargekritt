@@ -40,7 +40,7 @@ public class MessageThreadEndpoint {
         messageThreadDao.save(thread);
 
         var message = new Message();
-        message.setTitle(messageThreadDto.getThreadTitle());
+        message.setTitle(messageThreadDto.getMessageTitle());
         message.setThread(thread);
         message.setUser(user);
         message.setBody(messageThreadDto.getMessage());
