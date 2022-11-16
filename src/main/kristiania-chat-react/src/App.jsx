@@ -476,13 +476,14 @@ function EditUser({user}) {
     const [lastName, setLastName] = useState(user.lastName);
     const [username, setUsername] = useState(user.username);
     const [gender, setGender] = useState(user.gender);
+    const [email, setEmail] = useState(user.email);
 
     async function handleSubmit(e) {
 
         e.preventDefault();
         await fetch("/api/users/" + user.id, {
             method: "post",
-            body: JSON.stringify({firstName, lastName, gender, username}),
+            body: JSON.stringify({firstName, lastName, gender, username, email}),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -504,6 +505,8 @@ function EditUser({user}) {
                                              onChange={e => setUsername(e.target.value)}/></label></div>
                 <div><label>Gender: <input defaultValue={user.gender} type="text"
                                            onChange={e => setGender(e.target.value)}></input></label></div>
+                <div><label>Email: <input defaultValue={user.email} type="text"
+                                          onChange={e => setEmail(e.target.value)}></input></label></div>
                 <button>Submit</button>
             </form>
         </div>

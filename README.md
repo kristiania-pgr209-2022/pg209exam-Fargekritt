@@ -42,7 +42,7 @@
 1.
    * [x] Når man kommer til applikasjonen kan man velge hvilken bruker man skal representere fra et sett med brukere som derehar opprettet på forhånd i databasen
       * [x] For full uttelling skal man kunne endre informasjon om en eksisterende bruker
-      * [ ] For full uttelling må brukeren ha felter utover navn og emailadresse
+      * [x] For full uttelling må brukeren ha felter utover navn og emailadresse
 2.
    * [x] Når man har valgt en bruker skal man kunne se alle meldingstråder der denne brukeren er sender eller mottaker (krav til E)
      * [x] For full uttelling skal oversikten over meldingertråder inneholde navnet på alle mottakere for meldinger itråden
