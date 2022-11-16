@@ -1,4 +1,4 @@
-package org.kristiania.chatRoom;
+package org.kristiania.chatRoom.entities;
 
 import jakarta.persistence.*;
 

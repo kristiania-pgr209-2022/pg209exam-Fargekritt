@@ -1,6 +1,6 @@
 package org.kristiania.chatRoom.dto;
 
-import org.kristiania.chatRoom.User;
+import org.kristiania.chatRoom.entities.User;
 
 import java.util.List;
 

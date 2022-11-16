@@ -3,7 +3,7 @@ package org.kristiania.chatRoom.endPoints;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.kristiania.chatRoom.Message;
+import org.kristiania.chatRoom.entities.Message;
 import org.kristiania.chatRoom.dto.MessageDto;
 import org.kristiania.chatRoom.database.MessageDao;
 import java.time.LocalDateTime;

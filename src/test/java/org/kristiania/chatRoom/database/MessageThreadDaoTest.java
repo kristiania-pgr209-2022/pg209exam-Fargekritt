@@ -6,7 +6,7 @@ import org.eclipse.jetty.plus.jndi.Resource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kristiania.chatRoom.MessageThread;
+import org.kristiania.chatRoom.entities.MessageThread;
 
 import javax.naming.NamingException;
 import java.sql.SQLException;
@@ -26,7 +26,7 @@ public class MessageThreadDaoTest {
         var dataSource = InMemoryDataSource.createTestDataSource("testDatabase");
         new Resource("jdbc/dataSource", dataSource);
         this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
-        dao = new MessageThreadDao(entityManager);
+        dao = new MessageThreadDaoImpl(entityManager);
         userDao = new UserDaoImpl(entityManager);
     }
 

@@ -3,14 +3,15 @@ package org.kristiania.chatRoom.endPoints;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.kristiania.chatRoom.*;
-import org.kristiania.chatRoom.MessageThread;
+import org.kristiania.chatRoom.entities.Message;
+import org.kristiania.chatRoom.entities.MessageThread;
 import org.kristiania.chatRoom.dto.MemberDto;
 import org.kristiania.chatRoom.dto.MessageThreadDto;
 import org.kristiania.chatRoom.database.MessageDao;
 import org.kristiania.chatRoom.database.MessageThreadDao;
 import org.kristiania.chatRoom.database.ThreadMemberDao;
-import org.kristiania.chatRoom.database.UserDao;
+import org.kristiania.chatRoom.entities.ThreadMember;
+import org.kristiania.chatRoom.entities.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

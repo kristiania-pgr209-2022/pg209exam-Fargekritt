@@ -1,6 +1,6 @@
 package org.kristiania.chatRoom.database;
 
-import org.kristiania.chatRoom.Message;
+import org.kristiania.chatRoom.entities.Message;
 
 import java.util.List;
 

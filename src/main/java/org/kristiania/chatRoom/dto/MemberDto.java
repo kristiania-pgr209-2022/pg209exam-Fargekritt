@@ -1,7 +1,7 @@
 package org.kristiania.chatRoom.dto;
 
-import org.kristiania.chatRoom.MessageThread;
-import org.kristiania.chatRoom.User;
+import org.kristiania.chatRoom.entities.MessageThread;
+import org.kristiania.chatRoom.entities.User;
 
 public class MemberDto {
 

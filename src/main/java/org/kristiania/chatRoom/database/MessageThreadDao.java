@@ -1,39 +1,15 @@
 package org.kristiania.chatRoom.database;
 
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-
-import org.kristiania.chatRoom.MessageThread;
+import org.kristiania.chatRoom.entities.MessageThread;
 
 import java.util.List;
 
-public class MessageThreadDao {
+public interface MessageThreadDao {
+    MessageThread retrieve(long id);
 
-    private final EntityManager entityManager;
+    void save(MessageThread messageThread);
 
-    @Inject
-    public MessageThreadDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    List<MessageThread> listAll();
 
-
-    public MessageThread retrieve(long id) {
-        return entityManager.find(MessageThread.class, id);
-    }
-
-
-    public void save(MessageThread messageThread) {
-        entityManager.persist(messageThread);
-    }
-
-
-    public List<MessageThread> listAll() {
-        return entityManager.createQuery("SELECT t from MessageThread t").getResultList();
-    }
-
-    public List<MessageThread> listAllByUserId(long id){
-        return entityManager.createQuery("SELECT t from MessageThread t WHERE t.creator.id = :id")
-                .setParameter("id", id)
-                .getResultList();
-    }
+    List<MessageThread> listAllByUserId(long id);
 }

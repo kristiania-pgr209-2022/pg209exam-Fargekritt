@@ -1,10 +1,9 @@
 package org.kristiania.chatRoom.database;
 
-import org.kristiania.chatRoom.Message;
-import org.kristiania.chatRoom.MessageThread;
-import org.kristiania.chatRoom.User;
+import org.kristiania.chatRoom.entities.Message;
+import org.kristiania.chatRoom.entities.MessageThread;
+import org.kristiania.chatRoom.entities.User;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

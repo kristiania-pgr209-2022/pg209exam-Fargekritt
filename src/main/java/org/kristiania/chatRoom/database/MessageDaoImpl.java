@@ -2,10 +2,8 @@ package org.kristiania.chatRoom.database;
 
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import org.kristiania.chatRoom.Message;
-import org.kristiania.chatRoom.User;
+import org.kristiania.chatRoom.entities.Message;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class  MessageDaoImpl implements MessageDao {

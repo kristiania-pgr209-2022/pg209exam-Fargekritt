@@ -3,7 +3,7 @@ package org.kristiania.chatRoom.database;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
-import org.kristiania.chatRoom.User;
+import org.kristiania.chatRoom.entities.User;
 
 import java.util.List;
 

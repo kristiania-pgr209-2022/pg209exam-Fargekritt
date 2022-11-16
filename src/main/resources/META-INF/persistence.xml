@@ -1,10 +1,10 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
     <persistence-unit name="ChatRoom">
         <non-jta-data-source>jdbc/dataSource</non-jta-data-source>
-        <class>org.kristiania.chatRoom.User</class>
-        <class>org.kristiania.chatRoom.Message</class>
-        <class>org.kristiania.chatRoom.MessageThread</class>
-        <class>org.kristiania.chatRoom.ThreadMember</class>
+        <class>org.kristiania.chatRoom.entities.User</class>
+        <class>org.kristiania.chatRoom.entities.Message</class>
+        <class>org.kristiania.chatRoom.entities.MessageThread</class>
+        <class>org.kristiania.chatRoom.entities.ThreadMember</class>
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
     </persistence-unit>
 </persistence>

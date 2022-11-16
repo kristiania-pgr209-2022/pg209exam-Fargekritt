@@ -1,9 +1,8 @@
 package org.kristiania.chatRoom.server;
 
 import org.junit.jupiter.api.Test;
-import org.kristiania.chatRoom.Message;
-import org.kristiania.chatRoom.MessageThread;
-import org.kristiania.chatRoom.User;
+import org.kristiania.chatRoom.entities.Message;
+import org.kristiania.chatRoom.entities.User;
 import org.kristiania.chatRoom.database.SampleData;
 import org.kristiania.chatRoom.dto.MessageThreadDto;
 

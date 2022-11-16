@@ -1,9 +1,5 @@
-package org.kristiania.chatRoom;
+package org.kristiania.chatRoom.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.json.bind.annotation.JsonbDateFormat;
@@ -11,9 +7,7 @@ import jakarta.persistence.*;
 import org.kristiania.chatRoom.localDateFormatting.LocalDateDeserializer;
 import org.kristiania.chatRoom.localDateFormatting.LocalDateSerializer;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")

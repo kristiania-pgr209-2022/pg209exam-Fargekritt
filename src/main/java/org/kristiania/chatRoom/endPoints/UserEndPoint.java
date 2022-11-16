@@ -3,8 +3,8 @@ package org.kristiania.chatRoom.endPoints;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.kristiania.chatRoom.MessageThread;
-import org.kristiania.chatRoom.User;
+import org.kristiania.chatRoom.entities.MessageThread;
+import org.kristiania.chatRoom.entities.User;
 import org.kristiania.chatRoom.database.ThreadMemberDao;
 import org.kristiania.chatRoom.database.UserDao;
 

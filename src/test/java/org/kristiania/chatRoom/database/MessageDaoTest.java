@@ -1,7 +1,6 @@
 package org.kristiania.chatRoom.database;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.h2.jdbcx.JdbcDataSource;
@@ -11,10 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.naming.NamingException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,7 +29,7 @@ public class MessageDaoTest {
 
         new Resource("jdbc/dataSource", datasource);
         this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
-        messageThreadDao = new MessageThreadDao(entityManager);
+        messageThreadDao = new MessageThreadDaoImpl(entityManager);
         messageDao = new MessageDaoImpl(entityManager);
         userDao = new UserDaoImpl(entityManager);
     }
