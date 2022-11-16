@@ -10,6 +10,7 @@ import org.kristiania.chatRoom.dto.MessageThreadDto;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +44,7 @@ public class MessageEndPointTest extends AbstractServerTest{
         threadDto.setCreator(user);
         threadDto.setThreadTitle("Title 1");
         threadDto.setMessage(message.getBody());
-        threadDto.setUser(secondUser);
+        threadDto.setMembers(List.of(secondUser));
         String threadJson = mapper.writeValueAsString(threadDto);
         doPostRequest("/api/thread",threadJson);
 
@@ -106,7 +107,8 @@ public class MessageEndPointTest extends AbstractServerTest{
         threadDto.setCreator(user);
         threadDto.setThreadTitle("Title 1");
         threadDto.setMessage(message.getBody());
-        threadDto.setUser(secondUser);
+        threadDto.setMembers(List.of(secondUser));
+
         String threadJson = mapper.writeValueAsString(threadDto);
         doPostRequest("/api/thread",threadJson);
 
@@ -194,7 +196,7 @@ public class MessageEndPointTest extends AbstractServerTest{
         threadDto.setCreator(user);
         threadDto.setThreadTitle("Title 1");
         threadDto.setMessage(message.getBody());
-        threadDto.setUser(secondUser);
+        threadDto.setMembers(List.of(secondUser));
         String threadJson = mapper.writeValueAsString(threadDto);
         doPostRequest("/api/thread",threadJson);
 
