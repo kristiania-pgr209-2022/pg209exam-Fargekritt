@@ -1,4 +1,6 @@
+[![Java CI with Maven](https://github.com/kristiania-pgr209-2022/pg209exam-Fargekritt/actions/workflows/maven.yml/badge.svg)](https://github.com/kristiania-pgr209-2022/pg209exam-Fargekritt/actions/workflows/maven.yml)
 # PG209 Backend programmering eksamen
+
 
 ## Sjekkliste for innleveringen
 
