@@ -5,8 +5,13 @@ import org.kristiania.chatRoom.Message;
 import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.User;
 import org.kristiania.chatRoom.database.SampleData;
+import org.kristiania.chatRoom.dto.MessageDto;
+import org.kristiania.chatRoom.dto.MessageThreadDto;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MessageEndPointTest extends AbstractServerTest{
@@ -20,25 +25,41 @@ public class MessageEndPointTest extends AbstractServerTest{
         String userJson = mapper.writeValueAsString(user);
         doPostRequest("api/users",userJson);
 
+        var user1Connection = openConnection("/api/users/1");
+        user = mapper.readValue(user1Connection.getInputStream(),User.class);
+
         //SECOND USER
         User secondUser = SampleData.createSampleUser(2);
         String secondUserJson = mapper.writeValueAsString(secondUser);
         doPostRequest("api/users",secondUserJson);
 
-        //THREAD
-        MessageThread thread = SampleData.createSampleThread();
-        String threadJson = mapper.writeValueAsString(thread);
-        doPostRequest("/api/thread/1",threadJson);
+        var user2Connection = openConnection("/api/users/2");
+        secondUser = mapper.readValue(user2Connection.getInputStream(),User.class);
 
-        //Message
+        //MESSAGE
         Message message = SampleData.createSampleMessage(1);
-        String messageJson = mapper.writeValueAsString(message);
-        doPostRequest("/api/messages/user/1/thread/1",messageJson);
+
+        //THREAD
+        var threadDto = new MessageThreadDto();
+        threadDto.setCreator(user);
+        threadDto.setThreadTitle("Title 1");
+        threadDto.setMessage(message.getBody());
+        threadDto.setMembers(List.of(secondUser));
+        String threadJson = mapper.writeValueAsString(threadDto);
+        doPostRequest("/api/thread",threadJson);
+
+        var threadConnection = openConnection("/api/thread/1");
+        var thread = mapper.readValue(threadConnection.getInputStream(), MessageThread.class);
 
         //SECOND Message
         Message secondMessage = SampleData.createSampleMessage(2);
-        String secondMessageJson = mapper.writeValueAsString(secondMessage);
-        doPostRequest("/api/messages/user/2/thread/1",secondMessageJson);
+        var message2 = new MessageDto();
+        message2.setUser(secondUser);
+        message2.setBody(secondMessage.getBody());
+        message2.setThread(thread);
+
+        String secondMessageJson = mapper.writeValueAsString(message2);
+        doPostRequest("/api/messages",secondMessageJson);
 
         var connection = openConnection("/api/messages/");
         assertThat(connection.getResponseCode())
@@ -67,30 +88,54 @@ public class MessageEndPointTest extends AbstractServerTest{
         String userJson = mapper.writeValueAsString(user);
         doPostRequest("api/users",userJson);
 
+        var user1Connection = openConnection("/api/users/1");
+        user = mapper.readValue(user1Connection.getInputStream(),User.class);
+
         //SECOND USER
         User secondUser = SampleData.createSampleUser(2);
         String secondUserJson = mapper.writeValueAsString(secondUser);
         doPostRequest("api/users",secondUserJson);
 
-        //THREAD
-        MessageThread thread = SampleData.createSampleThread();
-        String threadJson = mapper.writeValueAsString(thread);
-        doPostRequest("/api/thread/1",threadJson);
+        var user2Connection = openConnection("/api/users/2");
+        secondUser = mapper.readValue(user2Connection.getInputStream(),User.class);
 
         //Message
         Message message = SampleData.createSampleMessage(1);
-        String messageJson = mapper.writeValueAsString(message);
-        doPostRequest("/api/messages/user/1/thread/1",messageJson);
+
+        //THREAD
+        var threadDto = new MessageThreadDto();
+        threadDto.setCreator(user);
+        threadDto.setThreadTitle("Title 1");
+        threadDto.setMessage(message.getBody());
+        threadDto.setMembers(List.of(secondUser));
+
+        String threadJson = mapper.writeValueAsString(threadDto);
+        doPostRequest("/api/thread",threadJson);
+
+        var threadConnection = openConnection("/api/thread/1");
+        var thread = mapper.readValue(threadConnection.getInputStream(), MessageThread.class);
+
+
 
         //SECOND Message
         Message secondMessage = SampleData.createSampleMessage(2);
-        String secondMessageJson = mapper.writeValueAsString(secondMessage);
-        doPostRequest("/api/messages/user/2/thread/1",secondMessageJson);
+        var message2 = new MessageDto();
+        message2.setUser(secondUser);
+        message2.setBody(secondMessage.getBody());
+        message2.setThread(thread);
+
+        String secondMessageJson = mapper.writeValueAsString(message2);
+        doPostRequest("/api/messages",secondMessageJson);
 
         //THIRD Message
         Message thirdMessage = SampleData.createSampleMessage(3);
-        String thirdMessageJson = mapper.writeValueAsString(thirdMessage);
-        doPostRequest("/api/messages/user/2/thread/1",thirdMessageJson);
+        var message3 = new MessageDto();
+        message3.setUser(secondUser);
+        message3.setBody(thirdMessage.getBody());
+        message3.setThread(thread);
+
+        String thirdMessageJson = mapper.writeValueAsString(message3);
+        doPostRequest("/api/messages",thirdMessageJson);
 
         // Message made by first user.
         var connection = openConnection("/api/messages/user/1");
@@ -130,25 +175,44 @@ public class MessageEndPointTest extends AbstractServerTest{
         String userJson = mapper.writeValueAsString(user);
         doPostRequest("api/users",userJson);
 
+        var user1Connection = openConnection("/api/users/1");
+        user = mapper.readValue(user1Connection.getInputStream(),User.class);
+
         //SECOND USER
         User secondUser = SampleData.createSampleUser(2);
         String secondUserJson = mapper.writeValueAsString(secondUser);
         doPostRequest("api/users",secondUserJson);
 
-        //THREAD
-        MessageThread thread = SampleData.createSampleThread();
-        String threadJson = mapper.writeValueAsString(thread);
-        doPostRequest("/api/thread/1",threadJson);
+        var user2Connection = openConnection("/api/users/2");
+        secondUser = mapper.readValue(user2Connection.getInputStream(),User.class);
 
-        //FIRST MESSAGE
+
+        //Message
         Message message = SampleData.createSampleMessage(1);
-        String messageJson = mapper.writeValueAsString(message);
-        doPostRequest("/api/messages/user/1/thread/1",messageJson);
 
-        //SECOND MESSAGE
+
+        //THREAD
+        var threadDto = new MessageThreadDto();
+        threadDto.setCreator(user);
+        threadDto.setThreadTitle("Title 1");
+        threadDto.setMessage(message.getBody());
+        threadDto.setMembers(List.of(secondUser));
+        String threadJson = mapper.writeValueAsString(threadDto);
+        doPostRequest("/api/thread",threadJson);
+
+        var threadConnection = openConnection("/api/thread/1");
+        var thread = mapper.readValue(threadConnection.getInputStream(), MessageThread.class);
+
+
+        //SECOND Message
         Message secondMessage = SampleData.createSampleMessage(2);
-        String secondMessageJson = mapper.writeValueAsString(secondMessage);
-        doPostRequest("/api/messages/user/2/thread/1",secondMessageJson);
+        var message2 = new MessageDto();
+        message2.setUser(secondUser);
+        message2.setBody(secondMessage.getBody());
+        message2.setThread(thread);
+
+        String secondMessageJson = mapper.writeValueAsString(message2);
+        doPostRequest("/api/messages",secondMessageJson);
 
         // First user message.
         var connection = openConnection("/api/messages/1");

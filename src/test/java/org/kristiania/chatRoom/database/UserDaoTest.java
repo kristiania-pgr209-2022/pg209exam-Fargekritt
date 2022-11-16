@@ -1,19 +1,16 @@
 package org.kristiania.chatRoom.database;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.eclipse.jetty.plus.jndi.Resource;
-
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 import javax.naming.NamingException;
-
 import java.sql.SQLException;
-
+import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,9 +23,10 @@ public class UserDaoTest {
 
 
     public UserDaoTest() throws NamingException {
-        var dataSource = InMemoryDataSource.createTestDataSource();
+        var dataSource = InMemoryDataSource.createTestDataSource("testDatabase");
         new Resource("jdbc/dataSource", dataSource);
-        this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("ChatRoom");
+        this.entityManager = factory.createEntityManager();
 
         dao = new UserDaoImpl(entityManager);
     }
@@ -41,7 +39,6 @@ public class UserDaoTest {
     @AfterEach
     void tearDown() throws SQLException {
         entityManager.getTransaction().rollback();
-        InMemoryDataSource.clearTestDataSource();
     }
 
     @Test

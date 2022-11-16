@@ -9,10 +9,26 @@ public class ThreadMember {
     @EmbeddedId
     ThreadMemberKey id;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     User user;
+
+    public MessageThread getMessageThread() {
+        return messageThread;
+    }
+
+    public void setMessageThread(MessageThread messageThread) {
+        this.messageThread = messageThread;
+    }
 
     @ManyToOne
     @MapsId("threadId")

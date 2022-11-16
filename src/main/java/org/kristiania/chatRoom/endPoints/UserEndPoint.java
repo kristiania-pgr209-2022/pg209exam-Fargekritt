@@ -23,8 +23,8 @@ public class UserEndPoint {
     @Path("{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser( @PathParam("id") String id){
-        return userDao.retrieve(Long.parseLong(id));
+    public User getUser( @PathParam("id") long id){
+        return userDao.retrieve(id);
     }
 
     //localhost:8080/api/users
@@ -39,6 +39,20 @@ public class UserEndPoint {
     public void addUser(User user){
         userDao.save(user);
     }
+
+    @Path("{id}")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void editUser(@PathParam("id") long id, User newUser){
+        var user = userDao.retrieve(id);
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
+        user.setGender(newUser.getGender());
+        user.setUsername(newUser.getUsername());
+        user.setEmail(newUser.getEmail());
+        userDao.save(user);
+    }
+
 
     @Path("{id}/threads")
     @GET

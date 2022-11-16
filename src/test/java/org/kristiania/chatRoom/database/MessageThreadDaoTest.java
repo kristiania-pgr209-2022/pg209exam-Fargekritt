@@ -23,10 +23,9 @@ public class MessageThreadDaoTest {
 
 
     public MessageThreadDaoTest() throws NamingException {
-        var dataSource = InMemoryDataSource.createTestDataSource();
+        var dataSource = InMemoryDataSource.createTestDataSource("testDatabase");
         new Resource("jdbc/dataSource", dataSource);
         this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
-
         dao = new MessageThreadDao(entityManager);
         userDao = new UserDaoImpl(entityManager);
     }
@@ -39,7 +38,7 @@ public class MessageThreadDaoTest {
     @AfterEach
     void tearDown() throws SQLException {
         entityManager.getTransaction().rollback();
-        InMemoryDataSource.clearTestDataSource();
+
     }
 
     @Test

@@ -1,6 +1,7 @@
 package org.kristiania.chatRoom.database;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.eclipse.jetty.plus.jndi.Resource;
 import org.h2.jdbcx.JdbcDataSource;
@@ -9,6 +10,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.naming.NamingException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,12 +28,10 @@ public class MessageDaoTest {
 
 
     public MessageDaoTest() throws NamingException {
-        JdbcDataSource datasource = InMemoryDataSource.createTestDataSource();
+        JdbcDataSource datasource = InMemoryDataSource.createTestDataSource("daoTestDb");
 
         new Resource("jdbc/dataSource", datasource);
-
         this.entityManager = Persistence.createEntityManagerFactory("ChatRoom").createEntityManager();
-
         messageThreadDao = new MessageThreadDao(entityManager);
         messageDao = new MessageDaoImpl(entityManager);
         userDao = new UserDaoImpl(entityManager);
@@ -39,7 +43,7 @@ public class MessageDaoTest {
     }
 
     @AfterEach
-    void tearDown() {
+    void tearDown() throws SQLException {
         entityManager.getTransaction().rollback();
     }
 
@@ -50,9 +54,10 @@ public class MessageDaoTest {
         var messageThread = SampleData.createSampleThread();
         messageThread.setCreator(user);
         messageThreadDao.save(messageThread);
-        var message = SampleData.createSampleMessage(1);
+        var message = SampleData.createSampleMessage(2);
         message.setUser(user);
         message.setThread(messageThread);
+        message.setSentDate(LocalDateTime.parse("2011-12-20:20-50-42", DateTimeFormatter.ofPattern("yyyy-MM-dd:HH-mm-ss")));
         messageDao.save(message);
         flush();
         assertThat(messageDao.retrieve(message.getId()))

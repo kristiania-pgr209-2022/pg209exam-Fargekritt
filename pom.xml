@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>no.kristiania.pgr203</groupId>             <!--CHANGE TO EXAM ? -->
+    <groupId>no.kristiania.eksamen</groupId>
     <artifactId>chat-room</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -59,7 +59,6 @@
                                 <includes>
                                     <include>*.properties</include>
                                 </includes>
-                                <targetPath>/site/wwwroot</targetPath>          <!--Remove-->
                             </resource>
                             <resource>
                                 <type>static</type>
@@ -67,7 +66,6 @@
                                 <includes>
                                     <include>*.properties</include>
                                 </includes>
-                                <targetPath>/site/wwwroot</targetPath>          <!--Remove-->
                             </resource>
                         </resources>
                     </deployment>
@@ -85,25 +83,12 @@
                         </goals>
                         <configuration>
                             <filters>
-                                <filter>                                        <!--Remove-->
-                                    <artifact>junit:junit</artifact>
-                                    <includes>
-                                        <include>junit/framework/**</include>
-                                        <include>org/junit/**</include>
-                                    </includes>
-                                    <excludes>
-                                        <exclude>org/junit/experimental/**</exclude>
-                                        <exclude>org/junit/runners/**</exclude>
-                                    </excludes>
-                                </filter>
                                 <filter>
                                     <artifact>*:*</artifact>
                                     <excludes>
                                         <exclude>META-INF/*.SF</exclude>
                                         <exclude>META-INF/*.DSA</exclude>
                                         <exclude>META-INF/*.RSA</exclude>
-                                        <exclude>META-INF/*.txt</exclude>               <!--Remove-->
-                                        <exclude>META-INF/*.markdown</exclude>          <!--Remove-->
                                     </excludes>
                                 </filter>
                             </filters>
@@ -117,14 +102,14 @@
             </plugin>
             <!--End deploy azure plugins -->
 
-            <!--Start REACT plugins -->
+            <!--Start NPM plugins -->
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.12.1</version>
                 <configuration>
                     <nodeVersion>v16.13.2</nodeVersion>
-                    <workingDirectory>src/main/kristiania-shop-react</workingDirectory>         <!--Change from shop both here and in directory-->
+                    <workingDirectory>src/main/kristiania-chat-react</workingDirectory>
                 </configuration>
                 <executions>
                     <execution>
@@ -156,7 +141,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--End REACT plugins -->
+            <!--End NPM plugins -->
 
             <!--GitHub Actions -->
             <plugin>
@@ -164,6 +149,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
             </plugin>
+            <!--End GitHub Actions -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -177,6 +163,7 @@
         </plugins>
     </build>
 
+    <!--Migration -->
     <dependencies>
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -184,25 +171,28 @@
             <version>9.5.1</version>
         </dependency>
 
+        <!--Logger -->
         <dependency>
             <groupId>org.logevents</groupId>
             <artifactId>logevents</artifactId>
             <version>0.3.3</version>
         </dependency>
 
+        <!--Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.23.1</version>
         </dependency>
+        <!--End Testing -->
 
+        <!--Server -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
@@ -218,7 +208,6 @@
             <artifactId>jersey-hk2</artifactId>
             <version>3.0.8</version>
         </dependency>
-
         <dependency>
             <groupId>jakarta.json</groupId>
             <artifactId>jakarta.json-api</artifactId>
@@ -240,23 +229,15 @@
             <version>2.1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>2.1.214</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>eclipselink</artifactId>
             <version>3.0.3</version>
         </dependency>
-
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-plus</artifactId>
@@ -267,18 +248,25 @@
             <artifactId>HikariCP</artifactId>
             <version>5.0.1</version>
         </dependency>
+        <!--End Server -->
 
+        <!--Database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.1.214</version>
+        </dependency>
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>11.2.1.jre17</version>
         </dependency>
-
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-sqlserver</artifactId>
             <version>9.5.1</version>
         </dependency>
+        <!--End Database -->
 
         <!-- DEP FOR LOCALDATE FORMATING-->
 

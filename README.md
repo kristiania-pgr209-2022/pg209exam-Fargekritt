@@ -38,6 +38,27 @@
 * [ ] Det finnes test for alle JAX-RS endpoints og alle DAO-er
 
 
+## Funksjonelle Krav
+1.
+   * [x] Når man kommer til applikasjonen kan man velge hvilken bruker man skal representere fra et sett med brukere som derehar opprettet på forhånd i databasen
+      * [x] For full uttelling skal man kunne endre informasjon om en eksisterende bruker
+      * [x] For full uttelling må brukeren ha felter utover navn og emailadresse
+2.
+   * [x] Når man har valgt en bruker skal man kunne se alle meldingstråder der denne brukeren er sender eller mottaker (krav til E)
+     * [x] For full uttelling skal oversikten over meldingertråder inneholde navnet på alle mottakere for meldinger itråden
+     * [ ] For full uttelling bør dere forhåndspopulere med noen meldingstråder
+3.
+   * [x] Når man har valgt en bruker kan man opprette en ny meldingstråd med mottaker. Meldingen skal kunne inneholde tittelog meldingstekst (krav til E)
+     * [x] For full uttelling må det være mulig å opprette en meldingstråd til med flere mottakere
+     * [x] For full uttelling må det meldingen inneholde flere felter enn tittel og meldingstekst
+4.
+   * [x] Når en bruker velger en meldingstråd skal de se alle meldinger i tråden
+     * [x] For full uttelling må backend gjøre en join mellom melding- og brukertabellen for å vise avsenders navn
+5.
+   * [x] Når en bruker velger en meldingstråd skal det være mulig å svare på meldingstråden
+     * [x] For full uttelling må svaret inneholde flere felter enn meldingstekst
+     * [ ] For ekstra poeng: Registrer når en bruker har lest en melding og vis dette tidspunktet til andre brukere som kan semeldingen
+
 ## Plan
 ---- Konvertering og grunnmur på plass ----
 * [x] Klone kode fra arbeidskrav som startingPoint
@@ -55,8 +76,13 @@
 * [x] Slette alle referanser til Item i koden.
 * [x] Endre ServeFrontPage test og react til å passe nytt prosject. (BASIC).
 * [x] lage DAO og test for Message
-* [ ] lage DAO og test for Thread
- * [ ]  
-* [ ] lage DAO og test for ThreadMembers
- * [ ]
+* [x] lage DAO og test for Thread 
+* [x] lage DAO og test for ThreadMembers
+
 ---- Business Logic ----
+
+* [ ] Lage Abstrakt DAO test
+* [ ] Extra :
+  * Email på bruker
+  * Tittel på melding i tråd 
+  * vise tråd tittel på tråd
