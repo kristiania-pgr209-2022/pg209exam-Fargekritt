@@ -7,7 +7,7 @@ import java.util.List;
 public class MessageThreadDto {
 
 
-    private String title;
+    private String threadTitle;
 
 
     public String getMessage() {
@@ -25,12 +25,12 @@ public class MessageThreadDto {
         this.message = message;
     }
 
-    public String getTitle() {
-        return title;
+    public String getThreadTitle() {
+        return threadTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setThreadTitle(String threadTitle) {
+        this.threadTitle = threadTitle;
     }
 
 

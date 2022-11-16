@@ -6,8 +6,6 @@ import jakarta.ws.rs.core.MediaType;
 import org.kristiania.chatRoom.Message;
 import org.kristiania.chatRoom.dto.MessageDto;
 import org.kristiania.chatRoom.database.MessageDao;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,6 +51,7 @@ public class MessageEndPoint {
         var message = new Message();
         message.setUser(messageDto.getUser());
         message.setThread(messageDto.getThread());
+        message.setTitle(messageDto.getTitle());
         message.setBody(messageDto.getBody());
         message.setSentDate(LocalDateTime.now());
         messageDao.save(message);

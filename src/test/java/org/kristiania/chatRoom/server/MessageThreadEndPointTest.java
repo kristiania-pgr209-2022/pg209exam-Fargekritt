@@ -49,14 +49,11 @@ public class MessageThreadEndPointTest extends AbstractServerTest {
         //THREAD
         var threadDto = new MessageThreadDto();
         threadDto.setCreator(user);
-        threadDto.setTitle("Title 1");
+        threadDto.setThreadTitle("Title 1");
         threadDto.setMessage(message.getBody());
         threadDto.setUser(secondUser);
         String threadJson = mapper.writeValueAsString(threadDto);
         doPostRequest("/api/thread",threadJson);
-
-        var threadConnection = openConnection("/api/thread/1");
-        var thread = mapper.readValue(threadConnection.getInputStream(), MessageThread.class);
 
 
         var connection = openConnection("/api/thread");

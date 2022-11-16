@@ -120,12 +120,11 @@ function ListThreads({user, setSelectedThread}) {
     </div>
 }
 
-function ListMessages({thread}) {
+function ListMessages({thread, members, setMembers}) {
 
     const [loading, setLoading] = useState(true);
     const [loading2, setLoading2] = useState(true);
     const [message, setMessage] = useState([]);
-    const [members, setMembers] = useState([]);
 
     useEffect(() => {
         const fetchMessage = async () => {
@@ -159,21 +158,31 @@ function ListMessages({thread}) {
     return <div>
         <Link to={"/"}>Back to home</Link>
         <div style={{border: '4px solid black'}}>
-            <h2>ThreadMembers:</h2>
+            <h3>ThreadMembers:</h3>
             {members.map((i) => (
                 <p>{i.username}</p>
             ))}
         </div>
+        <div style={{border: '2px solid black', marginTop: '7px'}}><label>Thread title: </label>
+            {thread.title}
+        </div>
+        <p>&#8595;</p>
+        <div style={{border: '2px solid black'}}>
+            <label>Messages:</label>
+        </div>
         <div>
             {message.map((i) => (
-
-                <div style={{border: '2px solid black'}}>
-                    <div><label>Username: </label>{i.user.username}</div>
-                    <div><label>Date sent: </label>{date(i)}</div>
-                    <div><label>Time sent: </label>{i.sentDate.substring(11).replaceAll("-", ":")}</div>
-                    <div><label>Message</label>
-                        <br/>
-                        {i.body}
+                <div>
+                    <p>&#8595;</p>
+                    <div style={{border: '2px solid black'}}>
+                        <div><label>Title: </label>{i.title}</div>
+                        <div><label>From: </label>{i.user.username}</div>
+                        <div><label>Date sent: </label>{date(i)}</div>
+                        <div><label>Time sent: </label>{i.sentDate.substring(11).replaceAll("-", ":")}</div>
+                        <div><label>Message</label>
+                            <br/>
+                            {i.body}
+                        </div>
                     </div>
                 </div>
             ))}
@@ -287,11 +296,12 @@ function AddUser() {
 function AddThread({creator}) {
 
     const navigate = useNavigate()
-    const [title, setTitle] = useState();
+    const [threadTitle, setThreadTitle] = useState();
     const [loading, setLoading] = useState();
     const [message, setMessage] = useState();
     const [users, setUsers] = useState([]);
     const [members, setMembers] = useState([]);
+    const [title, setTitle] = useState();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -315,7 +325,7 @@ function AddThread({creator}) {
         const request = {
             method: "post",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({creator, members, title, message})
+            body: JSON.stringify({creator, members, threadTitle, message, title})
         }
         await fetch("/api/thread/", request)
 
@@ -333,8 +343,11 @@ function AddThread({creator}) {
             <h1>Start Chat</h1>
             <Link to={"/"}>Back to home</Link>
             <form onSubmit={handleSubmit}>
-                <div><label>Title: <br/><input type="text" onChange={e => setTitle(e.target.value)}/></label></div>
-                <div><label>Message: <br/><input onChange={e => setMessage(e.target.value)}></input></label>
+                <div><label>Thread title: <br/><input type="text"
+                                                      onChange={e => setThreadTitle(e.target.value)}/></label></div>
+                <div><label>Message title: <br/><input type="text" onChange={e => setTitle(e.target.value)}/></label>
+                </div>
+                <div><label>Message: <br/><textarea onChange={e => setMessage(e.target.value)}></textarea></label>
                     <div><label>Select the members u want in the chat:</label>
 
                         <Select name="users"
@@ -355,6 +368,7 @@ function AddThread({creator}) {
 function AddMessage({user, thread}) {
     const navigate = useNavigate()
     const [body, setBody] = useState();
+    const [title, setTitle] = useState("");
 
     async function handleSubmit(e) {
 
@@ -363,7 +377,7 @@ function AddMessage({user, thread}) {
         const request = {
             method: "post",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({body, user, thread})
+            body: JSON.stringify({body, user, thread, title})
         }
         await fetch("/api/messages", request)
 
@@ -375,6 +389,8 @@ function AddMessage({user, thread}) {
             <h1>Create message</h1>
             <Link to={"/"}>Back to home</Link>
             <form onSubmit={handleSubmit}>
+                <div><label>Title: <input onChange={e => setTitle(e.target.value)}></input></label>
+                </div>
                 <div><label>Message: <textarea onChange={e => setBody(e.target.value)}></textarea></label>
                 </div>
                 <button>Submit</button>
@@ -382,14 +398,12 @@ function AddMessage({user, thread}) {
         </div>)
 }
 
-function AddMember({thread}) {
+function AddMember({thread, members}) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState();
-    const [usersToAdd, setUsersToAdd] = useState(); ////////////////////////////////////////////////////////////////
-
-
+    const knownMembers = [];
     useEffect(() => {
         const fetchData = async () => {
             const data = await fetch("/api/users");
@@ -400,40 +414,34 @@ function AddMember({thread}) {
             .catch(console.error)
     }, []);
     if (loading) {
+
         return <div>Loading...</div>
 
     }
 
     async function handleSubmit(e) {
-
         console.log(user)
+
+
         e.preventDefault()
-
-
         const request = {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({user, thread})
         }
+
         await fetch("/api/thread/member", request);
-
         navigate("/messages")
+
+    }
+    for (let i = 0; i < members.length; i++) {
+        knownMembers.push(members[i].id)
     }
 
-    const handleSelectChange = (event) => {
-        console.log(event.target.value)
-        setUser(event)
-    }
-    console.log(thread)
-    console.log(user)
+    const filteredOptions = users.filter(
+        ({id}) => !knownMembers.includes(id)
+    );
 
-    /*  return (<Select name="users"
-                      options={users}
-                      value={user}
-                      onChange={setUser}
-                      getOptionLabel={(option)=>option.username}
-                      getOptionValue={(option)=>option.id}
-      />)*/
     return (
         <div className="App">
             <h1>Add member to thread</h1>
@@ -443,23 +451,12 @@ function AddMember({thread}) {
 
                 <Select name="users"
                         id={"user"}
-                        options={users}
+                        options={filteredOptions}
                         value={user}
                         onChange={setUser}
                         getOptionLabel={(option) => option.username}
                         getOptionValue={(option) => option.id}
                 />
-                {/*   <select value={user} onChange={handleSelectChange}>
-
-                    <option>Choose a user</option>
-                    {users.map((user, index) => {
-                        return <option key={index}>{user.username}</option>
-                    })}
-
-                    {users.map((u) => (
-                           <option key={u} value={u}>{u.username}</option>
-                       ))}
-                </select>*/}
                 <button>Add Member</button>
             </form>
         </div>
@@ -516,6 +513,7 @@ function EditUser({user}) {
 function App() {
     const [user, setUser] = useState();
     const [thread, setThread] = useState();
+    const [members, setMembers] = useState();
 
     return <HashRouter>
         <Routes>
@@ -525,9 +523,10 @@ function App() {
             <Route path={"/users/edit"} element={<EditUser user={user}/>}></Route>
             <Route path={"/threads"} element={<ListThreads user={user} setSelectedThread={setThread}/>}></Route>
             <Route path={"/threads/add"} element={<AddThread creator={user}/>}></Route>
-            <Route path={"/messages"} element={<ListMessages thread={thread}/>}></Route>
+            <Route path={"/messages"}
+                   element={<ListMessages thread={thread} setMembers={setMembers} members={members}/>}></Route>
             <Route path={"/messages/add"} element={<AddMessage user={user} thread={thread}/>}></Route>
-            <Route path={"threads/members/add"} element={<AddMember thread={thread}/>}></Route>
+            <Route path={"threads/members/add"} element={<AddMember thread={thread} members={members}/>}></Route>
 
         </Routes>
     </HashRouter>

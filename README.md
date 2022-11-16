@@ -84,4 +84,5 @@
 * [ ] Lage Abstrakt DAO test
 * [ ] Extra :
   * Email på bruker
-  * 
+  * Tittel på melding i tråd 
+  * vise tråd tittel på tråd

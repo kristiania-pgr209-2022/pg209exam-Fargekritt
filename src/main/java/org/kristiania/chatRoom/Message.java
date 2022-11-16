@@ -2,8 +2,6 @@ package org.kristiania.chatRoom;
 
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.persistence.*;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,6 +21,7 @@ public class Message {
     @JsonbDateFormat(value = "yyyy-MM-dd:HH-mm-ss")
     private LocalDateTime sentDate;
 
+    private String title;
     private String body;
 
     public User getUser() {
@@ -74,5 +73,13 @@ public class Message {
                 ", sentDate=" + sentDate +
                 ", body='" + body + '\'' +
                 '}';
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

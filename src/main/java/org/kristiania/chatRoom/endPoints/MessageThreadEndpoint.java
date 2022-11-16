@@ -6,14 +6,12 @@ import jakarta.ws.rs.core.MediaType;
 import org.kristiania.chatRoom.*;
 import org.kristiania.chatRoom.MessageThread;
 import org.kristiania.chatRoom.dto.MemberDto;
-import org.kristiania.chatRoom.dto.MessageDto;
 import org.kristiania.chatRoom.dto.MessageThreadDto;
 import org.kristiania.chatRoom.database.MessageDao;
 import org.kristiania.chatRoom.database.MessageThreadDao;
 import org.kristiania.chatRoom.database.ThreadMemberDao;
 import org.kristiania.chatRoom.database.UserDao;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,8 +27,6 @@ public class MessageThreadEndpoint {
     @Inject
     MessageDao messageDao;
 
-    @Inject
-    UserDao userDao;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -39,10 +35,11 @@ public class MessageThreadEndpoint {
 
         var thread = new MessageThread();
         thread.setCreator(user);
-        thread.setTitle(messageThreadDto.getTitle());
+        thread.setTitle(messageThreadDto.getThreadTitle());
         messageThreadDao.save(thread);
 
         var message = new Message();
+        message.setTitle(messageThreadDto.getThreadTitle());
         message.setThread(thread);
         message.setUser(user);
         message.setBody(messageThreadDto.getMessage());
