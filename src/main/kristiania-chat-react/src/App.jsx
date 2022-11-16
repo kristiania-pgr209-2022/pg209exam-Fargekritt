@@ -4,6 +4,15 @@ import {HashRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
 import Select from "react-select";
 
 
+function FrontPage() {
+    const navigate = useNavigate();
+    return <div>
+        <h1>CHAT ROOM OF DOOM!</h1>
+        <button onClick={() => navigate("/users")}>List users</button>
+        <button onClick={() => navigate("/users/add")}>Add a new user</button>
+    </div>;
+}
+
 //=============================================LIST=============================================================
 function ListUser({setSelectedUser}) {
 
@@ -36,14 +45,15 @@ function ListUser({setSelectedUser}) {
         <div>
             {user.map((u) => (
                 <button onClick={() => handleClick(u)} style={{border: '1px solid black'}}>
-                    <dl>
-                        <dt>UserName:</dt>
-                        <dd>- {u.username}</dd>
-                        <dt>FirstName:</dt>
-                        <dd>- {u.firstName}</dd>
-                        <dt>LastName:</dt>
-                        <dd>- {u.lastName}</dd>
-                    </dl>
+                    <div><label>Username</label>
+                        <br/>
+                        {u.username}</div>
+                    <div><label>FirstName</label>
+                        <br/>
+                        {u.firstName}</div>
+                    <div><label>LastName</label>
+                        <br/>
+                        {u.lastName}</div>
                 </button>
             ))}
         </div>
@@ -76,38 +86,37 @@ function ListThreads({user, setSelectedThread}) {
     }
 
     return <div>
-        <div style={{border: '1px solid black'}}><h3>UserInfo</h3>
-            <dl>
-                <dt>UserName:</dt>
-                <dd>{user.username}</dd>
-                <dt>FirstName:</dt>
-                <dd>{user.firstName}</dd>
-                <dt>LastName:</dt>
-                <dd>{user.lastName}</dd>
-                <dt>Gender:</dt>
-                <dd>{user.gender}</dd>
-                <dt>Date of Birth</dt>
-                <dd>{user.dateOfBirth.substring(0, 4)}</dd>
-            </dl>
-        </div>
-        <h1>Threads your a member of</h1>
         <Link to={"/"}>Back to home</Link>
+        <div style={{border: '1px solid black'}}><h3>UserInfo</h3>
+            <div><label>Email: </label>
+                {user.email}</div>
+            <div><label>Username: </label>
+                {user.username}</div>
+            <div><label>FirstName: </label>
+                {user.firstName}</div>
+            <div><label>LastName: </label>
+                {user.lastName}</div>
+            <div><label>Gender: </label>
+                {user.gender}</div>
+            <div><label>Date of Birth:</label>
+                <br/>
+                {user.dateOfBirth.substring(0, 4)}</div>
+            <div><Link to={"/users/edit"}>Edit user info</Link></div>
+        </div>
+
+        <h1>Threads your a member of</h1>
         <div>
             {thread.map((t) => (
                 <button value={t} onClick={() => handleClick(t)} style={{border: '1px solid black'}}>
-                    <dl>
-                        <dt>ThreadID:</dt>
-                        <dd>- {t.id}</dd>
-                        <dt>Creator:</dt>
-                        <dd>- {t.creator.username}</dd>
-                        <dt>Subject:</dt>
-                        <dd>- {'Subject'}</dd>
-                    </dl>
+
+                    <div><label>ThreadID: </label>{t.id}</div>
+                    <div><label>Creator: </label>{t.creator.username}</div>
+                    <div><label>Title: </label>{t.title}</div>
+
                 </button>
             ))}
         </div>
-        <div><Link to={"/threads/add"}>Start a chat</Link></div>
-        <div><Link to={"/users/edit"}>Edit user info</Link></div>
+        <div><Link to={"/threads/add"}>Start a new chat</Link></div>
     </div>
 }
 
@@ -140,9 +149,16 @@ function ListMessages({thread}) {
         return <div>Loading...</div>
     }
 
+    function date(i) {
+        i = i.sentDate.substring(0, 10).replaceAll("-", ".")
+        const dateArray = i.split(".")
+        console.log(dateArray)
+        return dateArray[2] + "." + dateArray[1] + "." + dateArray[0]
+    }
+
     return <div>
         <Link to={"/"}>Back to home</Link>
-        <div style={{border: '2px solid black'}}>
+        <div style={{border: '4px solid black'}}>
             <h2>ThreadMembers:</h2>
             {members.map((i) => (
                 <p>{i.username}</p>
@@ -150,15 +166,15 @@ function ListMessages({thread}) {
         </div>
         <div>
             {message.map((i) => (
-                <div style={{border: '1px solid black'}}>
-                    <dl>
-                        <dt>-User-</dt>
-                        <dd>{i.user.username}</dd>
-                        <dt>-Message-</dt>
-                        <dd>{i.body}</dd>
-                        <dt>-Date sent-</dt>
-                        <dd>{i.sentDate}</dd>
-                    </dl>
+
+                <div style={{border: '2px solid black'}}>
+                    <div><label>Username: </label>{i.user.username}</div>
+                    <div><label>Date sent: </label>{date(i)}</div>
+                    <div><label>Time sent: </label>{i.sentDate.substring(11).replaceAll("-", ":")}</div>
+                    <div><label>Message</label>
+                        <br/>
+                        {i.body}
+                    </div>
                 </div>
             ))}
         </div>
@@ -177,6 +193,7 @@ function AddUser() {
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [gender, setGender] = useState("");
+    const [email, setEmail] = useState("");
     const [birthDate, setBirthDate] = useState("");
 
     async function handleSubmit(e) {
@@ -185,7 +202,7 @@ function AddUser() {
         const dateOfBirth = birthDate + "-01-01:01-01-01"
         await fetch("/api/users", {
             method: "post",
-            body: JSON.stringify({firstName, lastName, gender, username, dateOfBirth}),
+            body: JSON.stringify({firstName, lastName, gender, username, email, dateOfBirth}),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -243,6 +260,7 @@ function AddUser() {
                 <div><label>Last Name: <input type="text" onChange={e => setLastName(e.target.value)}/></label></div>
                 <div><label>Username: <input type="text" onChange={e => setUsername(e.target.value)}/></label></div>
                 <div><label>Gender: <input type="text" onChange={e => setGender(e.target.value)}></input></label></div>
+                <div><label>Email: <input type="text" onChange={e => setEmail(e.target.value)}></input></label></div>
                 <div><label>Birth date:
                     <select name="birth-date" onChange={(e) => setBirthDate(e.target.value)}>
                         <option value="0">Year</option>
@@ -267,15 +285,13 @@ function AddUser() {
 }
 
 function AddThread({creator}) {
+
     const navigate = useNavigate()
-    const [thread, setThread] = useState();
     const [title, setTitle] = useState();
     const [loading, setLoading] = useState();
-    const [receiverId, setReceiverId] = useState();
     const [message, setMessage] = useState();
-
     const [users, setUsers] = useState([]);
-    const [user, setUser] = useState();
+    const [members, setMembers] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -299,31 +315,36 @@ function AddThread({creator}) {
         const request = {
             method: "post",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({creator, user, title, message})
+            body: JSON.stringify({creator, members, title, message})
         }
         await fetch("/api/thread/", request)
 
         navigate("/users/")
     }
 
+
+    const filteredOptions = users.filter(
+        ({id}) => creator.id !== id
+    );
+
+
     return (
         <div className="App">
             <h1>Start Chat</h1>
             <Link to={"/"}>Back to home</Link>
             <form onSubmit={handleSubmit}>
-                <div><label>Title: <input type="text" onChange={e => setTitle(e.target.value)}/></label></div>
-                {/*<div><label>Receiver: <input type="text" onChange={e => setReceiverId(e.target.value)}/></label></div>*/}
-                <label>Choose a member:</label>
+                <div><label>Title: <br/><input type="text" onChange={e => setTitle(e.target.value)}/></label></div>
+                <div><label>Message: <br/><input onChange={e => setMessage(e.target.value)}></input></label>
+                    <div><label>Select the members u want in the chat:</label>
 
-                <Select name="users"
-                        id={"user"}
-                        options={users}
-                        value={user}
-                        onChange={setUser}
-                        getOptionLabel={(option) => option.username}
-                        getOptionValue={(option) => option.id}
-                />
-                <div><label>Message: <textarea onChange={e => setMessage(e.target.value)}></textarea></label>
+                        <Select name="users"
+                                id={"user"}
+                                options={filteredOptions}
+                                onChange={setMembers}
+                                getOptionLabel={(option) => option.username}
+                                getOptionValue={(option) => option.id}
+                                isMulti
+                        /></div>
                 </div>
                 <button>Submit</button>
             </form>
@@ -366,6 +387,8 @@ function AddMember({thread}) {
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState();
+    const [usersToAdd, setUsersToAdd] = useState(); ////////////////////////////////////////////////////////////////
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -446,17 +469,6 @@ function AddMember({thread}) {
 
 //=============================================ADD END=============================================================
 
-function FrontPage() {
-
-    return <div>
-        <h1>CHAT ROOM OF DOOM!</h1>
-        <ul>
-            <li><Link to={"/users"}>List users</Link></li>
-            <li><Link to={"/users/add"}>Add a new user</Link></li>
-        </ul>
-    </div>;
-}
-
 
 function EditUser({user}) {
     const navigate = useNavigate()
@@ -484,10 +496,14 @@ function EditUser({user}) {
             <h1>Edit User</h1>
             <Link to={"/"}>Back to home</Link>
             <form onSubmit={handleSubmit}>
-                <div><label>First Name: <input defaultValue={user.firstName} type="text" onChange={e => setFirstName(e.target.value)}/></label></div>
-                <div><label>Last Name: <input defaultValue={user.lastName} type="text" onChange={e => setLastName(e.target.value)}/></label></div>
-                <div><label>Username: <input defaultValue={user.username} type="text" onChange={e => setUsername(e.target.value)}/></label></div>
-                <div><label>Gender: <input defaultValue={user.gender} type="text" onChange={e => setGender(e.target.value)}></input></label></div>
+                <div><label>First Name: <input defaultValue={user.firstName} type="text"
+                                               onChange={e => setFirstName(e.target.value)}/></label></div>
+                <div><label>Last Name: <input defaultValue={user.lastName} type="text"
+                                              onChange={e => setLastName(e.target.value)}/></label></div>
+                <div><label>Username: <input defaultValue={user.username} type="text"
+                                             onChange={e => setUsername(e.target.value)}/></label></div>
+                <div><label>Gender: <input defaultValue={user.gender} type="text"
+                                           onChange={e => setGender(e.target.value)}></input></label></div>
                 <button>Submit</button>
             </form>
         </div>

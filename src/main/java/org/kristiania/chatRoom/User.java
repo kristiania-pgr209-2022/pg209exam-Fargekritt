@@ -36,6 +36,8 @@ public class User {
     private String firstName;
     private String username;
 
+    private String email;
+
 //    @OneToMany(mappedBy = "messageThread")
 //    private Set<ThreadMember> members;
     public long getId() {
@@ -84,6 +86,14 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 //    public Set<ThreadMember> getMembers() {
