@@ -2,20 +2,24 @@ package org.kristiania.chatRoom.dto;
 
 import org.kristiania.chatRoom.User;
 
+import java.util.List;
+
 public class MessageThreadDto {
 
 
     private String title;
 
-    private String message;
-
-    private User creator;
-
-    private User user;
 
     public String getMessage() {
         return message;
     }
+    private String message;
+
+    private User creator;
+
+    private List<User> members;
+
+    private User user;
 
     public void setMessage(String message) {
         this.message = message;
@@ -44,5 +48,13 @@ public class MessageThreadDto {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<User> members) {
+        this.members = members;
     }
 }
