@@ -41,10 +41,11 @@
 
 
 ## Funksjonelle Krav
+Reacten viser kanskje mer data en "nødvendig" men det er for å se at dataen kommer fram.
 Vi har krysset av hvilken punkter vi har fullført. 
 vi har også muligheten til å lage nye brukere.
 vi har også lagt til timestamp meldingene på når de ble sendt.
-vi har også lagt til muligheten å legge til flere medlemmer i en tråd etter den ble opprettet
+vi har også lagt til muligheten å legge til flere medlemmer i en trådn når den blir opprettet og i etterkant
 1.
    * [x] Når man kommer til applikasjonen kan man velge hvilken bruker man skal representere fra et sett med brukere som derehar opprettet på forhånd i databasen
       * [x] For full uttelling skal man kunne endre informasjon om en eksisterende bruker
@@ -74,6 +75,8 @@ Det var en som gjorde meste parten av skrivingen mens andre holdt overblikket.
 Det var noen ganger vi jobbet på to forskjellige ting men fortsatt sammen enten fysisk eller over Discord
 
 
+## Database
+![img.png](DatabaseDiagram.png)
 ## Plan
 ---- Konvertering og grunnmur på plass ----
 * [x] Klone kode fra arbeidskrav som startingPoint

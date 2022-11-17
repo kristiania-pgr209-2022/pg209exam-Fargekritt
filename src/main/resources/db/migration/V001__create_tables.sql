@@ -6,6 +6,7 @@ CREATE TABLE users
     last_name     varchar(20),
     gender        varchar(20),
     date_of_birth DATETIME,
+
     PRIMARY KEY (id)
 );
 
