@@ -301,7 +301,7 @@ function AddThread({creator}) {
     const [message, setMessage] = useState();
     const [users, setUsers] = useState([]);
     const [members, setMembers] = useState([]);
-    const [title, setTitle] = useState();
+    const [messageTitle, setMessageTitle] = useState();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -325,7 +325,7 @@ function AddThread({creator}) {
         const request = {
             method: "post",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({creator, members, threadTitle, message, title})
+            body: JSON.stringify({creator, members, threadTitle, message, messageTitle})
         }
         await fetch("/api/thread/", request)
 
@@ -345,7 +345,7 @@ function AddThread({creator}) {
             <form onSubmit={handleSubmit}>
                 <div><label>Thread title: <br/><input type="text"
                                                       onChange={e => setThreadTitle(e.target.value)}/></label></div>
-                <div><label>Message title: <br/><input type="text" onChange={e => setTitle(e.target.value)}/></label>
+                <div><label>Message title: <br/><input type="text" onChange={e => setMessageTitle(e.target.value)}/></label>
                 </div>
                 <div><label>Message: <br/><textarea onChange={e => setMessage(e.target.value)}></textarea></label>
                     <div><label>Select the members u want in the chat:</label>
