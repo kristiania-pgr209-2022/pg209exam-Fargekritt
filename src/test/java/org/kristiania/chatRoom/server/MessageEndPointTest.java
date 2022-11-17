@@ -7,7 +7,6 @@ import org.kristiania.chatRoom.entities.User;
 import org.kristiania.chatRoom.database.SampleData;
 import org.kristiania.chatRoom.dto.MessageDto;
 import org.kristiania.chatRoom.dto.MessageThreadDto;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -169,11 +168,16 @@ public class MessageEndPointTest extends AbstractServerTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains("""
+                        title":"SampleTwoTestTitle""")
+                .contains("""
                         body":"This is another testing body for a message""")
+                .contains("""
+                        title":"SampleThreeTestTitle""")
                 .contains("""
                         body":"This is the third testing body for a message""")
                 .contains("""
                         firstName":"exampleFirstName""");
+
 
     }
 
