@@ -1,6 +1,6 @@
 [![Java CI with Maven](https://github.com/kristiania-pgr209-2022/pg209exam-Fargekritt/actions/workflows/maven.yml/badge.svg)](https://github.com/kristiania-pgr209-2022/pg209exam-Fargekritt/actions/workflows/maven.yml)
 # PG209 Backend programmering eksamen
-
+### Azure Link: https://chat-room-47940.azurewebsites.net/
 
 ## Sjekkliste for innleveringen
 
@@ -19,10 +19,10 @@
 ## Koden
 
 * [x] Oppfyller Java kodestandard med hensyn til indentering og navngiving
-* [ ] Er deployet korrekt til Azure Websites
+* [x] Er deployet korrekt til Azure Websites
 * [x] Inneholder tester av HTTP og database-logikk
 * [x] Bruker Flyway DB for å sette opp databasen
-* [ ] Skriver ut nyttige logmeldinger
+* [x] Skriver ut nyttige logmeldinger
 
 ## Basisfunksjonalitet
 
@@ -48,7 +48,7 @@
 2.
    * [x] Når man har valgt en bruker skal man kunne se alle meldingstråder der denne brukeren er sender eller mottaker (krav til E)
      * [x] For full uttelling skal oversikten over meldingertråder inneholde navnet på alle mottakere for meldinger itråden
-     * [ ] For full uttelling bør dere forhåndspopulere med noen meldingstråder
+     * [x] For full uttelling bør dere forhåndspopulere med noen meldingstråder
 3.
    * [x] Når man har valgt en bruker kan man opprette en ny meldingstråd med mottaker. Meldingen skal kunne inneholde tittelog meldingstekst (krav til E)
      * [x] For full uttelling må det være mulig å opprette en meldingstråd til med flere mottakere
