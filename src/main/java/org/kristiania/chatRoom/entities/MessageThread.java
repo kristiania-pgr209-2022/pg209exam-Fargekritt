@@ -15,9 +15,6 @@ public class MessageThread {
     private String title;
 
 
-//    @OneToMany(mappedBy = "user")
-//    private Set<ThreadMember> members;
-
     public User getCreator() {
         return creator;
     }
@@ -42,12 +39,5 @@ public class MessageThread {
         return title;
     }
 
-//    public Set<ThreadMember> getMembers() {
-//        return members;
-//    }
-//
-//    public void setMembers(Set<ThreadMember> members) {
-//        this.members = members;
-//    }
 
 }
