@@ -32,8 +32,6 @@ public class User {
 
     private String email;
 
-//    @OneToMany(mappedBy = "messageThread")
-//    private Set<ThreadMember> members;
     public long getId() {
         return id;
     }
@@ -90,12 +88,5 @@ public class User {
         this.email = email;
     }
 
-//    public Set<ThreadMember> getMembers() {
-//        return members;
-//    }
-//
-//    public void setMembers(Set<ThreadMember> members) {
-//        this.members = members;
-//    }
 
 }

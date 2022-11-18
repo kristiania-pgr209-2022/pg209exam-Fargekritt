@@ -233,33 +233,6 @@ function AddUser() {
         return dateArray;
     }
 
-    // Handle day and month ????
-    /*   const birthDateOptionsMonth = () => {
-           const monthArray = [];
-
-           const monthStart = 1;
-           const monthEnd = 12;
-
-
-           for (let i = monthEnd; i >= monthStart; i--) {
-               monthArray.push(<option value={i}>{i}</option>)
-           }
-           return monthArray;
-       }
-
-       const birthDateOptionsDay = () => {
-           const dayArray = [];
-
-           const dayStart = 1;
-           const dayEnd = 31;
-
-
-           for (let i = dayEnd; i >= dayStart; i--) {
-               dayArray.push(<option value={i}>{i}</option>)
-           }
-           return dayArray;
-       }*/
-
     return (
         <div className="App">
             <h1>Add User</h1>
@@ -275,15 +248,6 @@ function AddUser() {
                         <option value="0">Year</option>
                         {birthDateOptionsYear()}
                     </select>
-
-                    {/*  <Select name="birthDate"
-                            id={"user"}
-                            options={birthDateOptions()}
-                            value={birthDate}
-                            onChange={setBirthDate}
-                            getOptionLabel={(option) => option}
-                            getOptionValue={(option) => option}
-                    />*/}
                 </label>
                 </div>
 
