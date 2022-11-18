@@ -13,8 +13,8 @@
 
 * [x] Inneholder link til Azure Websites deployment
 * [x] Inneholder en korrekt badge til GitHub Actions
-* [ ] Beskriver hva dere har løst utover minimum
-* [ ] Inneholder et diagram over databasemodellen
+* [x] Beskriver hva dere har løst utover minimum
+* [x] Inneholder et diagram over databasemodellen
 
 ## Koden
 
@@ -40,12 +40,21 @@
 * [x] Det finnes test for alle JAX-RS endpoints og alle DAO-er
 
 
+
+## ArbeidsForm
+Vi jobbet stort sett eksklusivt med parprogrammering.
+Der vi begge jobbet på en PC når vi jobbet var samlet fysisk,
+men når det ikke var mulig så delte vi skjerm over Discord.
+Det var en som gjorde meste parten av skrivingen(driver) mens andre holdt overblikket(navigator).
+Det var noen ganger vi jobbet på to forskjellige ting men fortsatt sammen enten fysisk eller over Discord
+
+
 ## Funksjonelle Krav
 Reacten viser kanskje mer data en "nødvendig" men det er for å se at dataen kommer fram.
 Vi har krysset av hvilken punkter vi har fullført. 
 vi har også muligheten til å lage nye brukere.
 vi har også lagt til timestamp meldingene på når de ble sendt.
-vi har også lagt til muligheten å legge til flere medlemmer i en trådn når den blir opprettet og i etterkant
+vi har også lagt til muligheten å legge til flere medlemmer i en tråden når den blir opprettet og i etterkant
 1.
    * [x] Når man kommer til applikasjonen kan man velge hvilken bruker man skal representere fra et sett med brukere som derehar opprettet på forhånd i databasen
       * [x] For full uttelling skal man kunne endre informasjon om en eksisterende bruker
@@ -66,13 +75,6 @@ vi har også lagt til muligheten å legge til flere medlemmer i en trådn når d
      * [x] For full uttelling må svaret inneholde flere felter enn meldingstekst
      * [ ] For ekstra poeng: Registrer når en bruker har lest en melding og vis dette tidspunktet til andre brukere som kan semeldingen
 
-
-## ArbeidsForm
-Vi jobbet stort sett eksklusivt med parprogrammering. 
-Der vi begge jobbet på en PC når vi jobbet var samlet fysisk, 
-men når det ikke var mulig så delte vi skjerm over Discord. 
-Det var en som gjorde meste parten av skrivingen mens andre holdt overblikket. 
-Det var noen ganger vi jobbet på to forskjellige ting men fortsatt sammen enten fysisk eller over Discord
 
 
 ## Database
