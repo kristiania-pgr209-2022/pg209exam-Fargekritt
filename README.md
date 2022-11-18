@@ -55,6 +55,7 @@ Vi har krysset av hvilken punkter vi har fullført.
 vi har også muligheten til å lage nye brukere.
 vi har også lagt til timestamp meldingene på når de ble sendt.
 vi har også lagt til muligheten å legge til flere medlemmer i en tråden når den blir opprettet og i etterkant
+###
 1.
    * [x] Når man kommer til applikasjonen kan man velge hvilken bruker man skal representere fra et sett med brukere som derehar opprettet på forhånd i databasen
       * [x] For full uttelling skal man kunne endre informasjon om en eksisterende bruker
@@ -75,8 +76,7 @@ vi har også lagt til muligheten å legge til flere medlemmer i en tråden når 
      * [x] For full uttelling må svaret inneholde flere felter enn meldingstekst
      * [ ] For ekstra poeng: Registrer når en bruker har lest en melding og vis dette tidspunktet til andre brukere som kan semeldingen
 
-
-
+   
 ## Database
 ![img.png](DatabaseDiagram.png)
 ## Plan
