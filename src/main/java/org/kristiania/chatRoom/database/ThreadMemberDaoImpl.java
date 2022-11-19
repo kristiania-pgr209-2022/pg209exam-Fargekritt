@@ -18,10 +18,7 @@ public class ThreadMemberDaoImpl implements ThreadMemberDao {
     }
 
 
-    @Override
-    public ThreadMember retrieve(long id) {
-        return entityManager.find(ThreadMember.class, id);
-    }
+
 
     @Override
     public List<MessageThread> findByUser(long userId) {

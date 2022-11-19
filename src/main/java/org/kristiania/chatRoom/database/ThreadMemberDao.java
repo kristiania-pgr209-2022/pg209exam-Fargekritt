@@ -7,7 +7,6 @@ import org.kristiania.chatRoom.entities.User;
 import java.util.List;
 
 public interface ThreadMemberDao {
-    ThreadMember retrieve(long id);
 
     List<MessageThread> findByUser(long userId);
 
