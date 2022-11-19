@@ -1,0 +1,2 @@
+ALTER TABLE threads
+ADD title VARCHAR(100);
