@@ -50,6 +50,7 @@ Det var noen ganger vi jobbet på to forskjellige ting men fortsatt sammen enten
 
 
 ## Funksjonelle Krav
+Det er ikke mulig å refreshe reacten. Om du refesher så loader den bare. problemet er med reacten og om du går tilbake til frontpagen så virker det igjen.
 Reacten viser kanskje mer data en "nødvendig" men det er for å se at dataen kommer fram.
 Vi har krysset av hvilken punkter vi har fullført. 
 vi har også muligheten til å lage nye brukere.
