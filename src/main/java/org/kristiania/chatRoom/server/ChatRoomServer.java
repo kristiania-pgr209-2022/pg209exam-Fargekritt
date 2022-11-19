@@ -104,9 +104,9 @@ public class ChatRoomServer {
         }
 
         var dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl(properties.getProperty("database.url"));
-        dataSource.setUsername(properties.getProperty("database.username"));
-        dataSource.setPassword(properties.getProperty("database.password"));
+        dataSource.setJdbcUrl(properties.getProperty("dataSource.url"));
+        dataSource.setUsername(properties.getProperty("dataSource.username"));
+        dataSource.setPassword(properties.getProperty("dataSource.password"));
         Flyway.configure().dataSource(dataSource).load().migrate();
 
         var server = new ChatRoomServer(port, dataSource);
